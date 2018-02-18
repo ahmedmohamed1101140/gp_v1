@@ -6,7 +6,14 @@ var Department = require("../../models/department");
 var DepartmentController = {};
 
 DepartmentController.get_all_departments = function(req,res,next){
-    res.render("Departments/index");
+    Department.find(function(err,departments){
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render("Departments/index");
+        }
+    })
 }
 
 DepartmentController.get_new = function(req,res,next){

@@ -1,6 +1,6 @@
 
   // Initialize collapse button
-  $(".button-collapse").sideNav();
+  $(".brand-logo").sideNav();
   // Initialize collapsible (uncomment the line below if you use the dropdown variation)
   //$('.collapsible').collapsible();
 
@@ -20,3 +20,6 @@
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
+
+  var table = $('#example').DataTable({});
+        $('select').material_select();
