@@ -1,6 +1,7 @@
 //require the model
 const fs = require('fs');
-var upload = require("../../config/file-multer");
+var upload_file = require("../../config/file-multer");
+var upload_image = require("../../config/image-multer");
 var Department = require("../../models/department");
 
 var DepartmentController = {};
@@ -11,7 +12,7 @@ DepartmentController.get_all_departments = function(req,res,next){
             console.log(err);
         }
         else{
-            res.render("Departments/index");
+            res.render("Departments/index" , {departments : departments});
         }
     })
 }
@@ -20,20 +21,24 @@ DepartmentController.get_new = function(req,res,next){
     res.render("Departments/new");
 }
 
+
 DepartmentController.create_new_department = function(req,res,next){
     //1- upload the file
-    upload(req,res,function (err) {
+    upload_file(req,res,function (err) {
         if(err){
             console.log(err)
         }
         else {
             //2- create new department
+
             var department = new Department({
                 name: req.body.dep_name,
                 key: req.body.dep_key,
                 description: req.body.dep_description,
                 since: req.body.dep_date,
-                desc_file: req.file.filename
+                desc_file: req.file.filename,
+                logo: "NON",
+                courses_file: "NON"
             });
             //3- save the department
             Department.create(department,function (err,newDepartment) {
@@ -43,13 +48,16 @@ DepartmentController.create_new_department = function(req,res,next){
                 else{
                     console.log(newDepartment);
                     //4- redirect to department/new department id
+                    res.render("Departments/new-logo",{department_id:newDepartment._id});
                 }
             });
         }
     });
 };
 
+
 DepartmentController.get_department = function (req ,res ,next) {
+    console.log(req.params.department_id);
     Department.findById(req.params.department_id,function (err , found_department) {
         if(err){
             console.log(err);
@@ -58,6 +66,7 @@ DepartmentController.get_department = function (req ,res ,next) {
             if(found_department){
                 console.log(found_department);
                 // rednder the page
+                res.render("Departments/show",{department:found_department});
             }
             else {
                 res.status(404).json({

@@ -1,0 +1,29 @@
+<%include ../partials/header%>
+
+<div class="container">
+    <h1>Add Department Courses File</h1>
+        <form action="/departments/new/courses/<%= department_id %>" method="POST" enctype="multipart/form-data">
+            <div class="file-field input-field">
+            <div class="btn">
+                <span>courses pdf File</span>
+                <input type="file" name="my-file">
+            </div>      
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+            </div>
+            </div>
+            <div class="row" style="margin-top: 50px" >
+                <div class="col s10 offset-s10">
+                    <button class="btn waves-effect waves-light btn-large" type="submit" >next
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </form>
+</div>
+
+<%include ../partials/footer%>
+
+
+
+

@@ -24,7 +24,14 @@ var departmentSchema = new mongoose.Schema({
     desc_file:{
         type: String,
         required: true,
-        unique: true
+    },
+    courses_file:{
+        type: String,
+        required: true,
+    },
+    logo:{
+        type: String,
+        required: true,
     },
     student_num:{
         type: Number,
