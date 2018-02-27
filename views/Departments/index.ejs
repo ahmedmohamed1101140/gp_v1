@@ -16,8 +16,10 @@
                                         <p><a href="/departments/<%= department._id%>">More Details...</a></p>
                                 </div>
                                 <div class="card-action">
-                                        <a href="#" onclick="Materialize.toast('I am a toast', 4000, 'rounded')">This is a link</a>
-                                        <a href="#" onclick="Materialize.toast('I am a toast', 4000 ,'rounded')">This is a link</a>
+                                        <a href="/departments/edit/<%= department._id %>" class="btn">Edit</a>
+                                        <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
+                                                <button class="btn">Delete</button>
+                                        </form>
                                 </div>
                                 <div class="card-reveal">
                                          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>

@@ -48,3 +48,5 @@ var departmentSchema = new mongoose.Schema({
 // create department model using the schema and export it
 module.exports = mongoose.model("Department", departmentSchema);
 
+
+//admin students courses to be add soon

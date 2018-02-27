@@ -1,13 +1,14 @@
 //require the model
 var fs = require('fs');
-var upload = require("../../config/file-multer");
+var upload_file = require("../../config/file-multer");
 var Department = require("../../models/department");
 
 
 var DepartmentController = {};
 
+//GET --JSON all departments
 DepartmentController.get_all_departments = function(req,res,next){
-    Department.find().select('name key description since desc_file student_num graduated_num').exec(function (err , departments) {
+    Department.find().select('name key description since desc_file courses_file logo student_num graduated_num').exec(function (err , departments) {
         if(err){
             console.log(err);
             res.status(500).json({
@@ -40,23 +41,26 @@ DepartmentController.get_all_departments = function(req,res,next){
     })
 };
 
+//GET --JSON spacific department
 DepartmentController.create_new_department = function(req,res,next){
     //1- upload the file
-    upload(req,res,function (err) {
+    upload_file(req,res,function (err) {
         if(err){
             console.log(err);
             res.status(500).json({
                 error: err
             });
         }
-        else {
+        else {            
             //2- create new department
             var department = new Department({
                 name: req.body.dep_name,
                 key: req.body.dep_key,
                 description: req.body.dep_description,
                 since: req.body.dep_date,
-                desc_file: req.file.filename
+                desc_file: req.files[0].filename,
+                courses_file:req.files[1].filename ,                
+                logo: req.files[2].filename,
             });
             //3- save the department
             Department.create(department,function (err,newDepartment) {
@@ -82,6 +86,7 @@ DepartmentController.create_new_department = function(req,res,next){
     });
 };
 
+//POST  --create and add new department to the DB
 DepartmentController.get_department = function (req ,res ,next) {
     Department.findById(req.params.department_id,function (err , found_department) {
         if(err){
@@ -107,8 +112,8 @@ DepartmentController.get_department = function (req ,res ,next) {
     });
 };
 
+//PUT --update specific department data
 DepartmentController.update_department = function (req ,res, next) {
-
     Department.findById(req.params.department_id , function (err, found_department) {
         if(err){
             console.log(err);
@@ -119,7 +124,9 @@ DepartmentController.update_department = function (req ,res, next) {
         else{
             if(found_department){
                 delete_file(found_department.desc_file);
-                upload(req,res,function (err) {
+                delete_file(found_department.courses_file);
+                delete_file(found_department.logo);
+                upload_file(req,res,function (err) {
                     if(err){
                         console.log(err);
                         res.status(500).json({
@@ -133,7 +140,9 @@ DepartmentController.update_department = function (req ,res, next) {
                             key: req.body.dep_key,
                             description: req.body.dep_description,
                             since: req.body.dep_date,
-                            desc_file: req.file.filename
+                            desc_file: req.files[0].filename,
+                            courses_file:req.files[1].filename ,                
+                            logo: req.files[2].filename
                         });
                         //3- save the department
                         Department.findByIdAndUpdate(department,function (err,UpdatedDepartment) {
@@ -146,7 +155,7 @@ DepartmentController.update_department = function (req ,res, next) {
                             else{
                                 console.log(UpdatedDepartment);
                                 res.status(201).json({
-                                    message: "new Department Created",
+                                    message: "Department Updated",
                                     UpdatedDepartment: UpdatedDepartment,
                                     request: {
                                         type: 'GET',
@@ -168,23 +177,29 @@ DepartmentController.update_department = function (req ,res, next) {
 
 };
 
+//DELETE --delete specific department
 DepartmentController.delete_department = function (req , res, next) {
-
     Department.findById(req.params.department_id,function (err,found) {
         if(err){
             console.log(err);
         }
         else {
-            delete_file(found.desc_file)
+            delete_file(found.desc_file);
+            delete_file(found.courses_file);
+            delete_file(found.logo); 
         }
     });
-
     Department.findByIdAndRemove(req.params.department_id , function (err) {
         if(err){
-            console.log(err)
+            console.log(err);
+            res.status(404).json({
+                error:err
+            });
         }
         else {
-            res.send("success");
+            res.status(202).json({
+                message: "Department Deleted Successfully"
+            });
         }
     });
 };

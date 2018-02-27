@@ -3,21 +3,21 @@
 <div class="container">
     <h1>Create New Department</h1>
     <div class="row" style="margin-top: 50px">
-        <form class="col s12" action="/departments" method="POST" enctype="multipart/form-data">
+        <form class="col s12" action="/departments/<%= department._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="input-field col s6">
-                    <input placeholder="Department Name" name="dep_name" type="text" class="validate" required="required">
+                    <input placeholder="Department Name" name="dep_name" required="required" type="text" value="<%= department.name %>" class="validate">
                     <label for="dep_name">Department Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="dep_key" type="text" name="dep_key" class="validate" required="required">
+                    <input id="dep_key" type="text" name="dep_key" required="required" value="<%= department.key %>" class="validate">
                     <label for="dep_key">Department Key</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <textarea id="textarea1" name="dep_description" class="materialize-textarea" data-length="240" required="required"></textarea>
-                    <label for="textarea1">Department Description</label>
+                    <textarea id="textarea1" name="dep_description" required="required" class="materialize-textarea" data-length="240"> <%= department.description %></textarea>
+                    <label for="textarea1" >Department Description</label>
                 </div>
             </div>
             <div class="row">
@@ -31,13 +31,13 @@
                     <label>Choose Department Admin</label>
                 </div>
                 <div class="input-field col s12 m6">
-                    <input type="text" name="dep_date" class="datepicker" >
-                    <label for="textarea1" >Department Open Since</label>
+                    <input type="text" name="dep_date" class="datepicker">
+                    <label for="textarea1"><%= department.since %></label>
                 </div>
             </div>
             <div class="file-field input-field col s12 m6">
                 <div class="btn">
-                    <span>Description File</span>
+                    <span>Description file</span>
                     <input name="my-file" type="file" required="required">
                 </div>
                 <div class="file-path-wrapper">
@@ -50,7 +50,7 @@
                     <input name="my-file" type="file" required="required">
                 </div>
                 <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" required="required">
+                    <input class="file-path validate"  type="text" required="required">
                 </div>
             </div>
             <div class="file-field input-field col s12 m12">
@@ -62,6 +62,7 @@
                     <input class="file-path validate" type="text" required="required">
                 </div>
             </div>
+            
             <div class="row" style="margin-top: 50px" >
                 <div class="col s10 offset-s10">
                     <button class="btn waves-effect waves-light btn-large" type="submit" >next

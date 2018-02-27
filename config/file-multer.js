@@ -15,13 +15,13 @@ const upload = multer({
     fileFilter: function(req , file , cb){
         chech_file_type(file,cb);
     }
-}).single('my-file');
+}).array('my-file' , 5);
 
 
 //chech file type
 function chech_file_type(file, cb){
     // Allowd Extentions
-    const FileType = /txt|xml|csv|pdf|rar|docx/;
+    const FileType = /txt|xml|csv|pdf|rar|docx|jpeg|jpg|png|gif/;
     //check the extentions
     const extname = FileType.test(path.extname(file.originalname).toLowerCase());
     //check the mime type

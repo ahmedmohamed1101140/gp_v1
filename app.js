@@ -1,11 +1,13 @@
 //required config files
 require("./config/db");
 
-var express       = require("express");
-var app           = express();
-var path          = require("path");
-var bodyParser    = require("body-parser");
-var morgan        = require("morgan");
+var express          = require("express");
+var app              = express();
+var path             = require("path");
+var bodyParser       = require("body-parser");
+var morgan           = require("morgan");
+var method_override  = require("method-override");
+
 
 
 //adding routes
@@ -25,6 +27,9 @@ app.set("view engine", "ejs");
 //setup body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//setup method override for delete-put-patch routes
+app.use(method_override("_method"));
 
 //CORS Headers For security issues
 app.use(function (req,res,next) {
