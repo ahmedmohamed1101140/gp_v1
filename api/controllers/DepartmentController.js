@@ -43,43 +43,32 @@ DepartmentController.get_all_departments = function(req,res,next){
 
 //GET --JSON spacific department
 DepartmentController.create_new_department = function(req,res,next){
-    //1- upload the file
-    upload_file(req,res,function (err) {
+    //2- create new department
+    var department = new Department({
+        name: req.body.dep_name,
+        key: req.body.dep_key,
+        description: req.body.dep_description,
+        since: req.body.dep_date,
+        desc_file: req.files[0].filename,
+        courses_file:req.files[1].filename ,                
+        logo: req.files[2].filename,
+    });
+    //3- save the department
+    Department.create(department,function (err,newDepartment) {
         if(err){
             console.log(err);
             res.status(500).json({
                 error: err
             });
         }
-        else {            
-            //2- create new department
-            var department = new Department({
-                name: req.body.dep_name,
-                key: req.body.dep_key,
-                description: req.body.dep_description,
-                since: req.body.dep_date,
-                desc_file: req.files[0].filename,
-                courses_file:req.files[1].filename ,                
-                logo: req.files[2].filename,
-            });
-            //3- save the department
-            Department.create(department,function (err,newDepartment) {
-                if(err){
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
-                }
-                else{
-                    console.log(newDepartment);
-                    res.status(201).json({
-                        message: "new Department Created",
-                        createdDepartment: newDepartment,
-                        request: {
-                            type: 'GET',
-                            url: 'http://localhost:3000/departments/'+ newDepartment._id
-                        }
-                    });
+        else{
+            console.log(newDepartment);
+            res.status(201).json({
+                message: "new Department Created",
+                createdDepartment: newDepartment,
+                request: {
+                    type: 'GET',
+                    url: 'http://localhost:3000/departments/'+ newDepartment._id
                 }
             });
         }
@@ -200,6 +189,19 @@ DepartmentController.delete_department = function (req , res, next) {
             res.status(202).json({
                 message: "Department Deleted Successfully"
             });
+        }
+    });
+};
+
+
+DepartmentController.upload_files = function(req,res,next){
+    upload_file(req,res,function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("upload done");
+            next();
         }
     });
 };

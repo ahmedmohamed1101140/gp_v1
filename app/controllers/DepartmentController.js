@@ -5,7 +5,6 @@ var Department = require("../../models/department");
 
 var DepartmentController = {};
 
-
 //GET --view all departments
 DepartmentController.get_all_departments = function(req,res,next){
     Department.find(function(err,departments){
@@ -55,7 +54,7 @@ DepartmentController.create_new_department = function(req,res,next){
         else {
             //2- create new department
                 console.log(req.file);
-            var department = new Department({
+                var department = new Department({
                 name: req.body.dep_name,
                 key: req.body.dep_key,
                 description: req.body.dep_description,
