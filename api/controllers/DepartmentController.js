@@ -111,46 +111,36 @@ DepartmentController.update_department = function (req ,res, next) {
             });
         }
         else{
-            if(found_department){
+            if(found_department)
+            {
                 delete_file(found_department.desc_file);
                 delete_file(found_department.courses_file);
                 delete_file(found_department.logo);
-                upload_file(req,res,function (err) {
+                
+                found_department.name = req.body.dep_name;
+                found_department.key = req.body.dep_key;
+                found_department.description = req.body.dep_description;
+                found_department.since = req.body.dep_date;
+                found_department.desc_file =req.files[0].filename;
+                found_department.courses_file = req.files[1].filename;
+                found_department.logo = req.files[2].filename;
+                
+
+                found_department.save(function(err){
                     if(err){
                         console.log(err);
                         res.status(500).json({
                             error: err
                         });
                     }
-                    else {
-                        //2- create new department
-                        var department = new Department({
-                            name: req.body.dep_name,
-                            key: req.body.dep_key,
-                            description: req.body.dep_description,
-                            since: req.body.dep_date,
-                            desc_file: req.files[0].filename,
-                            courses_file:req.files[1].filename ,                
-                            logo: req.files[2].filename
-                        });
-                        //3- save the department
-                        Department.findByIdAndUpdate(department,function (err,UpdatedDepartment) {
-                            if(err){
-                                console.log(err);
-                                res.status(500).json({
-                                    error: err
-                                });
-                            }
-                            else{
-                                console.log(UpdatedDepartment);
-                                res.status(201).json({
-                                    message: "Department Updated",
-                                    UpdatedDepartment: UpdatedDepartment,
-                                    request: {
-                                        type: 'GET',
-                                        url: 'http://localhost:3000/departments/'+ UpdatedDepartment._id
-                                    }
-                                });
+                    else{
+                        console.log(found_department);
+                        res.status(201).json({
+                            message: "Department Updated",
+                            UpdatedDepartment: found_department,
+                            request: {
+                                type: 'GET',
+                                url: 'http://localhost:3000/departments/'+ found_department._id
                             }
                         });
                     }

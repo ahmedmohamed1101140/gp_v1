@@ -46,34 +46,25 @@ DepartmentController.display_creation_form = function(req,res,next){
 
 //POST  --create and add new department to the DB
 DepartmentController.create_new_department = function(req,res,next){
-    //1- upload the file
-    upload_file(req,res,function (err) {
+    //2- create new department
+        var department = new Department({
+        name: req.body.dep_name,
+        key: req.body.dep_key,
+        description: req.body.dep_description,
+        since: req.body.dep_date,
+        desc_file: req.files[0].filename,
+        courses_file:req.files[1].filename ,                
+        logo: req.files[2].filename, 
+    });
+    //3- save the department
+    Department.create(department,function (err,newDepartment) {
         if(err){
-            console.log(err)
+            console.log(err);
         }
-        else {
-            //2- create new department
-                console.log(req.file);
-                var department = new Department({
-                name: req.body.dep_name,
-                key: req.body.dep_key,
-                description: req.body.dep_description,
-                since: req.body.dep_date,
-                desc_file: req.files[0].filename,
-                courses_file:req.files[1].filename ,                
-                logo: req.files[2].filename, 
-            });
-            //3- save the department
-            Department.create(department,function (err,newDepartment) {
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    console.log(newDepartment);
-                    //4- redirect to department/new department id
-                    res.redirect("/departments/"+department._id);
-                }
-            });
+        else{
+            console.log(newDepartment);
+            //4- redirect to department/new department id
+            res.redirect("/departments/"+department._id);
         }
     });
 };
@@ -102,34 +93,27 @@ DepartmentController.update_department = function (req ,res, next) {
                 delete_file(found_department.desc_file);
                 delete_file(found_department.courses_file);
                 delete_file(found_department.logo);
-                upload_file(req,res,function (err) {
+                
+                found_department.name = req.body.dep_name;
+                found_department.key = req.body.dep_key;
+                found_department.description = req.body.dep_description;
+                found_department.since = req.body.dep_date;
+                found_department.desc_file =req.files[0].filename;
+                found_department.courses_file = req.files[1].filename;
+                found_department.logo = req.files[2].filename;
+                
+
+                found_department.save(function(err){
                     if(err){
                         console.log(err);
                     }
-                    else {
-                        //2- create new department
-                        var department = new Department({
-                            name: req.body.dep_name,
-                            key: req.body.dep_key,
-                            description: req.body.dep_description,
-                            since: req.body.dep_date,
-                            desc_file: req.files[0].filename,
-                            courses_file:req.files[1].filename ,                
-                            logo: req.files[2].filename
-                        });
-                        //3- save the department
-                        Department.findByIdAndUpdate(department,function (err,UpdatedDepartment) {
-                            if(err){
-                                console.log(err);
-                            }
-                            else{
-                                console.log(UpdatedDepartment);
-                                //4- redirect to department/new department id
-                                res.redirect("/departments/"+department._id);
-                            }
-                        });
+                    else{
+                        console.log(UpdatedDepartment);
+                        //4- redirect to department/new department id
+                        res.redirect("/departments/"+found_department._id);
                     }
                 });
+
             }
             else {
                console.log("No Valid Entries");
@@ -164,6 +148,17 @@ DepartmentController.delete_department = function (req , res, next) {
     });
 };
 
+DepartmentController.upload_files = function(req,res,next){
+    upload_file(req,res,function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("upload done");
+            next();
+        }
+    });
+};
 
 module.exports = DepartmentController;
 
@@ -171,7 +166,7 @@ module.exports = DepartmentController;
 delete_file = function (file) {
     var file = file;
     fs.stat('./public/uploads/'+file, function (err, stats) {
-        console.log(stats);//here we got all information of file in stats variable
+        //console.log(stats);//here we got all information of file in stats variable
 
         if (err) {
             return console.error(err);

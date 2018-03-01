@@ -15,7 +15,7 @@ const upload = multer({
     fileFilter: function(req , file , cb){
         chech_file_type(file,cb);
     }
-}).array('my-file' , 5);
+}).array('my_file' , 5);
 
 
 //chech file type
