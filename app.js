@@ -7,7 +7,7 @@ var path             = require("path");
 var bodyParser       = require("body-parser");
 var morgan           = require("morgan");
 var method_override  = require("method-override");
-
+var flash            = require("connect-flash");
 
 
 //adding routes
@@ -31,6 +31,21 @@ app.use(bodyParser.json());
 //setup method override for delete-put-patch routes
 app.use(method_override("_method"));
 
+//setup connect flash for user flash messages
+app.use(flash());
+app.use(require("express-session")({
+    secret: "learning Managment system",
+    resave: false,
+    saveUninitialized: false
+}));
+
+//
+app.use(function(req,res,next){
+    res.locals.error   = req.flash("error");
+    res.locals.success = req.flash("success")
+    next();
+});
+
 //CORS Headers For security issues
 app.use(function (req,res,next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -46,8 +61,6 @@ app.use(function (req,res,next) {
 
 app.use('/api',api);
 app.use('/',applicaition);
-
-
 
 
 
