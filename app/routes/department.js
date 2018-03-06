@@ -1,68 +1,47 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
 var departmentcontroller = require("../controllers/DepartmentController");
-var upload_file = require("../../config/file-multer");
-var upload_image = require("../../config/image-multer");
-var Department = require("../../models/department");
+var departmentmiddleware = require("../../middleware/DepartmentMiddleware");
 
-router.get("/"                  , departmentcontroller.get_all_departments);
-router.get("/new"               , departmentcontroller.get_new);
-router.post("/"                 , departmentcontroller.create_new_department);
-router.get("/:department_id"    , departmentcontroller.get_department);
-router.patch("/:department_id"  , departmentcontroller.update_department);
-router.delete("/:department_id" , departmentcontroller.delete_department);
+//get the home page contain all departments
+router.get("/" 
+    , departmentcontroller.get_all_departments
+);
 
-      
+//get form to add new department and adding the new department basic data
+router.get("/new"  
+    , departmentcontroller.display_creation_form
+);
 
-router.post("/new/logo/:department_id" , function(req,res){
-      //get the department
-      Department.findById(req.params.department_id,function(err,department){
-            if(err){
-                  console.log(err);
-            }
-            else{
-                  //add the image to upload 
-                  upload_image(req,res,function(err){
-                        if(err){
-                              console.log(err);
-                        }
-                        else{
-                              //assign the name to the logo
-                            department.logo = req.file.filename
-                            department.save();  
-                            //return the next page to add the courses PDF file            
-                            res.render("Departments/new-courses",{department_id:req.params.department_id});      
-                        }
-                  });    
-            }
-      });
-   });
-   
-router.post("/new/courses/:department_id" , function(req,res){
-      //get the department
-      Department.findById(req.params.department_id,function(err,department){
-            if(err){
-                  console.log(err);
-            }
-            else{
-                  //add the image to upload 
-                  upload_file(req,res,function(err){
-                        if(err){
-                              console.log(err);
-                        }
-                        else{
-                              //assign the name to the logo
-                              console.log(req.file);
-                              department.courses_file = req.file.filename
-                              department.save();  
-                              //return the next page to add the courses PDF file            
-                              res.redirect("/departments/"+department._id);
-                        }
-                  });    
-            }
-      });
-   });
-   
+//create new department
+router.post("/"
+    , departmentcontroller.upload_files //middleware to upload the files
+    , departmentmiddleware.validate_data //middleware to validate the user input data
+    , departmentcontroller.create_new_department
+);
+
+//get specific department data
+router.get("/:department_id" 
+    , departmentcontroller.get_department
+);
+
+//get editing form and edit the department
+router.get("/edit/:department_id"
+    , departmentcontroller.display_update_form
+);
+
+//update the department
+router.put("/:department_id" 
+    , departmentcontroller.upload_files //middleware to upload the files
+    , departmentmiddleware.validate_data //middleware to validate the user input data
+    , departmentcontroller.update_department
+);
+
+//delete the department route
+router.delete("/:department_id"
+    , departmentcontroller.delete_department
+);
+
 
 
 module.exports = router;

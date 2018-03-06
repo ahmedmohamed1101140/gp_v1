@@ -1,1 +1,23 @@
-<h1>ahmed</h1>
+<%include ../partials/header%>
+
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col s12 m2 l3">
+            <br><br>
+                <img class="materialboxed card" width="200px" src="http://muc.edu.om/Research_Centre/img/foundation.png">
+        </div>
+        <div>
+            <br>
+                <h1><%=department.name%> Department</h1>
+        </div>
+    </div>
+    <div>
+        <h3 style="margin-left: 20px;">Department Description</h3>
+        <p style="margin-left: 20px;"><%=department.description%></p>
+    </div>
+    
+
+</div>
+
+<%include ../partials/footer%>

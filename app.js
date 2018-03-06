@@ -1,12 +1,23 @@
 //required config files
 require("./config/db");
 
+<<<<<<< HEAD
 var express       = require("express");
 var app           = express();
 var path          = require("path");
 var bodyParser    = require("body-parser");
 var morgan        = require("morgan");
 const passport    = require("passport");
+=======
+var express          = require("express");
+var app              = express();
+var path             = require("path");
+var bodyParser       = require("body-parser");
+var morgan           = require("morgan");
+var method_override  = require("method-override");
+var flash            = require("connect-flash");
+
+>>>>>>> 19f5fc63ed31f8559bedf139bb123aca03ddd734
 
 //adding routes
 var api           = require("./api/routes");
@@ -26,12 +37,23 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+<<<<<<< HEAD
 app.use(require("express-session")({
     secret: "Rusty is the best and cutest dog in the world",   // fills-> req.auhtentication
+=======
+//setup method override for delete-put-patch routes
+app.use(method_override("_method"));
+
+//setup connect flash for user flash messages
+app.use(flash());
+app.use(require("express-session")({
+    secret: "learning Managment system",
+>>>>>>> 19f5fc63ed31f8559bedf139bb123aca03ddd734
     resave: false,
     saveUninitialized: false
 }));
 
+<<<<<<< HEAD
 //passport
 app.use(passport.initialize()); //can be in a folder ? will see
 app.use(passport.session());
@@ -45,6 +67,15 @@ app.use(function (req,res,next) {
 
 
 
+=======
+//
+app.use(function(req,res,next){
+    res.locals.error   = req.flash("error");
+    res.locals.success = req.flash("success")
+    next();
+});
+
+>>>>>>> 19f5fc63ed31f8559bedf139bb123aca03ddd734
 //CORS Headers For security issues
 app.use(function (req,res,next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -60,8 +91,6 @@ app.use(function (req,res,next) {
 
 app.use('/api',api);
 app.use('/',applicaition);
-
-
 
 
 

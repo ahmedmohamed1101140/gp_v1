@@ -1,17 +1,18 @@
 //require the model
 var fs = require('fs');
-var upload = require("../../config/file-multer");
+var upload_file = require("../../config/file-multer");
 var Department = require("../../models/department");
 
 
 var DepartmentController = {};
 
+//GET --JSON all departments
 DepartmentController.get_all_departments = function(req,res,next){
-    Department.find().select('name key description since desc_file student_num graduated_num').exec(function (err , departments) {
+    Department.find().select('name key description since desc_file courses_file logo student_num graduated_num').exec(function (err , departments) {
         if(err){
-            console.log(err);
+            console.log(err.message);
             res.status(500).json({
-                error: err
+                error: "can't find departments"
             });
         }
         else {
@@ -40,54 +41,47 @@ DepartmentController.get_all_departments = function(req,res,next){
     })
 };
 
+//GET --JSON spacific department
 DepartmentController.create_new_department = function(req,res,next){
-    //1- upload the file
-    upload(req,res,function (err) {
+    //2- create new department
+    var department = new Department({
+        name: req.body.dep_name,
+        key: req.body.dep_key,
+        description: req.body.dep_description,
+        since: req.body.dep_date,
+        desc_file: req.files[0].filename,
+        courses_file:req.files[1].filename ,                
+        logo: req.files[2].filename,
+    });
+    //3- save the department
+    Department.create(department,function (err,newDepartment) {
         if(err){
-            console.log(err);
+            console.log(err.message);
             res.status(500).json({
-                error: err
+                error: "Faild to Create Invalid Input or Duplicate Key Values please check your inputs"
             });
         }
-        else {
-            //2- create new department
-            var department = new Department({
-                name: req.body.dep_name,
-                key: req.body.dep_key,
-                description: req.body.dep_description,
-                since: req.body.dep_date,
-                desc_file: req.file.filename
-            });
-            //3- save the department
-            Department.create(department,function (err,newDepartment) {
-                if(err){
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
-                }
-                else{
-                    console.log(newDepartment);
-                    res.status(201).json({
-                        message: "new Department Created",
-                        createdDepartment: newDepartment,
-                        request: {
-                            type: 'GET',
-                            url: 'http://localhost:3000/departments/'+ newDepartment._id
-                        }
-                    });
+        else{
+            console.log(newDepartment);
+            res.status(201).json({
+                message: "new Department Created",
+                createdDepartment: newDepartment,
+                request: {
+                    type: 'GET',
+                    url: 'http://localhost:3000/departments/'+ newDepartment._id
                 }
             });
         }
     });
 };
 
+//POST  --create and add new department to the DB
 DepartmentController.get_department = function (req ,res ,next) {
     Department.findById(req.params.department_id,function (err , found_department) {
         if(err){
-            console.log(err);
+            console.log(err.message);
             res.status(500).json({
-                error: err
+                error: "Invalid Input"
             });
         }
         else {
@@ -107,52 +101,57 @@ DepartmentController.get_department = function (req ,res ,next) {
     });
 };
 
+//PUT --update specific department data
 DepartmentController.update_department = function (req ,res, next) {
-
     Department.findById(req.params.department_id , function (err, found_department) {
         if(err){
-            console.log(err);
+            console.log(err.message);
+            //delete uploaded files
+            delete_file(req.files[0].filename);
+            delete_file(req.files[1].filename);
+            delete_file(req.files[2].filename); 
             res.status(500).json({
                 error: err
             });
         }
         else{
-            if(found_department){
-                delete_file(found_department.desc_file);
-                upload(req,res,function (err) {
+            if(found_department)
+            {
+                var files = [found_department.desc_file , found_department.courses_file , found_department.logo];
+                var uploaded_files = [req.files[0].filename , req.files[1].filename , req.files[2].filename];
+  
+                found_department.name = req.body.dep_name;
+                found_department.key = req.body.dep_key;
+                found_department.description = req.body.dep_description;
+                found_department.since = req.body.dep_date;
+                found_department.desc_file =req.files[0].filename;
+                found_department.courses_file = req.files[1].filename;
+                found_department.logo = req.files[2].filename;
+                
+
+                found_department.save(function(err){
                     if(err){
-                        console.log(err);
+                        console.log(err.message);
+                        //delete uploaded files 
+                        uploaded_files.forEach(element => {
+                            delete_file(element);
+                        });
                         res.status(500).json({
-                            error: err
+                            error: "Invalid Inputs missing or duplicate data"
                         });
                     }
-                    else {
-                        //2- create new department
-                        var department = new Department({
-                            name: req.body.dep_name,
-                            key: req.body.dep_key,
-                            description: req.body.dep_description,
-                            since: req.body.dep_date,
-                            desc_file: req.file.filename
+                    else{
+                        //delete old files
+                        files.forEach(element => {
+                            delete_file(element);
                         });
-                        //3- save the department
-                        Department.findByIdAndUpdate(department,function (err,UpdatedDepartment) {
-                            if(err){
-                                console.log(err);
-                                res.status(500).json({
-                                    error: err
-                                });
-                            }
-                            else{
-                                console.log(UpdatedDepartment);
-                                res.status(201).json({
-                                    message: "new Department Created",
-                                    UpdatedDepartment: UpdatedDepartment,
-                                    request: {
-                                        type: 'GET',
-                                        url: 'http://localhost:3000/departments/'+ UpdatedDepartment._id
-                                    }
-                                });
+                        console.log(found_department);
+                        res.status(201).json({
+                            message: "Department Updated",
+                            UpdatedDepartment: found_department,
+                            request: {
+                                type: 'GET',
+                                url: 'http://localhost:3000/departments/'+ found_department._id
                             }
                         });
                     }
@@ -168,23 +167,61 @@ DepartmentController.update_department = function (req ,res, next) {
 
 };
 
+//DELETE --delete specific department
 DepartmentController.delete_department = function (req , res, next) {
-
+    
+    var files = [];
     Department.findById(req.params.department_id,function (err,found) {
         if(err){
-            console.log(err);
+            console.log(err.message);
+            res.status(404).json({
+                error: "Faild to Delete Department"
+            });
         }
         else {
-            delete_file(found.desc_file)
+            if(found){
+                files = [found.desc_file , found.courses_file , found.logo];  
+                Department.findByIdAndRemove(req.params.department_id , function (err) {
+                    if(err){
+                        console.log(err.message);
+                        res.status(500).json({
+                            error: "Faild to Delete Department"
+                        });
+                    }
+                    else {
+                        //delete the old files
+                        files.forEach(element => {
+                            delete_file(element);
+                        });
+                        console.log("Department Deleted");
+                        res.status(202).json({
+                            message: "Department Deleted Successfully"
+                        });
+                    }
+                });
+            }
+            else{
+                console.log("invalid ID");
+                res.status(500).json({
+                    error: "Faild to delete department"
+                });
+            }
         }
-    });
+    }); 
+};
 
-    Department.findByIdAndRemove(req.params.department_id , function (err) {
+
+DepartmentController.upload_files = function(req,res,next){
+    upload_file(req,res,function(err){
         if(err){
-            console.log(err)
+            console.log(err.message);
+            res.status(404).json({
+                error: err.message
+            });
         }
-        else {
-            res.send("success");
+        else{
+            console.log("upload done");
+            next();
         }
     });
 };
@@ -198,11 +235,11 @@ delete_file = function (file) {
         console.log(stats);//here we got all information of file in stats variable
 
         if (err) {
-            return console.error(err);
+            return console.error(err.message);
         }
 
         fs.unlink('./public/uploads/'+file,function(err){
-            if(err) return console.log(err);
+            if(err) return console.log(err.message);
             console.log('file deleted successfully');
         });
     });

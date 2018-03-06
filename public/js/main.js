@@ -1,9 +1,16 @@
+  $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+
+
 
   // Initialize collapse button
   $(".brand-logo").sideNav();
   // Initialize collapsible (uncomment the line below if you use the dropdown variation)
   //$('.collapsible').collapsible();
 
+
+  
   
   $(document).ready(function() {
     $('select').material_select();
@@ -23,3 +30,4 @@
 
   var table = $('#example').DataTable({});
         $('select').material_select();
+        
