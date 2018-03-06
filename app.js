@@ -6,7 +6,7 @@ var app           = express();
 var path          = require("path");
 var bodyParser    = require("body-parser");
 var morgan        = require("morgan");
-
+const passport    = require("passport");
 
 //adding routes
 var api           = require("./api/routes");
@@ -25,6 +25,25 @@ app.set("view engine", "ejs");
 //setup body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(require("express-session")({
+    secret: "Rusty is the best and cutest dog in the world",   // fills-> req.auhtentication
+    resave: false,
+    saveUninitialized: false
+}));
+
+//passport
+app.use(passport.initialize()); //can be in a folder ? will see
+app.use(passport.session());
+require("./config/passport");
+
+app.use(function (req,res,next) {
+
+    res.locals.CurrentUSer = req.user;
+    next();
+});
+
+
 
 //CORS Headers For security issues
 app.use(function (req,res,next) {
