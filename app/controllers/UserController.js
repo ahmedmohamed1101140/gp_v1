@@ -1,5 +1,5 @@
 //require the model
-const fs = require('fs');
+//const fs = require('fs');
 var User = require("../../models/user");
 var passport       =require('passport');
 var UserController = {};

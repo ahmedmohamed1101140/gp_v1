@@ -1,6 +1,9 @@
 
 var passport       =require('passport');
+
 var middlewareObj = {};
+
+var User = require("../models/user");
 
 
 middlewareObj.Pasport_auth= passport.authenticate("local", {
@@ -29,4 +32,27 @@ middlewareObj.isAdmin =function (req,res,next) {
 
 
 
+/*
+middlewareObj.GUSER=function (req,res,next) {
+
+    User.findOne({username:req.body.username}, function (err, user) {
+
+        if(err){
+            console.log(err);
+            console.log("here0");
+        }
+        else if (!user.verifyPassword(req.body.password)) {
+              consle.log("herr1")
+            res.status(500).json({
+                message:"auth failed"
+            })
+        }
+        else {
+
+            next();
+        }
+    });
+}
+
+*/
 module.exports = middlewareObj;
