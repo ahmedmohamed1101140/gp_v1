@@ -1,4 +1,17 @@
-<!--flash message norification-->
+<!--flash message notification-->
 <div class="container">
-
+    <!--<% if(error && error.length > 0){ %>-->
+        <div id="card-alert" class="card red">
+                <div class="card-content white-text">     
+                        <p><i class="material-icons" >info_outline</i> Error : <%= error %>.</p>
+                </div>
+        </div> 
+    <!--<% } %>-->
+    <!--<% if(success && success.length > 0){ %>-->
+        <div id="card-alert" class="card green">
+                <div class="card-content white-text">     
+                        <p><i class="material-icons" >info_outline</i> Success : <%= success %>.</p>
+                </div>
+        </div>  
+    <!--<% } %>-->        
 </div>
