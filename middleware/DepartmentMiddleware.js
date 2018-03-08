@@ -6,7 +6,8 @@ middlewareObj.validate_data = function(req,res,next){
     
     var bool = true;
     var error_message;
-    // Validation Schema
+    // Vali
+    // dation Schema
     const schema = joi.object().keys({
         name:          joi.string().required(),
         key:           joi.string().required(),

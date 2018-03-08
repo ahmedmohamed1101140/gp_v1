@@ -18,11 +18,11 @@ router.get("/secret",userware.isLoggedIn,function(req, res){
 
 //Register
 router.get("/register",usercontroller.register_view);
-router.post("/register",usercontroller.register_user);
+router.post("/register",userware.user_acc_validation,usercontroller.register_user);
 
  //LOGIN
 router.get("/login",usercontroller.login_view);
-router.post("/login",userware.Pasport_auth,function(req, res){});
+router.post("/login", userware.user_acc_validation,userware.Pasport_auth,function(req, res){});
 
 //LOGOUT
 router.get("/logout",usercontroller.logout);
