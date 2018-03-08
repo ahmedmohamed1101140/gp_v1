@@ -30,7 +30,10 @@ router.get("/logout",usercontroller.logout);
 
 router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); // just for testing tested
 
-router.post("/seedusers",userware.isAdmin,usercontroller.Seed_all_users);
+router.post("/seedusers"
+    //    ,userware.isAdmin
+        ,usercontroller.Seed_all_users
+    );
 
 //Show Profile
 router.get("/:UserId",usercontroller.show_profile);
