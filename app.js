@@ -1,7 +1,6 @@
 //required config files
 require("./config/db");
 
-
 var express          = require("express");
 var app              = express();
 var path             = require("path");
@@ -10,6 +9,7 @@ var morgan           = require("morgan");
 const passport    = require("passport");
 var method_override  = require("method-override");
 var flash            = require("connect-flash");
+
 
 //adding routes
 var api           = require("./api/routes");
@@ -42,18 +42,20 @@ app.use(require("express-session")({
     saveUninitialized: false
 }));
 
+
 //passport
 app.use(passport.initialize()); //can be in a folder ? will see
 app.use(passport.session());
 require("./config/passport");
 
+
 app.use(function (req,res,next) {
+
     res.locals.CurrentUSer = req.user;
     res.locals.error   = req.flash("error");
-    res.locals.success = req.flash("success")
+    res.locals.success = req.flash("success");
     next();
 });
-
 
 
 //CORS Headers For security issues
