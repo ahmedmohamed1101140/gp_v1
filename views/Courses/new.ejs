@@ -1,0 +1,185 @@
+<%include ../partials/header%>
+
+<div class="container">
+    <h1>Create New Course</h1>
+    <div class="row" style="margin-top: 50px">
+        <form class="col s12" action="/courses" method="POST" enctype="multipart/form-data" onsubmit="checkboxx('SelectedValues','course_departments');" >
+            <div class="row">
+                <div class="input-field col s6">
+                    <input placeholder="Course Name" name="course_name" type="text" class="validate" required="required">
+                    <label for="course_name">Course Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="course_type" type="text" name="course_type" class="validate" required="required">
+                    <label for="course_type">Course Key</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="textarea1" name="course_description" class="materialize-textarea" data-length="240" required="required"></textarea>
+                    <label for="textarea1">Course Description</label>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="input-field col s3">
+                            <input id="course_main_professor" name="course_main_professor" type="text"  class="validate" required="required">
+                            <label for="course_main_professor">course main professor</label>
+                        </div>
+                <div class="input-field col s3">
+                    <input id="course_lessons" name="course_lessons" type="text"  class="validate" required="required">
+                    <label for="course_lessons">course lessons</label>
+                </div>
+                <div class="input-field col s3">
+                    <input id="course_hours" name="course_hours" type="number"  class="validate" required="required">
+                    <label for="course_hours">course hours</label>
+                </div>
+                <div class="input-field col s3" >
+                    <input id="course_related_fields" name="course_related_fields" type="text" >
+                    <label for="course_related_fields">course relateted fields</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="registartion_closeday">registartion close day</label>
+                    <input id="course_registartion_closeday" name="course_registartion_closeday" type="text" class="datepicker" class="validate" required="required">
+                    
+                </div>
+                <div class="input-field col s6">
+                    <input id="course_max_students" name="course_max_students" type="number"  class="validate" required="required">
+                    <label for="course_max_students">course max students</label>
+                </div>
+            </div>
+            <div class="row">  
+                <div class="col s6">
+                <div class="input-field col s10" id="helpers">
+                    <input id="course_helper_professor" name="course_helper_professor" type="text"  class="validate" required="required">
+                    <label for="course_helper_professor">course helper professor</label>
+
+                </div>
+                <a class="btn-floating btn-large waves-effect waves-light red" onclick="addElement2('helpers', 'p')"><i class="material-icons">add</i></a>
+            </div>
+            <div class="col s6">
+            <!--    <input id ="add"type="button" value="Add another text input" onClick="repeat('helpers')">-->
+                <div class="input-field col s10" id="objectives">
+                        <input id="course_objectives" name="course_objectives" type="text"  class="validate" required="required">
+                        <label for="course_objectives">course helper professor</label>
+                        
+                    </div>
+                    <a id="fun"class="btn-floating btn-large waves-effect waves-light red"onclick="addElement('objectives', 'p')"><i class="material-icons">add</i></a>
+
+                </div>
+                  <!--  <input id ="add"type="button" value="Add another text input" onClick="repeat2('objectives')">-->
+            </div>
+            <div class="col s12">
+ <ul class="collection with-header col s6" >
+      <li class="collection-header"><h4>selectx departments</h4></li>
+          <%var counter =0%>
+ 
+           <%departments.forEach(function (department) { %> 
+                       <p>
+                               <input type="checkbox" id="SelectedValues<%=counter%>" name="SelectedValues" value='<%=department._id%>'/>
+                               <label for="SelectedValues<%=counter%>"><%=department.name%></label>
+                             </p>
+                     <%counter ++%>
+           <%});%>   
+       </ul>
+      
+     </div>
+                
+                <input name="course_departments" id="course_departments" type="hidden" value="">
+             
+            <div class="file-field input-field col s6 m6" style="">
+                <div class="btn">
+                    <span>Course logo</span>
+                    <input name="my_file" type="file" required="required">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" required="required">
+                </div>
+            </div>
+            <div class="row" style="margin-top: 50px" >
+                <div class="col s10 offset-s10">
+                    <button class="btn waves-effect waves-light btn-large" type="submit" >Create
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+
+
+var objectivesid=0;
+var helpersid=0;
+    
+function removeElement(removelement) {
+    // Removes an element from the document
+    var element = document.getElementById(removelement);
+    console.log(element);
+
+    console.log(element.parentElement);
+    element.parentNode.removeChild(element);
+    console.log("hii")
+
+} 
+
+  function addElement(parentId, elementTag) {
+    // Adds an element to the document
+    console.log("ramy1");
+
+    var html='course_objectives'+ objectivesid;
+    var html1='<input class="col s10" id="course_objectives" name="course_objectives" type="text"  class="validate" required="required">'+
+'<a style="line-height:70px" href="" onclick="javascript:removeElement(\'course_objectives' + objectivesid + '\'); return false;">Remove</a>';
+    var p = document.getElementById(parentId);
+    var newElement = document.createElement(elementTag);
+    newElement.setAttribute('id','course_objectives'+ objectivesid);
+
+    newElement.innerHTML = html1;
+    p.appendChild(newElement);
+    objectivesid++;
+}
+
+
+function addElement2(parentId, elementTag) {
+    // Adds an element to the document
+    var html='course_helper_professor'+ helpersid;
+    var html1='<input class="col s10" id="course_helper_professor" name="course_helper_professor" type="text"  class="validate" required="required">'+
+'<a style="line-height:70px" href="" onclick="javascript:removeElement(\'course_helper_professor' + helpersid + '\'); return false;">Remove</a>';
+    var p = document.getElementById(parentId);
+    var newElement = document.createElement(elementTag);
+    newElement.setAttribute('id','course_helper_professor'+ helpersid);
+
+    newElement.innerHTML = html1;
+    p.appendChild(newElement);
+    helpersid++;
+}
+
+function checkboxx(listName,labelName){
+
+  var controls = document.getElementsByName(listName);
+  var label = document.getElementById(labelName);
+
+  label.value = '';
+
+  for(var i=0;i<controls.length;i++){
+      if(controls[i].checked)
+      label.value += controls[i].value.toString()+',';
+      
+
+     console.log(label.value);
+     console.log(label.name);
+
+  }
+
+}
+
+
+        
+  </script>
+<%include ../partials/footer%>
+
+
+
+
