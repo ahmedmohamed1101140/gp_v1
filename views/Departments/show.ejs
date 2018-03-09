@@ -1,23 +1,30 @@
-<%include ../partials/header%>
+<% include ../partials/header %>
 
-<div class="container">
-    <br>
-    <div class="row">
-        <div class="col s12 m2 l3">
-            <br><br>
-                <img class="materialboxed card" width="200px" src="http://muc.edu.om/Research_Centre/img/foundation.png">
-        </div>
-        <div>
-            <br>
-                <h1><%=department.name%> Department</h1>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <div class="header">
+                        <h2><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png">
+                            <%= department.name %> Department</h2>
+                    </div>
+
+                    <div class="content">
+
+                            <br/>
+
+                            <fieldset>
+                                <legend>Department Description</legend>
+                                <p><%= department.description %></p>
+                            </fieldset>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div>
-        <h3 style="margin-left: 20px;">Department Description</h3>
-        <p style="margin-left: 20px;"><%=department.description%></p>
-    </div>
-    
-
 </div>
 
-<%include ../partials/footer%>
+<% include ../partials/footer %>
