@@ -2,6 +2,7 @@ var express    = require("express");
 var router     = express.Router({mergeParams: true});
 var Group      = require("../../models/group");
 var groupController = require("../controllers/GroupController");
+var groupMiddleware = require("../../middleware/GroupMiddleware");
 //var User       = require("../models/user");
 var Post       = require("../../models/post");
 //var Comments   = require("../models/comment");
@@ -13,12 +14,16 @@ router.get("/",
 );
 router.get("/new",groupController.new_group);
 
-router.post("/groups/new",groupController.create_group);
+router.post("/groups/new",
+groupMiddleware.validate_data
+,groupController.create_group);
 
 
 router.get("/:id/edit",groupController.group_edit);
 
-router.put("/:id",groupController.group_edit_post);
+router.put("/:id",
+groupMiddleware.validate_data
+,groupController.group_edit_post);
 
   router.delete("/:id",groupController.group_delete);
 

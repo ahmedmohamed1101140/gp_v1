@@ -10,7 +10,8 @@ GroupController.get_all_groups = function (req,res) {
     Group.find({},function(err,allCroup){
         if(err)
         {
-           console.log(err);
+           console.log(err.message);
+           req.flash("error" , " Some Thing Happend Cause Error ...please Try Again.");
         }
         else{
             res.render("Groups/groups",{groups:allCroup});
@@ -23,6 +24,7 @@ GroupController.get_specific_group=function(req,res){
         if(err)
         {
             console.log(err);
+            req.flash("error" , " Some Thing Happend Cause Error ...please Try Again.");
 
         } else
         {
@@ -44,7 +46,8 @@ GroupController.create_group =function (req,res) {
     Group.create(newGroup,function(err, group) {
       
       if(err){
-        console.log(err);
+        console.log(err.message);
+        req.flash("error" , "Faild to Create Invalid Input or Duplicate Key Values please check your inputs");
         res.redirect("Groups/new");
       } 
       res.redirect("/groups");
@@ -55,7 +58,8 @@ GroupController.group_edit =function(req,res){
     Group.findById(req.params.id).exec(function(err , groupfind){
       if(err)
       {
-          console.log(err);
+          console.log(err.message);
+          req.flash("error" , "invalid input");
   
       } else
       {
@@ -74,7 +78,8 @@ GroupController.group_edit_post = function(req,res){
                   
     Group.findByIdAndUpdate(req.params.id,newGroup,function(err,updateGroup){
            if(err){
-               console.log(err);
+               console.log(err.message);
+               req.flash("error" , "invalid input");
                res.redirect("/groups");
            }else{
         
@@ -88,7 +93,8 @@ GroupController.group_delete =function(req,res){
  
     Group.findById(req.params.id,function(err, groupFind){
       if(err){
-        console.log(err);
+        console.log(err.message);
+        req.flash("error" , "Delete Failed... please Try Again.");
         res.redirect("/groups");
  
       }else{
@@ -107,7 +113,8 @@ GroupController.group_delete =function(req,res){
  
      Group.findByIdAndRemove(req.params.id, function(err){
         if(err){
-            console.log(err);
+            console.log(err.message);
+            req.flash("error" , "Failed To Find Group ... please Try Again.");
             res.redirect("/groups");
         }else{
          res.redirect("/groups");
