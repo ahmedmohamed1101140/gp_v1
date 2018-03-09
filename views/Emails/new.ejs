@@ -18,6 +18,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                            <input type="text" class="form-control"  name="email" required="required" >
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-md-8">
@@ -28,14 +33,14 @@
                                                         <option><%= department.name %></option>
                                                     <% }); %>
                                                 </optgroup>
-                                                <optgroup label="users">
+                                                <optgroup label="Users">
                                                     <% users.forEach(function (user) { %>                                                       
                                                         <option><%= user.username %></option>
                                                     <% }); %>
                                                 </optgroup>
-                                                <optgroup label="users">
-                                                    <% groups.forEach(function (user) { %>                                                       
-                                                        <option><%= user.username %></option>
+                                                <optgroup label="Groups">
+                                                    <% groups.forEach(function (group) { %>                                                       
+                                                        <option><%= group.name %></option>
                                                     <% }); %>
                                                 </optgroup>
                                                 </select>
