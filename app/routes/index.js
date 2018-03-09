@@ -9,7 +9,7 @@ app.get("/",function(req,res){
 })
 app.use("/users", user);
 app.use("/departments",department);
-app.use("/emails",emails);
+app.use("/mails",emails);
 
 
 module.exports = app;

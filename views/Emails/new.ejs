@@ -1,4 +1,66 @@
 <%include ../partials/header%>
-    <h1>Mail new</h1>
+    
+<div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Send New Mail</h4>
+                        </div>
+                        <div class="content">
+                            <form action="/mails" method="POST" >
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>Subject</label>
+                                            <input type="text" class="form-control" placeholder="Subject" name="subject" required="required" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                                <select class="selectpicker" name="recivers" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+                                                <optgroup label="Departments">                
+                                                    <% departments.forEach(function (department) { %>
+                                                        <option><%= department.name %></option>
+                                                    <% }); %>
+                                                </optgroup>
+                                                <optgroup label="users">
+                                                    <% users.forEach(function (user) { %>                                                       
+                                                        <option><%= user.username %></option>
+                                                    <% }); %>
+                                                </optgroup>
+                                                <optgroup label="users">
+                                                    <% groups.forEach(function (user) { %>                                                       
+                                                        <option><%= user.username %></option>
+                                                    <% }); %>
+                                                </optgroup>
+                                                </select>
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Content</label>
+                                            <textarea class="form-control" name="content" placeholder="Here can be your mail Content" required="required"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-info btn-fill pull-right">Send Mail</button>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 <%include ../partials/footer%>
