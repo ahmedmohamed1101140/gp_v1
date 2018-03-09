@@ -70,7 +70,7 @@ MailController.send_new_mail = function(req,res,next){
     
     transport.sendMail(mailOptions , function(err , info){
         if(err){
-            console.log(err);
+            console.log(err.message);
         }
         else{
             console.log("mail Sent " +info.response);
