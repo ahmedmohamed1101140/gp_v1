@@ -31,9 +31,6 @@ MailController.display_creation_form = function(req,res,next){
                             res.redirect("/mails");
                         }
                         else{
-                            console.log(groups)
-                            console.log(departments);
-                            console.log(users);
                             res.render("Emails/new" , {departments:departments , users:users , groups:groups});
                         }
                     });    
@@ -48,8 +45,10 @@ MailController.send_new_mail = function(req,res,next){
     var transport = nodemailer.createTransport({
         service: 'gmail',
         auth:{
-            user: process.env.MY_EMAIL,
-            pass: process.env.MY_PASSWORD
+            //user: process.env.MY_EMAIL,
+            //pass: process.env.MY_PASSWORD
+            user: "fcis.ch.lms@gmail.com" ,
+            pass: "lms12345"
         }
     });
 
@@ -76,9 +75,12 @@ MailController.send_new_mail = function(req,res,next){
     transport.sendMail(mailOptions , function(err , info){
         if(err){
             console.log(err.message);
+            req.flash("error" , "Sorry Faild To Send Mail Try Again");
+            req.redirect("/mails");
         }
         else{
             console.log("mail Sent " +info.response);
+            req.flash("success" , "Mail Send Successfully");
             res.redirect("/mails");
         }
     });
