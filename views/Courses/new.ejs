@@ -5,7 +5,7 @@
                     <div class="card">
     
                         <div class="header">
-                            <h4 class="title">Create New Department</h4>
+                            <h4 class="title">Create New Course</h4>
                             <br>
                         </div>
                 
@@ -117,7 +117,7 @@
 
                      <div class="row">
                    <div class="col-md-8">
-                        <button class="btn btn-info btn-fill pull-left" type="submit">Create Department </button>
+                        <button class="btn btn-info btn-fill pull-left" type="submit">Create Course </button>
                         </div>
             </div>  
             
@@ -149,10 +149,9 @@ function removeElement(removelement) {
 
   function addElement(parentId, elementTag) {
     // Adds an element to the document
-    console.log("ramy1");
 
     var html='course_objectives'+ objectivesid;
-    var html1='<div class="col-md-9">'+'<input input style="margin-left: -15px" class="form-control " id="course_objectives" name="course_objectives" type="text"   required="required">'+'</div>'+
+    var html1='</br>'+'<div class="col-md-9">'+'<input input style="margin-left: -15px" class="form-control " id="course_objectives" name="course_objectives" type="text"   required="required">'+'</div>'+
 '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_objectives' + objectivesid + '\'); return false;">Remove</a>';
     var p = document.getElementById(parentId);
     var newElement = document.createElement(elementTag);
@@ -167,7 +166,7 @@ function removeElement(removelement) {
 function addElement2(parentId, elementTag) {
     // Adds an element to the document
     var html='course_helper_professor'+ helpersid;
-    var html1='<div class="col-md-9">'+'<input input style="margin-left: -15px" class="form-control col-md-10" id="course_helper_professor" name="course_helper_professor" type="text"   required="required">'+'</div>'+
+    var html1='</br>'+'<div class="col-md-9">'+'<input input style="margin-left: -15px" class="form-control col-md-10" id="course_helper_professor" name="course_helper_professor" type="text"   required="required">'+'</div>'+
 '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_helper_professor' + helpersid + '\'); return false;">Remove</a>';
     var p = document.getElementById(parentId);
     var newElement = document.createElement(elementTag);

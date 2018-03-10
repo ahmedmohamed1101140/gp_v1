@@ -29,7 +29,7 @@
             <div class="row">
                     <div class="form-group col-md-12  ">
                  <label for="textarea1">Course Description</label>  
-                   <textarea id="textarea1" name="course_description"  class="form-control" rows="6" required="required" value="<%= course.description %>"></textarea>
+                   <textarea id="textarea1" name="course_description"  class="form-control" rows="6" required="required" ><%= course.description %></textarea>
                     
                 </div>
             </div>
@@ -67,16 +67,16 @@
                 </div>
             </div>
             <div class="row">  
-                  <div class="col-md-6" id="course_helper">
-                        <div class="col-md10">
+                  <div class="col-md-6" >
+                        <div class="col-md-10" id="course_helper">
                     <label for="course_helper_professor">course helper professor</label>
 
         <%var counter=0%>
             <%course.helper_professor.forEach(function (professor) { %> 
               <%var newid = "course_helper_professor"+counter;%>
               
-                <div class="col-md-10 " id= "<%=newid%>">
-                    <div class="col-md-7 form-group" style="margin-left: -30px">
+                <div class="col-md-12 " id= "<%=newid%>">
+                    <div class="col-md-11 form-group" style="margin-left: -30px">
                             <input  class =" form-control "id="course_helper_professor" counter   name="course_helper_professor" type="text"   required="required" value="<%=professor%>">
 
                     </div>
@@ -88,29 +88,37 @@
                 
                     <%});%>
                 </div>
-                    <button  type="button" class="btn btn-outline-info" onclick="addElement2('course_helper', 'p','<%=counter%>')">Add</button>
+                <div class=".col-md-offset-4">
+                  <button  type="button" class="btn btn-outline-info" onclick="addElement2('course_helper', 'p','<%=counter%>')">Add</button>
+
+                </div>
                     
         </div>
            
-        <div class="col-md-6" id="course_objective">
-            <div class="col-md10">
+        <div class="col-md-6" >
+            <div class="col-md-10" id="course_objective">
                 <label for="course_objectives">course objectivs</label>
                 <%var counter2=0%>
                     <%course.objectives.forEach(function (professor) { %> 
                       <%var newid = "course_objectives"+counter2;%>
                       
-                        <div class="col-md-10" id= "<%=newid%>">
-                                <div class="col-md-7 form-group" style="margin-left: -30px">
+                        <div class="col-md-12" id= "<%=newid%>">
+                                <div class="col-md-11 form-group" style="margin-left: -30px">
                                 <input  class =" form-control"id="course_objectives" counter   name="course_objectives" type="text"   required="required" value="<%=professor%>">
                                 </div>
-                            <a style="line-height:40px" href="" onclick="javascript:removeElement('<%=newid%>'); return false;">Remove</a>
-                                <%console.log(professor)%>
+                                <div >
+                            <a style="line-height:40px" onclick="javascript:removeElement('<%=newid%>'); return false;">Remove</a>
+                                </div>  
+                            <%console.log(professor)%>
                                 <%counter2++%>
                             </div>
                         
                             <%});%>
                         </div>
-                            <button  type="button" class="btn btn-outline-info"  onclick="addElement1('course_objective', 'p','<%=counter2%>')">Add</button>
+                        <div>
+                                <button  type="button" class="btn btn-outline-info"  onclick="addElement1('course_objective', 'p','<%=counter2%>')">Add</button>
+
+                        </div>
                         
                     
                 </div>
@@ -170,7 +178,7 @@
 
                      <div class="row">
                    <div class="col-md-8">
-                        <button class="btn btn-info btn-fill pull-left" type="submit">Create Department </button>
+                        <button class="btn btn-info btn-fill pull-left" type="submit">Edit Course </button>
                         </div>
             </div>  
             
@@ -208,7 +216,7 @@ var objectivesid = 0;
     
     function addElement2(parentId, elementTag,num) {
         // Adds an element to the document
-        var html1='<div class="col-md-10" >'+'<input class="form-control" id="course_helper_professor" name="course_helper_professor" type="text"  class="validate" required="required">'+'</div>'+
+        var html1='</br>'+'<div  style="margin-left: -15px" class="col-md-10" >'+'<input class="form-control" id="course_helper_professor" name="course_helper_professor" type="text"  class="validate" required="required">'+'</div>'+'<div>'+
     '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_helper_professor' + num + '\'); return false;">Remove</a>'+'</div>';
         var p = document.getElementById(parentId);
         var newElement = document.createElement(elementTag);
@@ -220,8 +228,8 @@ var objectivesid = 0;
     }
     function addElement1(parentId, elementTag,num) {
         // Adds an element to the document
-        var html1='<div class="col-md-6" >'+'<input class="form-control" id="course_objectives" name="course_objectives" type="text"  class="validate" required="required">'+'</div>'+
-    '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_objectives' + num + '\'); return false;">Remove</a>';
+        var html1='</br>'+'<div  style="margin-left: -15px" class="col-md-10" >'+'<input class="form-control" id="course_objectives" name="course_objectives" type="text"  class="validate" required="required">'+'</div>'+'<div>'+
+    '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_objectives' + num + '\'); return false;">Remove</a>'+'</div>';
         var p = document.getElementById(parentId);
         var newElement = document.createElement(elementTag);
         newElement.setAttribute('id','course_objectives'+ num);

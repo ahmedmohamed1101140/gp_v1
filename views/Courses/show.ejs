@@ -1,23 +1,27 @@
-<%include ../partials/header%>
+<% include ../partials/header %>
 
-<div class="container">
-    <br>
-    <div class="row">
-        <div class="col s12 m2 l3">
-            <br><br>
-                <img class="materialboxed card" width="200px" src="http://muc.edu.om/Research_Centre/img/foundation.png">
+<div class="content">
+        <header class="jumbotron">
+            <div class="container">
+                <h1><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png"><%= course.name %></h1>
+                <p>here all you need to know about the <strong><%= course.name %> </strong> Course </p>
+                <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
+                <form style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </header>
+        <div class="thumbnail">
+            <div class="header">
+                <h2>Course Description</h2>
+            </div>
+            <div class="content">
+                <br/>
+                <fieldset>
+                    <p><%= course.description %></p>
+                </fieldset>
+            </div>
         </div>
-        <div>
-            <br>
-                <h1><%=course.name%> course</h1>
-        </div>
-    </div>
-    <div>
-        <h3 style="margin-left: 20px;">Course Description</h3>
-        <p style="margin-left: 20px;"><%=course.description%></p>
-    </div>
-    
-
 </div>
 
-<%include ../partials/footer%>
+<% include ../partials/footer %>

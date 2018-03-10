@@ -1,13 +1,11 @@
 const joi = require('joi');
 const fs = require('fs');
 var middlewareObj = {};
-console.log("satage1");
 
 middlewareObj.validate_data = function(req,res,next){
     var bool = true;
     var error_message;
     // Validation rules
-    console.log("satage2");
 
     const schema = joi.object().keys({
         name:          joi.string().required(),
@@ -24,14 +22,12 @@ middlewareObj.validate_data = function(req,res,next){
         description: req.body.course_description,
         registartion_closeday: req.body.course_registartion_closeday
     };
-    console.log("111");
 
     joi.validate(data,schema,function(err,result){ 
         if(err){      
             console.log(err.message); 
             bool = false;
             error_message = err.message;
-            console.log("satage3");
 
         }
         else if( new Date (data.registartion_closeday).getTime <= (new Date()).getTime() ){
@@ -63,7 +59,6 @@ middlewareObj.validate_data = function(req,res,next){
 };
 
 module.exports = middlewareObj;
-console.log("satage4");
 
 //static function for deleting file
 delete_file = function (file) {
