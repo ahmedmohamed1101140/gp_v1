@@ -1,0 +1,46 @@
+
+<%include ../partials/header%>
+
+<div class="content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Login</h4>
+                    </div>
+                    <div class="content">
+                        <form action="/Users/login" method="POST">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Old Password:</label>
+                                        <input type="password"  name="oldpassword" class="form-control" placeholder="Old Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Password:</label>
+                                        <input type="password" name="newpassword" class="form-control" placeholder=" New Password" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-info btn-fill center-block">Change</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<%include ../partials/footer%>

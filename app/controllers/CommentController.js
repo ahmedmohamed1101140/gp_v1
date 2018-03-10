@@ -10,12 +10,14 @@ CommentController.new_comment =function(req,res){
     Group.findById(req.params.group_id,function(err , groupFind) {
        
         if(err){
-        console.log(err);
+        console.log(err.message);
+        req.flash("error" , "Failed  Create Comment  ... please Try Again.");
         }else{
             Post.findById(req.params.post_id,function(err , postFind){
                 if(err)
                 {
-                    console.log(err);
+                    console.log(err.message);
+                    req.flash("error" , "Failed  Create Comment   ... please Try Again.");
         
                 } else
                 {
@@ -32,14 +34,16 @@ CommentController.new_comment =function(req,res){
 CommentController.new_comment_post = function(req,res){
     Group.findById(req.params.group_id,function(err , groupfind){
                if(err){
-                   console.log(err);
+                   console.log(err.message);
+                   req.flash("error" , "Failed  Create Comment /Invlaid Data  ... please Try Again.");
                    res.redirect("/Groups");
                }
                else{
                 Post.findById(req.params.post_id,function(err,postFind){
                      if(err)
                      {
-                         console.log(err);
+                         console.log(err.message);
+                         req.flash("error" , "Failed  Create Comment  ... please Try Again.");
                      }
                      else
                      {
@@ -49,7 +53,8 @@ CommentController.new_comment_post = function(req,res){
                          
                         Comments.create(comment,function(err,commentCreated){
                             if(err){
-                              console.log(err);
+                              console.log(err.message);
+                              req.flash("error" , "Failed  Create Comment  ... please Try Again.");
                             }
                             {
                         //  commentCreated.author.id=req.user._id;
@@ -70,7 +75,8 @@ CommentController.comment_edit=function(req,res){
     Comments.findById(req.params.id).exec(function(err , commentfind){
       if(err)
       {
-          console.log(err);
+          console.log(err.message);
+          req.flash("error" , "Failed  Update Comment   ... please Try Again.");
   
       } else
       {
@@ -83,7 +89,8 @@ CommentController.comment_edit=function(req,res){
 CommentController.comment_edit_put=function(req,res){
     Comments.findById(req.params.id,function(err,updateComment){
            if(err){
-               console.log(err);
+               console.log(err.message);
+               req.flash("error" , "Invalid  Data Input  ... please Try Again.");
                res.redirect("/groups");
            }else{
             updateComment.content=req.body.content;
@@ -96,7 +103,8 @@ CommentController.comment_delete=function(req,res){
  
     Post.findById(req.params.post_id,function(err, postFind){
       if(err){
-        console.log(err);
+        console.log(err.message);
+        req.flash("error" , "failed  Delete Comment  ... please Try Again.");
         res.redirect("/groups");
  
       }else{
@@ -109,12 +117,13 @@ CommentController.comment_delete=function(req,res){
     });
     Comments.findByIdAndRemove(req.params.id, function(err){
         if(err){
-            console.log(err);
+            console.log(err.message);
+            req.flash("error" , "failed  Delete Comment  ... please Try Again.");
             res.redirect("/groups/"+req.params.group_id);
         }else{
            res.redirect("/groups/"+req.params.group_id +"/"+req.params.post_id+"/comments/show" );
         }
      });
- };
+ }; 
 
 module.exports = CommentController;

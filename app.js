@@ -86,6 +86,7 @@ app.use(function (req,res,next) {
 //custom app error handling
 app.use(function (error,req,res,next) {
    res.status(error.status || 500);
+   req.flash("error",error.message);
    res.json({
        error:{
            message: error.message

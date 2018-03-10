@@ -80,9 +80,10 @@ UserController.edit_user=function (req,res) {
 
      var userinfo ={
          firstname: req.body.firstname,
-         lastname:req.body.lastname,
-         email: req.body.email,
-         image:req.body.image,
+         password :req.body.password,
+        // lastname:req.body.lastname,
+        // email: req.body.email,
+        // image:req.body.image,
          username : req.body.username
      }
 

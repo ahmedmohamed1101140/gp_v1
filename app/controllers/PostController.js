@@ -11,7 +11,8 @@ PostController.show = function (req, res){
     Post.findById(req.params.post_id).populate("comments").exec(function(err,postFind){
         
           if(err){
-             console.log(err);
+             console.log(err.message);
+             req.flash("error" , "Failed To Get Post ... please Try Again.");
          }else{
 
             res.render("Comments/show",{post:postFind,group_id:req.params.group_id});
@@ -25,7 +26,8 @@ PostController.new_post = function(req,res){
     Group.findById(req.params.group_id,function(err , groupfind){
         if(err)
         {
-            console.log(err);
+            console.log(err.message);
+            req.flash("error" , "Failed To Add Post ... please Try Again.");
 
         } else
         {        
@@ -41,7 +43,8 @@ PostController.new_post_post =function(req,res){
     Group.findById(req.params.group_id,function(err , groupfind){
         if(err)
         {
-            console.log(err);
+            console.log(err.message);
+            req.flash("error" , "Failed To Find Group  ... please Try Again.");
             res.redirect("Groups/show");
 
         } else
@@ -54,7 +57,8 @@ PostController.new_post_post =function(req,res){
             Post.create(post,function(err,postCreated){
                 if(err)
                 {
-                    console.log(err);
+                    console.log(err.message);
+                    req.flash("error" , "Failed To Create Post / Invalid Data  ... please Try Again.");
                 }
                 else
                 {
@@ -72,11 +76,10 @@ PostController.post_edit =function(req,res){
         Post.findById(req.params.id).exec(function(err , postfind){
           if(err)
           {
-              console.log(err);
+              console.log(err.message);
+              req.flash("error" , "Failed To Find Post  ... please Try Again.");
       
-          } else
-          {
-            
+          } else {
               res.render("Posts/edit",{post:postfind,group:req.params.group_id});
           }
       
@@ -85,7 +88,8 @@ PostController.post_edit =function(req,res){
 PostController.post_edit_put=function(req,res){
     Post.findById(req.params.id,function(err,updateGroup){
            if(err){
-               console.log(err);
+               console.log(err.message);
+               req.flash("error" , "Failed To Find Post  ... please Try Again.");
                res.redirect("/groups");
            }else{
              updateGroup.content=req.body.content;
@@ -99,7 +103,8 @@ PostController.post_delete=function(req,res){
  
     Post.findById(req.params.id,function(err, postFind){
       if(err){
-        console.log(err);
+        console.log(err.message);
+        req.flash("error" , "Failed  Delete Post  ... please Try Again.");
         res.redirect("/groups");
  
       }else{
@@ -119,6 +124,7 @@ PostController.post_delete=function(req,res){
      Post.findByIdAndRemove(req.params.id, function(err){
         if(err){
             console.log(err);
+            req.flash("error" , "Failed  Delete Post  ... please Try Again.");
             res.redirect("/groups/"+req.params.group_id);
         }else{
          res.redirect("/groups/"+req.params.group_id);
