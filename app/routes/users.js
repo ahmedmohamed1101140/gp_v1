@@ -22,30 +22,14 @@ router.post("/register",userware.user_acc_validation,usercontroller.register_use
 
  //LOGIN
 router.get("/login",usercontroller.login_view);
-router.post("/login",
-    //userware.user_acc_validation,
-    userware.Pasport_auth,function(req, res){
-
-        console.log(req.user._id);
-        User.findById({_id:req.user._id},function (err,user) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(user);
-
-                if(user.changed==0){
-                res.render("Users/show" ,{USER:user});
-                }else{
-                    res.redirect("/Users");
-                }
-            }
-        })
-    });
+router.post("/login", userware.Pasport_auth,usercontroller.redirector);
 
 //LOGOUT
 router.get("/logout",usercontroller.logout);
 
+router.get("/addusers",function (req,res,next) {
+    res.render('Users/new');
+});
 
 router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); // just for testing tested
 

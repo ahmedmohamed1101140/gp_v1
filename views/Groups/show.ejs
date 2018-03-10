@@ -1,0 +1,55 @@
+
+<%include ../partials/header%>
+<div class="container">
+        <div class="row">
+                <p class="lead"> Group Software Engineering  </p>
+            </div>
+    <div class="row">
+      
+       <div class="col-md-9">
+           <div class="thumbnail">
+                   <img class="img-responsive" width="20%" height="20%" src="<%= group.image %>" alt="">
+                   <div class="caption-full">
+                       <h4> <a> <%= group.name %> </a></h4>
+                       <p> <%= group.description %></p>
+                       <p> <em> Created By Esaam </em> </p>
+                       <a class="btn btn-warning" href="/groups/<%=group._id%>/edit"> Edite </a>
+                       <form  id = "delete_form"  action ="/groups/<%= group._id%>?_method=DELETE" method="POST">
+                           <button class="btn btn-danger">Delete</button> 
+                       </form>
+                   </div>
+
+           </div>
+           <div class="well">
+             <div class="text-right">
+                   
+                <p> <a href="/groups/<%=group._id%>/posts/new" class="btn btn-success"> Add New Post </a> </p>
+
+             </div>
+             <hr> 
+             <%  group.posts.forEach(function(post){%>
+                  <div class="row">
+                      <div class="col-md-12">
+                    
+                        
+                           <p><%= post.content %></p> 
+                    
+                      </div>
+                    
+                                <form  id = "delete_form"  action ="/groups/<%= group._id%>/<%= post._id%>?_method=DELETE" method="POST">
+                                       <button class="btn btn-danger">Delete</button> 
+                                </form>
+                        <div class="text-left">
+                            <p> <a href="/groups/<%=group._id%>/<%= post._id%>/comments/show" class="btn btn-success">  More </a> </p>
+                            </div>
+                  </div>
+              
+    
+           <% });%>
+           </div>
+       </div>
+
+    </div>
+
+</div>
+<%include ../partials/footer%>

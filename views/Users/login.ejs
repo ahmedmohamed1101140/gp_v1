@@ -1,15 +1,16 @@
 
 <%include ../partials/header%>
-
-<div class="content">
-
+<div class="container">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card">
+
                     <div class="header">
                         <h4 class="title">Login</h4>
+                        <br>
                     </div>
+
                     <div class="content">
                         <form action="/Users/login" method="POST">
                             <div class="row">
@@ -20,6 +21,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -29,16 +31,21 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-info btn-fill center-block">LOGIN</button>
-                            <div class="clearfix"></div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <button class="btn btn-info btn-fill pull-left" type="submit"> login
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
+
+
+
 
 
 </div>
