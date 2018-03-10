@@ -1,157 +1,193 @@
 <%include ../partials/header%>
 
-<div class="container">
-    <h1>Edit Course</h1>
-    <div class="row" style="margin-top: 50px">
-        <form class="col s12" action="/courses/<%= course._id %>?_method=PUT" method="POST" enctype="multipart/form-data"  onsubmit="checkboxx('SelectedValues','course_departments');">
-            <div class="row">
-                    <div class="input-field col s6">
-                        <input placeholder="Course Name" name="course_name" type="text" class="validate" required="required"value="<%= course.name %>">
-                        <label for="course_name">Course Name</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input id="course_type" type="text" name="course_type" class="validate" required="required"value="<%= course.type %>">
-                        <label for="course_type">Course Key</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <textarea id="textarea1" name="course_description" class="materialize-textarea" data-length="240" required="required"><%= course.description %></textarea>
-                        <label for="textarea1">Course Description</label>
-                    </div>
-                </div>
-                <div class="row">
-                        <div class="input-field col s3">
-                                <input id="course_main_professor" name="course_main_professor" type="text"  class="validate" required="required" value="<%= course.main_professor %>">
-                                <label for="course_main_professor">course main professor</label>
-                            </div>
-                    <div class="input-field col s3">
-                        <input id="course_lessons" name="course_lessons" type="text"  class="validate" required="required" value="<%= course.lessons %>">
-                        <label for="course_lessons">course lessons</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <input id="course_hours" name="course_hours" type="number"  class="validate" required="required" value="<%= course.hours %>">
-                        <label for="course_hours">course hours</label>
-                    </div>
-                    <div class="input-field col s3" >
-                        <input id="course_related_fields" name="course_related_fields" type="text" value="<%= course.related_fields %>" >
-                        <label for="course_related_fields">course relateted fields</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <label for="registartion_closeday">registartion close day</label>
-                        <input id="course_registartion_closeday" name="course_registartion_closeday" type="text" class="datepicker" class="validate" required="required" value="<%= course.registartion_closeday %>">
-                        
-                    </div>
-                    <div class="input-field col s6">
-                        <input id="course_max_students" name="course_max_students" type="number"  class="validate" required="required"value="<%= course.maxstudent_num%>">
-                        <label for="course_max_students">course max students</label>
-                    </div>
-                </div>
+<div class="container-fluid">
+        <div class="row ">
+                    <div class="card">
+    
+                        <div class="header">
+                            <h4 class="title">Edit Course</h4>
+                            <br>
+                        </div>
+                
 
-                <div class="row"> 
-                        
-    <div class="col s6" id="course_helper">
-        
+    <div class="content">
+           
+        <form   action="/courses/<%= course._id %>?_method=PUT" method="POST" enctype="multipart/form-data" onsubmit="checkboxx('SelectedValues','course_departments')" >
+            <div class="row">
+
+                <div class="form-group col-md-8 ">
+                        <label for="course_name">Course Name</label>
+                    <input  name="course_name" type="text" class="form-control" required="required" value="<%= course.name %>">
+                    
+                </div>
+                <div class="form-group col-md-4 ">   
+                    <label for="course_type">Course type</label>
+                    <input id="course_type" type="text" name="course_type" class="form-control" required="required" value="<%= course.type %>">
+                    
+                </div>
+            </div>
+            <div class="row">
+                    <div class="form-group col-md-12  ">
+                 <label for="textarea1">Course Description</label>  
+                   <textarea id="textarea1" name="course_description"  class="form-control" rows="6" required="required" value="<%= course.description %>"></textarea>
+                    
+                </div>
+            </div>
+            <div class="row">
+                    <div class="form-group col-md-3">   
+                            <label for="course_main_professor">course main professor</label>   
+                            <input id="course_main_professor" name="course_main_professor" type="text"  class="form-control" required="required" value="<%= course.main_professor %>">
+                        </div>
+                        <div class="form-group col-md-3 ">  
+                    <label for="course_lessons">course lessons</label>                 
+                     <input id="course_lessons" name="course_lessons" type="text"  class="form-control" required="required"value="<%= course.lessons %>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="course_hours">course hours</label>  
+                     <input id="course_hours" name="course_hours" type="number"  class="form-control" required="required"value="<%= course.hours %>">
+                </div>
+                <div class="form-group col-md-3 ">
+                    <label for="course_related_fields">course relateted fields</label>
+                     <input id="course_related_fields" name="course_related_fields" type="text"  class="form-control" required="required"value="<%= course.related_fields %>" >
+                    
+                </div>
+            </div>
+            <div class="row">
+            <div class="form-group col-md-6 " >
+             <label for="registartion_closeday">registartion close day</label>
+              <input id="course_registartion_closeday" name="course_registartion_closeday" type="text" class="form-control datepicker"  required="required" value="<%= course.registartion_closeday %>">
+
+                </div>
+            
+            
+                
+                <div class="form-group col-md-6 ">
+                    <label for="course_max_students">course max students</label>
+                    <input id="course_max_students" name="course_max_students" type="number"  class="form-control" required="required" value="<%= course.maxstudent_num %>">
+                </div>
+            </div>
+            <div class="row">  
+                  <div class="col-md-6" id="course_helper">
+                        <div class="col-md10">
+                    <label for="course_helper_professor">course helper professor</label>
+
         <%var counter=0%>
             <%course.helper_professor.forEach(function (professor) { %> 
               <%var newid = "course_helper_professor"+counter;%>
               
-                <div class="input-field col s10" id= "<%=newid%>">
-                        <input  class ="col s10 "id="course_helper_professor" counter   name="course_helper_professor" type="text"  class="validate" required="required" value="<%=professor%>">
-                    <a style="line-height:70px" href="" onclick="javascript:removeElement('<%=newid%>'); return false;">Remove</a>
-                        <label for="course_helper_professor">course helper professor</label>
+                <div class="col-md-10 " id= "<%=newid%>">
+                    <div class="col-md-7 form-group" style="margin-left: -30px">
+                            <input  class =" form-control "id="course_helper_professor" counter   name="course_helper_professor" type="text"   required="required" value="<%=professor%>">
+
+                    </div>
+                    <a style="line-height:40px" href="" onclick="javascript:removeElement('<%=newid%>'); return false;">Remove</a>
+                        
                         <%console.log(professor)%>
                         <%counter++%>
                     </div>
                 
                     <%});%>
-                    <a class="btn-floating btn-large waves-effect waves-light red" onclick="addElement2('course_helper', 'p','<%=counter%>')"><i class="material-icons">add</i></a>
+                </div>
+                    <button  type="button" class="btn btn-outline-info" onclick="addElement2('course_helper', 'p','<%=counter%>')">Add</button>
                     
         </div>
-
- <div class="col s6" id="course_objective">
-        <%var counter2=0%>
-            <%course.objectives.forEach(function (professor) { %> 
-              <%var newid = "course_objectives"+counter2;%>
-              
-                <div class="input-field col s10" id= "<%=newid%>">
-                        <input  class ="col s10 "id="course_objectives" counter   name="course_objectives" type="text"  class="validate" required="required" value="<%=professor%>">
-                    <a style="line-height:70px" href="" onclick="javascript:removeElement('<%=newid%>'); return false;">Remove</a>
-                        <label for="course_objectives">course objectivs</label>
-                        <%console.log(professor)%>
-                        <%counter2++%>
-                    </div>
-                
-                    <%});%>
-                    <a class="btn-floating btn-large waves-effect waves-light red" onclick="addElement1('course_objective', 'p','<%=counter2%>')"><i class="material-icons">add</i></a>
-                
-            
-        </div>
-    </div>
-
            
-         <div class="col s12">
-             <ul class="collection with-header col s6" >
-                     <li class="collection-header"><h4>selectx departments</h4></li>
-                         <%var counter =0%>
-                       
-                         <%console.log(course.department)%>
-
-                                 <%departments.forEach(function (department) { %> 
-                                    <% var arr=course.department.toString() %>
-                                      <% if(arr.includes(department._id)){ %>
-                                        <p>
-                                            <input type="checkbox" id="SelectedValues<%=counter%>" name="SelectedValues" value='<%=department._id%>' checked='checked'/>
-                                            <label for="SelectedValues<%=counter%>"><%=department.name%></label>
-                                          </p>                                    
-                                          
-                                         
-                                          <% } else { %>
-                                            <p>
-                                                <input type="checkbox" id="SelectedValues<%=counter%>" name="SelectedValues" value='<%=department._id%>'/>
-                                                <label for="SelectedValues<%=counter%>"><%=department.name%></label>
-                                              </p>   
-                                              <%}%>
-
-
-    
-
-                                           <%counter ++%>
-                                 <%});%>
-                            
+        <div class="col-md-6" id="course_objective">
+            <div class="col-md10">
+                <label for="course_objectives">course objectivs</label>
+                <%var counter2=0%>
+                    <%course.objectives.forEach(function (professor) { %> 
+                      <%var newid = "course_objectives"+counter2;%>
+                      
+                        <div class="col-md-10" id= "<%=newid%>">
+                                <div class="col-md-7 form-group" style="margin-left: -30px">
+                                <input  class =" form-control"id="course_objectives" counter   name="course_objectives" type="text"   required="required" value="<%=professor%>">
+                                </div>
+                            <a style="line-height:40px" href="" onclick="javascript:removeElement('<%=newid%>'); return false;">Remove</a>
+                                <%console.log(professor)%>
+                                <%counter2++%>
+                            </div>
+                        
+                            <%});%>
+                        </div>
+                            <button  type="button" class="btn btn-outline-info"  onclick="addElement1('course_objective', 'p','<%=counter2%>')">Add</button>
+                        
+                    
+                </div>
+                </div>
+          
+                  <!--  <input id ="add"type="button" value="Add another text input" onClick="repeat2('objectives')">-->
+                  <div class="col-md-12">
+                        <div class=" col-md-6" style="margin-left: -30px" >
+                                <h4>selectx departments</h4></li>
+                                    <%var counter =0%>
+                                  
+                                    <%console.log(course.department)%>
+           
+                                            <%departments.forEach(function (department) { %> 
+                                               <% var arr=course.department.toString() %>
+                                                 <% if(arr.includes(department._id)){ %>
+                                                   <p>
+                                                       <input type="checkbox" id="SelectedValues<%=counter%>" name="SelectedValues" value='<%=department._id%>' checked='checked'/>
+                                                       <label for="SelectedValues<%=counter%>"><%=department.name%></label>
+                                                     </p>                                    
+                                                     
+                                                    
+                                                     <% } else { %>
+                                                       <p>
+                                                           <input type="checkbox" id="SelectedValues<%=counter%>" name="SelectedValues" value='<%=department._id%>'/>
+                                                           <label for="SelectedValues<%=counter%>"><%=department.name%></label>
+                                                         </p>   
+                                                         <%}%>
+           
+           
+               
+           
+                                                      <%counter ++%>
+                                            <%});%>
+                                       
+                                           
+                                       
+           
                                 
-                            
+                              </ul>
+                             
+                            </div>
+            </div>
 
-                     
-                   </ul>
-                  
-                 </div>
-                 
-                 <input name="course_departments" id="course_departments" type="hidden" value="">
-                <div class="file-field input-field col s12 m12">
-                    <div class="btn">
-                        <span>Course logo</span>
-                        <input name="my_file" type="file" required="required">
+      
+     </div>
+     <div class="row">
+                <input name="course_departments" id="course_departments" type="hidden" value="">
+             
+                
+                    <div class="form-group col-md-4 " >
+                       <label for="coruse_logo">Course logo</label>
+                            <input id="coruse_logo" class="form-control" name="my_file" type="file"required="required">
+                     </div>
                     </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" required="required">
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 50px" >
-                    <div class="col s10 offset-s10">
-                        <button class="btn waves-effect waves-light btn-large" type="submit" >Create
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
+                
+
+                     <div class="row">
+                   <div class="col-md-8">
+                        <button class="btn btn-info btn-fill pull-left" type="submit">Create Department </button>
+                        </div>
+            </div>  
+            
+        </form>
     </div>
-    <script>
-    
-    var objectivesid = 0;
+   </div>
+ 
+ </div>
+</div>
+
+<script>
+
+
+$('.datepicker').datepicker();
+$().button('toggle')
+ 
+var objectivesid = 0;
     var helpersid = 0;
     
     
@@ -172,8 +208,8 @@
     
     function addElement2(parentId, elementTag,num) {
         // Adds an element to the document
-        var html1='<div class="input-field col s10" >'+'<input class="col s10" id="course_helper_professor" name="course_helper_professor" type="text"  class="validate" required="required">'+
-    '<a style="line-height:70px" href="" onclick="javascript:removeElement(\'course_helper_professor' + num + '\'); return false;">Remove</a>'+' <label for="course_helper_professor">course helper professor</label>'+'</div>';
+        var html1='<div class="col-md-10" >'+'<input class="form-control" id="course_helper_professor" name="course_helper_professor" type="text"  class="validate" required="required">'+'</div>'+
+    '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_helper_professor' + num + '\'); return false;">Remove</a>'+'</div>';
         var p = document.getElementById(parentId);
         var newElement = document.createElement(elementTag);
         newElement.setAttribute('id','course_helper_professor'+ num);
@@ -184,8 +220,8 @@
     }
     function addElement1(parentId, elementTag,num) {
         // Adds an element to the document
-        var html1='<div class="input-field col s10" >'+'<input class="col s10" id="course_objectives" name="course_objectives" type="text"  class="validate" required="required">'+
-    '<a style="line-height:70px" href="" onclick="javascript:removeElement(\'course_objectives' + num + '\'); return false;">Remove</a>'+' <label for="course_objectives">course objectives</label>'+'</div>';
+        var html1='<div class="col-md-6" >'+'<input class="form-control" id="course_objectives" name="course_objectives" type="text"  class="validate" required="required">'+'</div>'+
+    '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_objectives' + num + '\'); return false;">Remove</a>';
         var p = document.getElementById(parentId);
         var newElement = document.createElement(elementTag);
         newElement.setAttribute('id','course_objectives'+ num);
@@ -214,10 +250,10 @@ for(var i=0;i<controls.length;i++){
 
 }
 
-    
-    
-            
-      </script>
-    <%include ../partials/footer%>
-    
-    
+        
+  </script>
+<%include ../partials/footer%>
+
+
+
+

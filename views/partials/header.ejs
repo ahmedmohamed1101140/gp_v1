@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
-     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.material.min.css">
-     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>FCIS Learning Managment System</title>
 
-
-     <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css">
-
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
- 
-    <title>Learning Managment System</title>
-</head>
-<body>
-
- <!--SIDE NAV Bar-->
-<%include ./side-nav%>
-
-    <!--Navigation Bar-->
-<%include ./nav%>
+         <!-- Bootstrap CSS CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="/css/style4.css">
+        <link rel="stylesheet" href="/css/bootstrap-select.css">
+        <link rel="stylesheet" href="/css/bootstrap-tagsinput.css">
+        <link rel="stylesheet" href="/css/datepicker.css">
 
 
-<main>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="/js/bootstrap-select.js"></script>
+        <script src="/js/bootstrap-tagsinput.js"></script>
+        <script src="/js/bootstrap-datepicker.js"></script>
+
+
+
+    </head>
+    <body>
+
+
+
+        <div class="wrapper">
+
+            <!--SIDE NAV Bar-->
+            <%include ./side-nav%>
+
+            <!-- Page Content Holder -->
+                <div id="content">
+
+                    <!--Navigation Bar-->
+                    <%include ./nav%>
+                    <!--flash message notification-->
+                    <%include ./messages%>
     
-<!--flash message notification-->
-<%include ./messages%>

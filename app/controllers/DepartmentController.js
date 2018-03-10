@@ -16,7 +16,7 @@ DepartmentController.get_all_departments = function(req,res,next){
         else{
             res.render("Departments/index" , {departments : departments });
         }
-    })
+    });
 };
 
 //GET --view specific department
