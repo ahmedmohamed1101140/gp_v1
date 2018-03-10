@@ -28,6 +28,7 @@ UserController.login_view =function(req, res) {
 
 UserController.logout = function(req, res){
     req.logout();
+    req.flash("error","you loged out");
     res.redirect("/Users/login");
 }
 
@@ -44,15 +45,38 @@ UserController.delete_user = function (req,res) {
     });
 }
 
-UserController.show_profile = function (req,res) {
+UserController.redirector = function(req, res){
 
-    User.findById({_id:req.params.UserId},function (err,user) {
+    console.log(req.user._id);
+    User.findById({_id:req.user._id},function (err,user) {
         if (err) {
             console.log(err);
         }
         else {
+            console.log(user);
 
-            res.status(200).send(user);
+            if(user.changed==0){
+                res.render("Users/show" ,{USER:user});
+            }else{
+                res.redirect("/Users");
+            }
+        }
+    })
+}
+
+
+
+UserController.show_profile = function (req,res) {
+
+    console.log(req.user._id);
+    User.findById({_id:req.user._id},function (err,user) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+             console.log(user);
+
+            res.render("Users/show" ,{USER:user});
         }
     })
 }
@@ -61,22 +85,58 @@ UserController.edit_view=function (req,res) {
    // front-end view
 }
 
-UserController.edit_user=function (req,res) {
-        //USER[name]
-        //USER[img]  ...etc
-    User.findByIdAndUpdate({_id:req.params.UserId},req.body.USER,function (err,user) {
+UserController.edit_user=function (req,res) {  //done
+
+    var updates_user={
+        username:req.body.username,
+        firstname:req.body.firstname,
+        lastname:req.body.lastname,
+        email:req.body.email,
+        img:req.body.img,
+        changed:1
+    }
+
+    User.findByIdAndUpdate({_id:req.params.UserId},updates_user,function (err,user) {
 
         if(err){console.log(err)}
         else{
+            res.redirect("/Users");
+        }
+    })
+}
 
-            res.status(200).send(user);
+UserController.change_old_password = function (req,res ,next) {
+
+    var oldpassword=req.body.oldpassword;
+    var newpassword=req.body.newpassword;
+
+    console.log(req.body.oldpassword);
+    console.log(req.body.newpassword);
+    
+    User.findById({_id:req.params.UserId},function (err,user) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            
+            user.changePassword(oldpassword,newpassword,function (err) {
+                if(err){
+                    console.log("failed to change the password");
+                    res.redirect("back");
+
+                }else {
+                    console.log("Password change Successfully");
+                    res.redirect("/Users/logout");
+                }
+            })
         }
     })
 }
 
 
 
-UserController.delete_all_Users =function (req, res, next) { //testing only
+UserController.delete_all_Users =function (req, res, next) {
+    //testing only
     User.remove({},function (err) {
         if(err){console.log(err)}
         else
@@ -107,21 +167,21 @@ UserController.Seed_all_users=function (req ,res,next) {
 
         User.register(new User({
             username: student_colleage_id,
-            collage_id: student_colleage_id
+            collage_id: student_colleage_id,
+            department_name:departemnt_name,
+            year:year
         }), "password", function (err, user) {
             if (err) {
                 console.log(err);
                 return res.render('Users/register');
             }
-            passport.authenticate("local")(req, res, function () {
-                res.redirect("/secret");
-            });
+            passport.authenticate("local")(req, res, function () {});
         });
     }
-
-    res.send("ALL USERS ARE ADDED");
-
+    res.redirect("/Users");
 }
+
+
 
 
 function leftPad(number, targetLength) {

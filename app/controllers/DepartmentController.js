@@ -16,7 +16,7 @@ DepartmentController.get_all_departments = function(req,res,next){
         else{
             res.render("Departments/index" , {departments : departments });
         }
-    })
+    });
 };
 
 //GET --view specific department
@@ -70,7 +70,7 @@ DepartmentController.create_new_department = function(req,res,next){
             console.log(newDepartment);
             req.flash("success" , "Department Added");
             //4- redirect to department/new department id
-            res.redirect("/departments/"+department._id);
+            res.redirect("/departments/");
         }
     });
 };

@@ -1,0 +1,148 @@
+<%include ../partials/header%>
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Profile</h4>
+                    </div>
+                    <div class="content">
+                        <form  action="/Users/<%= USER._id %>?_method=PUT" method="POST">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>College id :</label>
+                                        <input type="text" class="form-control"  disabled placeholder="Company" value="<%= USER.collage_id%>">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control" name="username" placeholder="Username" value="<%= USER.username%>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="email" class="form-control" name="email" required placeholder="Email" value="<%= USER.email %>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" name="firstname" placeholder="Company" value="<%=USER.firstname %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control"  name="lastname" placeholder="Last Name" value="<%=USER.lastname %>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Img URl</label>
+                                        <input type="text" class="form-control" name="img" placeholder="Home Address" value="<%=USER.image %>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Department Name</label>
+                                        <input type="text" class="form-control" disabled placeholder="Department name" value="<%= USER.department_name %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Year</label>
+                                        <input type="text"  disabled class="form-control" placeholder="Year" value="<%=USER.year %>">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                            <div class="clearfix"></div>
+                        </form>
+                        <!--test form -->
+
+                        <hr>
+
+                        <form  action="/Users/<%= USER._id %>/password?_method=PUT" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Old Password</label>
+                                        <input type="password" class="form-control" required name="oldpassword" placeholder="Old Password">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <input type="password" class="form-control" required name="newpassword" placeholder=" New Password" >
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-left">Update Password</button>
+                            <div class="clearfix"></div>
+                        </form>
+
+                        <!--test form -->
+
+                    </div>
+                </div>
+            </div>
+            <!--second card -->
+            <div class="col-md-4">
+                <div class="card card-user">
+                    <div class="image">
+                        <img src="<%= USER.image %>" style="width:260px; height:260px;" alt="..."/>
+                    </div>
+                    <div class="content">
+                        <div class="author">
+                            <a href="#">
+                                <h4 class="title"  style="text-align:center"><%= USER.firstname+" "+USER.lastname%><br />
+                                    <% if(USER.usertype==2){ %>
+                                    <small>Student</small>
+                                    <%}else if(USER.usertype==1){ %>
+                                    <small>instructor</small>
+                                    <%}else {%>
+                                    <small>Admin</small>
+                                    <%}%>
+
+                                </h4>
+                            </a>
+                        </div>
+                            <p class="description text-center"> "Lamborghini Mercy <br>
+                            Your chick she so thirsty <br>
+                            I'm in that two seat Lambo"
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <button href="#" class="btn btn-simple"><i class="fa fa-facebook-square"></i></button>
+                        <button href="#" class="btn btn-simple"><i class="fa fa-twitter"></i></button>
+                        <button href="#" class="btn btn-simple"><i class="fa fa-google-plus-square"></i></button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<%include ../partials/footer%>

@@ -37,7 +37,20 @@ var UserSchema = new mongoose.Schema({
     created :{
         type: Date,
         default: Date.now()
+    },
+    department_name :{
+        type: String,
+        default:null
+    },
+    year :{
+        type: String,
+        default:null
+    },
+    changed:{
+        type:Number,
+        default:0
     }
+
 });
 
 UserSchema.plugin(passportLocalMongoose); // adding method to user

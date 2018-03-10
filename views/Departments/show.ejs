@@ -1,30 +1,27 @@
 <% include ../partials/header %>
 
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-
-                    <div class="header">
-                        <h2><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png">
-                            <%= department.name %> Department</h2>
-                    </div>
-
-                    <div class="content">
-
-                            <br/>
-
-                            <fieldset>
-                                <legend>Department Description</legend>
-                                <p><%= department.description %></p>
-                            </fieldset>
-
-                    </div>
-                </div>
+        <header class="jumbotron">
+            <div class="container">
+                <h1><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png"><%= department.name %></h1>
+                <p>here all you need to know about <strong><%= department.name %> </strong> Department </p>
+                <a href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
+                <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </header>
+        <div class="thumbnail">
+            <div class="header">
+                <h2>Department Description</h2>
+            </div>
+            <div class="content">
+                <br/>
+                <fieldset>
+                    <p><%= department.description %></p>
+                </fieldset>
             </div>
         </div>
-    </div>
 </div>
 
 <% include ../partials/footer %>

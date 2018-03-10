@@ -1,39 +1,38 @@
 <% include ../partials/header %>
 
-<div class="content">
-    <div class="container-fluid">
+<div class="container">
+        
+        <header class="jumbotron">
+            <div class="container">
+            <h1>Departments</h1>
+            <p>here you can find all the system departments and create new department</p>
+            <p>
+                <a class="btn btn-primary btn-large" href="departments/new"> Add New Department </a>
+            </p>
+                </div>
+        </header>
+
         <div class="row">
-            <div class="content">
-
                 <% departments.forEach(function (department) { %>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="content">
-                            <img width="200px" height="200px"
-                                 src="http://muc.edu.om/Research_Centre/img/foundation.png">
-
-                            <h5 class="pull-left"><%= department.name %></h5>
-
-                            <a href="/departments/edit/<%= department._id %>"
-                               class="btn btn-sm pull-right">Edit</a>
-
-                            <a href="/departments/<%= department._id%>"
-                               class="btn btn-sm pull-right">View</a>
-
-                            <form style="display:inline;"
-                                  action="/departments/<%= department._id %>?_method=DELETE"
-                                  method="POST">
-                                <button class="btn pull-right btn-sm">Delete</button>
-                            </form>
-
-                            <div class="clearfix"></div>
-                        </div>
+                <div class="col-sm-6">
+                  <div class="thumbnail">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= department.name %></h5>
+                      <p class="card-text"><%= department.description %>.</p>
+                      <a href="/departments/<%= department._id%>" class="btn btn-primary">View</a>
+                      <a href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
+                        <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
                     </div>
+                  </div>
                 </div>
                 <% }); %>
-            </div>
-        </div>
-    </div>
+              </div>
+
 </div>
+
+
+
 
 <% include ../partials/footer %>

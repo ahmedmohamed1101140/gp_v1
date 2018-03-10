@@ -1,0 +1,92 @@
+var nodemailer = require("nodemailer");
+var Department = require("../../models/department");
+var User       = require("../../models/user");
+var Groups     = require("../../models/group");
+var MailController = {};
+
+
+MailController.get_all_mails = function(req,res,next){
+    res.render("Emails/index");
+}
+
+MailController.display_creation_form = function(req,res,next){
+    Department.find().select("name").exec(function(err,departments){
+        if(err){
+            console.log(err.message);
+            req.flash("error" , "Sorry Server Error!");
+            res.redirect("/mails");
+        }
+        else{
+            User.find().select('username').exec(function(err,users){
+                if(err){
+                    console.log(err.message);
+                    req.flash("error" , "Sorry Server Error!");
+                    res.redirect("/mails");
+                }
+                else{
+                    Groups.find().select("name").exec(function(err,groups){
+                        if(err){
+                            console.log(err.message);
+                            req.flash("error" , "Sorry Server Error!");
+                            res.redirect("/mails");
+                        }
+                        else{
+                            res.render("Emails/new" , {departments:departments , users:users , groups:groups});
+                        }
+                    });    
+                }
+            });
+        }
+    });
+}
+
+MailController.send_new_mail = function(req,res,next){
+    console.log(req.body);
+    var transport = nodemailer.createTransport({
+        service: 'gmail',
+        auth:{
+            //user: process.env.MY_EMAIL,
+            //pass: process.env.MY_PASSWORD
+            user: "fcis.ch.lms@gmail.com" ,
+            pass: "lms12345"
+        }
+    });
+
+    var maillist = [
+        'ahmedmohamed1101140@outlook.com',
+        'esammohamed17121996@gmail.com',
+      ];
+  /*    req.body.recivers.forEach(element => {
+        maillist.push(element);          
+      });    
+*/
+      var emails = req.body.more_mails.split(",");
+      emails = emails.map(function(val){
+        maillist.push(val);
+      });
+    var mailOptions = {
+        from: 'ahmedmohamed1101140@gmail.com',
+        subject: req.body.subject,
+        text: req.body.content,
+        cc: "*******",
+        to: maillist
+    };
+    
+    transport.sendMail(mailOptions , function(err , info){
+        if(err){
+            console.log(err.message);
+            req.flash("error" , "Sorry Faild To Send Mail Try Again");
+            req.redirect("/mails");
+        }
+        else{
+            console.log("mail Sent " +info.response);
+            req.flash("success" , "Mail Send Successfully");
+            res.redirect("/mails");
+        }
+    });
+    
+}
+
+
+
+module.exports = MailController;
