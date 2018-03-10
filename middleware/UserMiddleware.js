@@ -5,8 +5,8 @@ const joi = require('joi');
 
 
 middlewareObj.Pasport_auth= passport.authenticate("local", {
-    successRedirect: "/Users/secret",
-    failureRedirect: "/api/Users/fail"
+    //successRedirect: "/Users/profile",
+    failureRedirect: "/Users/login"
 })
 
 //should be change to web token

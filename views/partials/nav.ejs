@@ -31,19 +31,20 @@
                           <li><a href="#">Another notification</a></li>
                         </ul>
                   </li>
-                  <li>
-                     <a href="">
-                          <i class="fa fa-search"></i>
-                      </a>
-                  </li>
+
               </ul>
 
               <ul class="nav navbar-nav navbar-right">
+
                   <li>
-                     <a href="">
-                         Account
-                      </a>
+                      <%if(!CurrentUSer) { %>
+                      <a href=""> Account  </a>
+                  <% }else {%>
+                      <a href=""> <i class="pe-7s-user"></i> <%= CurrentUSer.username %> </a>
+                  <%}%>
+
                   </li>
+
                   <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                               Dropdown
@@ -59,11 +60,18 @@
                           <li><a href="#">Separated link</a></li>
                         </ul>
                   </li>
+
+                  <%if(!CurrentUSer) { %>
+
                   <li>
-                      <a href="#">
-                          Log out
-                      </a>
+                      <a href="/Users/login"> Log in </a>
                   </li>
+                  <% }else {%>
+                  <li>
+                      <a href="/Users/logout"> Log out </a>
+                  </li>
+                  <%}%>
+
               </ul>
           </div>
       </div>
