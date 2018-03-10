@@ -6,7 +6,7 @@ var MailController = {};
 
 
 MailController.get_all_mails = function(req,res,next){
-    res.render("Email/index");
+    res.render("Emails/index");
 }
 
 MailController.display_creation_form = function(req,res,next){
@@ -57,9 +57,14 @@ MailController.send_new_mail = function(req,res,next){
         'ahmedmohamed1101140@outlook.com',
         'esammohamed17121996@gmail.com',
       ];
-      maillist.push(req.body.email);
-      console.log(maillist);
-
+  /*    req.body.recivers.forEach(element => {
+        maillist.push(element);          
+      });    
+*/
+      var emails = req.body.more_mails.split(",");
+      emails = emails.map(function(val){
+        maillist.push(val);
+      });
     var mailOptions = {
         from: 'ahmedmohamed1101140@gmail.com',
         subject: req.body.subject,
