@@ -10,9 +10,9 @@ var CourseController = {};
 CourseController.get_all_courses = function(req,res,next){
     Course.find().select('name key description since desc_file desc_file logo student_num graduated_num').exec(function (err , courses) {
         if(err){
-            console.log(err);
+            console.log(err.message);
             res.status(500).json({
-                error: err
+                error: "Soory Invalid Input"
             });
         }
         else {
@@ -35,11 +35,6 @@ CourseController.get_all_courses = function(req,res,next){
                         main_professor: course.main_professor,
                         helper_professor: course.helper_professor,
                         logo: course.logo,
-
-
-
-
-
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/api/courses/'+ course._id
@@ -249,7 +244,7 @@ CourseController.update_course = function (req ,res ,next) {
                             UpdatedDepartment: found_course,
                             request: {
                                 type: 'GET',
-                                url: 'http://localhost:3000/courses/'+ found_course._id
+                                url: 'http://localhost:3000/api/courses/'+ found_course._id
                             }
                         });
                     }

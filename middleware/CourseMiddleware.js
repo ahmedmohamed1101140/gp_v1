@@ -1,15 +1,21 @@
-const validate = require('validate-data');
+const joi = require('joi');
 const fs = require('fs');
 var middlewareObj = {};
+console.log("satage1");
 
 middlewareObj.validate_data = function(req,res,next){
     var bool = true;
+    var error_message;
     // Validation rules
-    const rules = {
-        required: "name type description registartion_closeday ",
-        string:   "name type description ",
-        Date:   "registartion_closeday"
-    };
+    console.log("satage2");
+
+    const schema = joi.object().keys({
+        name:          joi.string().required(),
+        type:           joi.string().required(),
+        description:   joi.string().max(400).required(),
+        registartion_closeday : joi.date().required()
+   
+    });
 
     // Data to be validated
     const data = {
@@ -18,35 +24,46 @@ middlewareObj.validate_data = function(req,res,next){
         description: req.body.course_description,
         registartion_closeday: req.body.course_registartion_closeday
     };
+    console.log("111");
 
-    let error = validate(data,rules); 
-    if(error){      
-        console.log(error); 
-        bool = false;
-    }
-    else if( new Date (data.registartion_closeday).getTime <= (new Date()).getTime() ){
-        console.log(data.registartion_closeday);
-        console.log("Incorrect Year Date")
-        bool = false;
-    }
-    else if(req.files.length !== 1){
-        console.log(1-req.files.length+" File Missing");
-        bool = false;        
-    }
-    else{
-        console.log("success");
-        next();
-    }
+    joi.validate(data,schema,function(err,result){ 
+        if(err){      
+            console.log(err.message); 
+            bool = false;
+            error_message = err.message;
+            console.log("satage3");
 
-    //check if error happens and delete all uploaded file with this request
+        }
+        else if( new Date (data.registartion_closeday).getTime <= (new Date()).getTime() ){
+            console.log(data.registartion_closeday);
+            console.log("Incorrect Year Date")
+            bool = false;
+
+        }
+        else if(req.files.length !== 1){
+            error_message=(1-req.files.length)+" File Missing";
+            console.log(error_message);
+
+            bool = false;       
+        }
+        else{ 
+            console.log(result);
+              console.log("success");
+            next();
+        }
+    });
+
     if(!bool){
         for(i=0;i<req.files.length;i++){
             delete_file(req.files[i].filename);
-        } 
+        }
+        var error = new Error(error_message)        
+        next(error); 
     }
 };
 
 module.exports = middlewareObj;
+console.log("satage4");
 
 //static function for deleting file
 delete_file = function (file) {

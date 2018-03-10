@@ -167,6 +167,7 @@ CourseController.display_update_form = function(req,res,next){
                     console.log(err);
                 }
                 else{
+                    
                     console.log("stage4");
 
     
