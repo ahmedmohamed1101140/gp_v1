@@ -13,7 +13,8 @@ var DepartmentController={}
 CourseController.get_all_courses = function(req,res,next){
     Course.find(function(err,courses){
         if(err){
-            console.log(err);
+            console.log(err.message);
+            req.flash("error" , "Faild");
         }
         else{
             res.render("Courses/index" , {courses : courses});
@@ -26,7 +27,9 @@ CourseController.get_course = function (req ,res ,next) {
     console.log(req.params.course_id);
     Course.findById(req.params.course_id,function (err , found_course) {
         if(err){
-            console.log(err);
+            console.log(err.message);
+            req.flash("error" , "Invalid input");
+            res.redirect("/courses");
         }
         else {
             if(found_course){
@@ -35,9 +38,9 @@ CourseController.get_course = function (req ,res ,next) {
                 res.render("Courses/show",{course:found_course});
             }
             else {
-                res.status(404).json({
-                    message: "no valid entry found for the provided ID"
-                });
+                console.log("Can't find course");
+                req.flash("error" , "Can't find Course");
+                res.redirect("back");
             }
         }
     });
@@ -45,23 +48,17 @@ CourseController.get_course = function (req ,res ,next) {
 
 //GET --display course creation form
 CourseController.display_creation_form = function(req,res,next){
-    
-    
-        department.find(function(err,departments){
-            if(err){
-                console.log(err);
-            }
-            else{
-                console.log("wasl");
-
-                res.render("Courses/new",{departments : departments});      
-            }
-        });
-    
-
-    };
-
-
+    department.find(function(err,departments){
+    if(err){
+        console.log(err.message);
+        req.flash("error" , "Can't find departments");
+        res.redirect("back");
+    }
+    else{
+        res.render("Courses/new",{departments : departments});      
+    }
+    });
+};
 
 
 
@@ -89,14 +86,9 @@ for(var i=0;i<dep_id.length-1;i++){
                 console.log( departments[0]);
                 console.log( departments[1]);
 
-
-
-
-
             }
             else {
                 res.status(404).json({
-
                     message: "no valid entry found for the provided ID"
                 });
             }
