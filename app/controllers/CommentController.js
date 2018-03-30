@@ -115,6 +115,6 @@ CommentController.comment_delete=function(req,res){
            res.redirect("/groups/"+req.params.group_id +"/"+req.params.post_id+"/comments/show" );
         }
      });
- }; 
+ };
 
 module.exports = CommentController;

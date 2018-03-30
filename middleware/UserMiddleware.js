@@ -2,16 +2,28 @@ var passport       =require('passport');
 var middlewareObj = {};
 var User = require("../models/user");
 const joi = require('joi');
+const jwt          =require("jsonwebtoken");
 
 
-middlewareObj.Pasport_auth= passport.authenticate("local", {
-    //successRedirect: "/Users/profile",
-    failureRedirect: "/Users/login"
-})
+middlewareObj.Pasport_auth= passport.authenticate("local", {failureRedirect: "/Users/login"})
 
-//should be change to web token
-middlewareObj.Pasport_auth_statelss=
-    passport.authenticate("local", {session:false})
+middlewareObj.Pasport_auth_statelss= passport.authenticate("local", {session:false})
+
+
+ middlewareObj.check_jwt_auth=function(req, res, next) {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        req.userData = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Auth failed'
+        });
+    }
+};
+
+
 
 middlewareObj.isLoggedIn =function(req, res, next){
     if(req.isAuthenticated()){

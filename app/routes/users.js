@@ -12,10 +12,6 @@ router.get("/", function(req, res){
 });
 
 
-router.get("/secret",userware.isLoggedIn,function(req, res){
-    res.render("Users/secret");    // just for testing
-});
-
 //Register
 router.get("/register",usercontroller.register_view);
 router.post("/register",userware.user_acc_validation,usercontroller.register_user);
@@ -27,31 +23,33 @@ router.post("/login", userware.Pasport_auth,usercontroller.redirector);
 //LOGOUT
 router.get("/logout",usercontroller.logout);
 
+//ADD USERS
 router.get("/addusers",function (req,res,next) {
     res.render('Users/new');
 });
 
-router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); // just for testing tested
+ router.post("/seedusers"
+     //    ,userware.isAdmin
+     ,usercontroller.Seed_all_users
+ );
 
-router.post("/seedusers"
-    //    ,userware.isAdmin
-        ,usercontroller.Seed_all_users
-    );
+//Deleting USERS
+ router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); // just for testing tested
+ router.delete("/:UserId",usercontroller.delete_user);
 
+
+ //Show Profile
+ router.get("/profile",usercontroller.show_profile);
+
+ //Edit User info
+ router.get("/:UserId/edit",usercontroller.edit_view);
+ router.put("/:UserId",usercontroller.edit_user);
+
+//change passowrd
 router.put("/changepassword",usercontroller.change_old_password);
-
-
-//Show Profile
-router.get("/profile",usercontroller.show_profile);
-
-//Edit User info
-router.get("/:UserId/edit",usercontroller.edit_view);
-router.put("/:UserId",usercontroller.edit_user);
-
 router.put("/:UserId/password",usercontroller.change_old_password);
 
-//delete a specfic User
-router.delete("/:UserId",usercontroller.delete_user);
+
 
 
 

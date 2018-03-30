@@ -5,6 +5,11 @@ var passport       =require('passport');
 var UserController = {};
 
 
+
+UserController.register_view = function(req, res,next){
+    res.render("Users/register");
+}
+
 UserController.register_user = function(req, res, next ) {
     User.register(new User({username: req.body.username}), req.body.password, function (err, user) {
         if (err) {
@@ -17,9 +22,7 @@ UserController.register_user = function(req, res, next ) {
     });
 }
 
-UserController.register_view = function(req, res,next){
-    res.render("Users/register");
-}
+
 
 UserController.login_view =function(req, res) {
     res.render("Users/login");
@@ -31,6 +34,8 @@ UserController.logout = function(req, res){
     req.flash("error","you loged out");
     res.redirect("/Users/login");
 }
+
+
 
 UserController.delete_user = function (req,res) {
     User.findByIdAndRemove({_id:req.params.UserId},function (err,user) {
@@ -44,6 +49,7 @@ UserController.delete_user = function (req,res) {
         return res.status(200).send(response);
     });
 }
+
 
 UserController.redirector = function(req, res){
 
@@ -175,7 +181,7 @@ UserController.Seed_all_users=function (req ,res,next) {
                 console.log(err);
                 return res.render('Users/register');
             }
-            passport.authenticate("local")(req, res, function () {});
+             passport.authenticate("local")(req, res, function () {});
         });
     }
     res.redirect("/Users");

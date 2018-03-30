@@ -1,6 +1,39 @@
 var User = require("../../models/user");
 var passport       =require('passport');
 var UserController = {};
+const jwt          =require("jsonwebtoken");
+
+
+
+UserController.send_token = function (req,res,next) {
+
+     User.findOne({username:req.body.username},function (err,user) {
+
+         if(err){
+             res.status(500).json({
+                 error:err
+             })
+         }
+         else {
+             const token = jwt.sign(
+                 {
+                     username: user.username,
+                     userID: user._id
+                 },
+                 process.env.JWT_KEY,  //env.varaible
+                 {
+                     expiresIn: "1h"
+                 }
+             );
+             res.status(200).json({
+                 message:"Auth Success",
+                 token: token
+             })
+         }
+     });
+
+}
+
 
 
 UserController.register_user = function(req, res, next ) {
@@ -22,13 +55,6 @@ UserController.register_user = function(req, res, next ) {
 
              });
           }
-    });
-}
-
-UserController.logout = function(req, res){
-    req.logout();
-    res.status(200).json({
-        message:"USER LOGOUT"
     });
 }
 
