@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+
+<div class="container">
+        
+        <header class="jumbotron">
+            <div class="container">
+            <h1>courses</h1>
+            <p>here you can find all the system course and create new one</p>
+            <p>
+                <a class="btn btn-primary btn-large" href="courses/new"> Add New course </a>
+            </p>
+                </div>
+        </header>
+
+        <div class="row">
+                <% courses.forEach(function (course) { %>
+                <div class="col-sm-6">
+                  <div class="thumbnail">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= course.name %></h5>
+                      <p class="card-text"><%= course.description %>.</p>
+                      <a href="/courses/<%= course._id%>" class="btn btn-primary">View</a>
+                      <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
+                        <form style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+                <% }); %>
+              </div>
+
+</div>
+
+
+
+
+<% include ../partials/footer %>

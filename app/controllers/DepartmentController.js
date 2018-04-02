@@ -70,7 +70,7 @@ DepartmentController.create_new_department = function(req,res,next){
             console.log(newDepartment);
             req.flash("success" , "Department Added");
             //4- redirect to department/new department id
-            res.redirect("/departments/");
+            res.redirect("/departments/"+newDepartment._id);
         }
     });
 };

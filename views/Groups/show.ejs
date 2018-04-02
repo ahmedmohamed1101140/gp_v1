@@ -1,55 +1,33 @@
-
 <%include ../partials/header%>
 <div class="container">
-        <div class="row">
-                <p class="lead"> Group Software Engineering  </p>
+        <header class="jumbotron">
+            <div class="container">
+                <h1><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png"><%= group.name %></h1>
+                <p>here all you need to know about <strong><%= group.name %> </strong> group </p>
+                <a href="/groups/<%= group._id %>/edit" class="btn btn-success">Edit</a>
+                <form style="display:inline;" action="/groups/<%= group._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+                <a href="/groups/<%=group._id%>/posts/new" class="btn btn-primary" style="margin-left: 700px">Add new Post</a>                                
             </div>
-    <div class="row">
-      
-       <div class="col-md-9">
-           <div class="thumbnail">
-                   <img class="img-responsive" width="20%" height="20%" src="<%= group.image %>" alt="">
-                   <div class="caption-full">
-                       <h4> <a> <%= group.name %> </a></h4>
-                       <p> <%= group.description %></p>
-                       <p> <em> Created By Esaam </em> </p>
-                       <a class="btn btn-warning" href="/groups/<%=group._id%>/edit"> Edite </a>
-                       <form  id = "delete_form"  action ="/groups/<%= group._id%>?_method=DELETE" method="POST">
-                           <button class="btn btn-danger">Delete</button> 
-                       </form>
-                   </div>
+        </header>
 
-           </div>
-           <div class="well">
-             <div class="text-right">
-                   
-                <p> <a href="/groups/<%=group._id%>/posts/new" class="btn btn-success"> Add New Post </a> </p>
-
-             </div>
-             <hr> 
-             <%  group.posts.forEach(function(post){%>
-                  <div class="row">
-                      <div class="col-md-12">
-                    
-                        
-                           <p><%= post.content %></p> 
-                    
-                      </div>
-                    
-                                <form  id = "delete_form"  action ="/groups/<%= group._id%>/<%= post._id%>?_method=DELETE" method="POST">
-                                       <button class="btn btn-danger">Delete</button> 
-                                </form>
-                        <div class="text-left">
-                            <p> <a href="/groups/<%=group._id%>/<%= post._id%>/comments/show" class="btn btn-success">  More </a> </p>
-                            </div>
-                  </div>
-              
-    
-           <% });%>
-           </div>
-       </div>
-
-    </div>
-
+        <div class="row">
+            <% group.posts.forEach(function (post) { %>
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                <div class="card-body">
+                    <h5 class="card-title">user name</h5>
+                    <p class="card-text"><%= post.content %>.</p>
+                    <a href="/groups/<%=group._id%>/<%= post._id%>/comments/show" class="btn btn-primary">Read More..</a>
+                    <a href="/groups/<%=group._id%>/<%= post._id%>/edit" class="btn btn-success">Edit</a>
+                    <form style="display:inline;" action ="/groups/<%= group._id%>/<%= post._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        <% }); %>
+        </div>
 </div>
 <%include ../partials/footer%>

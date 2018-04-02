@@ -163,7 +163,7 @@ UserController.Seed_all_users=function (req ,res,next) {
     var collage_serial = req.body.collage_serial; //1709
     var student_colleage_id;
 
-    console.log(studentsCount.toString().length);
+    
 
     for(var i=1;i<= studentsCount;i++) {
 
@@ -184,10 +184,9 @@ UserController.Seed_all_users=function (req ,res,next) {
              passport.authenticate("local")(req, res, function () {});
         });
     }
+    req.flash("success" , "Users Created");
     res.redirect("/Users");
 }
-
-
 
 
 function leftPad(number, targetLength) {
@@ -197,7 +196,6 @@ function leftPad(number, targetLength) {
     }
     return output;
 }
-
 
 
 module.exports = UserController;
