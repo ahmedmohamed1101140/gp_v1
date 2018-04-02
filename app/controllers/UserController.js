@@ -59,7 +59,6 @@ UserController.redirector = function(req, res){
             console.log(err);
         }
         else {
-            console.log(user);
 
             if(user.changed==0){
                 res.render("Users/show" ,{USER:user});
@@ -80,8 +79,6 @@ UserController.show_profile = function (req,res) {
             console.log(err);
         }
         else {
-             console.log(user);
-
             res.render("Users/show" ,{USER:user});
         }
     })
@@ -113,9 +110,17 @@ UserController.edit_user=function (req,res) {  //done
 
 UserController.change_old_password = function (req,res ,next) {
 
+     var repassword = req.body.repassword;
     var oldpassword=req.body.oldpassword;
     var newpassword=req.body.newpassword;
 
+    if(repassword!==newpassword){
+
+        req.flash("error","Please make sure that Password matches");
+        return res.redirect("/Users/profile");
+
+
+    }else {
     console.log(req.body.oldpassword);
     console.log(req.body.newpassword);
     
@@ -127,16 +132,19 @@ UserController.change_old_password = function (req,res ,next) {
             
             user.changePassword(oldpassword,newpassword,function (err) {
                 if(err){
-                    console.log("failed to change the password");
+                    console.log("failed to change the password or maybe your old passowrd is not correct");
+                    req.flash("error","failed to change the password");
                     res.redirect("back");
 
                 }else {
                     console.log("Password change Successfully");
+                    req.flash("success","Password changed Successfully,please try it");
                     res.redirect("/Users/logout");
                 }
             })
         }
     })
+    }
 }
 
 
