@@ -3,7 +3,7 @@
 <div class="content">
         <header class="jumbotron">
             <div class="container">
-                <h1><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png"><%= department.name %></h1>
+                <h1><img width="100px" class="img-responsive" style="display: inline;" src="/uploads/<%= department.logo%>"><%= department.name %></h1>
                 <p>here all you need to know about <strong><%= department.name %> </strong> Department </p>
                 <a href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
                 <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
@@ -11,15 +11,41 @@
                 </form>
             </div>
         </header>
-        <div class="thumbnail">
-            <div class="header">
-                <h2>Department Description</h2>
-            </div>
-            <div class="content">
-                <br/>
-                <fieldset>
-                    <p><%= department.description %></p>
-                </fieldset>
+        
+        <div class="container">
+            <h2>Dynamic Tabs</h2>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Full Description</a></li>
+                <li><a data-toggle="tab" href="#menu1">Courses Description</a></li>
+                <li><a data-toggle="tab" href="#menu2">More Info</a></li>
+                <li><a data-toggle="tab" href="#menu3">Instructor info</a></li>
+            </ul>
+            
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                <h3>Department Full Description</h3>
+                    <div class='embed-responsive' style='padding-bottom:150%'>
+                        <p>Your web browser doesn't have a PDF Plugin. Instead you can <a href="http://partners.adobe.com/public/developer/en/acrobat/PDFOpenParameters.pdf"> Click
+                            here to download the PDF</a></p>
+                            <iframe src="/uploads/<%= department.desc_file%>"></iframe>
+                    </div>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                <h3>Courses Description</h3>
+                    <div class='embed-responsive' style='padding-bottom:150%'>
+                        <p>Your web browser doesn't have a PDF Plugin. Instead you can <a href="http://partners.adobe.com/public/developer/en/acrobat/PDFOpenParameters.pdf"> Click
+                            here to download the PDF</a></p>
+                            <iframe src="/uploads/<%= department.courses_file%>" ></iframe>
+                    </div>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                <h3>Menu 2</h3>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                </div>
+                <div id="menu3" class="tab-pane fade">
+                <h3>Menu 3</h3>
+                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
             </div>
         </div>
 </div>
