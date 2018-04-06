@@ -39,7 +39,6 @@ UserController.logout = function(req, res){
 
 UserController.delete_user = function (req,res) {
     User.findByIdAndRemove({_id:req.params.UserId},function (err,user) {
-
         if(err){console.log(err);}
 
         const response = {

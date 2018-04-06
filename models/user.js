@@ -8,12 +8,11 @@ var UserSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    password :String ,
+    password :String,
     firstname :{
         type: String,
         default: null
     },
-
     collage_id:{
         type:String
     },
@@ -22,18 +21,20 @@ var UserSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    
     email :{
         type: String,
         default:null
     },
+
     image : {
         type: String,
         default:"https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
     },
     usertype :{
         type: Number,
-        default:2
-    }, //0 is admin 1 is instructor 2 is student
+        default:4
+    }, //0 is admin 1 is instructor 2 is TA 3 is staff 4 is Student
     created :{
         type: Date,
         default: Date.now()
@@ -49,11 +50,22 @@ var UserSchema = new mongoose.Schema({
     changed:{
         type:Number,
         default:0
+    },
+    notifications:{
+        new_notifcations:{
+            type:Number,
+            default:0
+        },
+        items:[{
+            creator:{ type: String },
+            content:{ type: String },
+            link:   { type: String },
+            time:   { type: Date , default: Date.now()}
+        }]
     }
-
 });
 
-UserSchema.plugin(passportLocalMongoose); // adding method to user
 
+UserSchema.plugin(passportLocalMongoose); // adding method to user
 // export the model
 module.exports = mongoose.model("User", UserSchema);

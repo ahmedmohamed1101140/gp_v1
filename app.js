@@ -6,7 +6,7 @@ var app              = express();
 var path             = require("path");
 var bodyParser       = require("body-parser");
 var morgan           = require("morgan");
-const passport    = require("passport");
+const passport       = require("passport");
 var method_override  = require("method-override");
 var flash            = require("connect-flash");
 
@@ -48,9 +48,8 @@ app.use(passport.initialize()); //can be in a folder ? will see
 app.use(passport.session());
 require("./config/passport");
 
-
+//handling errors with flash messages
 app.use(function (req,res,next) {
-
     res.locals.CurrentUSer = req.user;
     res.locals.error   = req.flash("error");
     res.locals.success = req.flash("success");
@@ -74,14 +73,12 @@ app.use(function (req,res,next) {
 app.use('/api',api);
 app.use('/',applicaition);
 
-
-
-//normal errors handling
-app.use(function (req,res,next) {
-    var error = new Error('Not Found');
+app.use("*",function(req,res,next){
+    var error = new Error('Not Found!');
     error.status = 404;
     next(error);
 });
+
 
 //custom app error handling
 app.use(function (error,req,res,next) {
