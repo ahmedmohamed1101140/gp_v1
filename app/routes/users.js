@@ -23,10 +23,8 @@ router.post("/login", userware.Pasport_auth,usercontroller.redirector);
 //LOGOUT
 router.get("/logout",usercontroller.logout);
 
-//ADD USERS
-router.get("/addusers",function (req,res,next) {
-    res.render('Users/new');
-});
+//ADD students
+router.get("/addstudents",usercontroller.addstudents_view);
 
  router.post("/seedusers"
      //    ,userware.isAdmin

@@ -192,7 +192,7 @@ DepartmentController.upload_files = function(req,res,next){
     upload_file(req,res,function(err){
         if(err){
             console.log(err.message);
-            res.flash("error" , "Can't Upload Files");
+            req.flash("error" , "Can't Upload Files");
             res.redirect("back");
         }
         else{

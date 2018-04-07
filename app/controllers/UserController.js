@@ -1,9 +1,7 @@
-//require the model
-//const fs = require('fs');
 var User = require("../../models/user");
 var passport       =require('passport');
+var Department = require("../../models/department");
 var UserController = {};
-
 
 
 UserController.register_view = function(req, res,next){
@@ -34,7 +32,6 @@ UserController.logout = function(req, res){
     req.flash("error","you loged out");
     res.redirect("/Users/login");
 }
-
 
 
 UserController.delete_user = function (req,res) {
@@ -158,6 +155,23 @@ UserController.delete_all_Users =function (req, res, next) {
         }
     })
 }
+
+
+
+UserController.addstudents_view=function (req,res,next) {
+
+    Department.find().select('name key').exec(function (err , departments) {
+        if(err){
+            console.log(err);
+            next(err);
+        }
+
+        else{
+            res.render('Users/new',{departments:departments});
+        }
+    });
+}
+
 
 
 UserController.Seed_all_users=function (req ,res,next) {

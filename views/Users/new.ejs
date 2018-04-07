@@ -23,7 +23,6 @@
                                 </div>
 
 
-
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="dep_key">Department serial</label>
@@ -41,8 +40,12 @@
                                         <label class=" control-label">Choose department</label>
                                         <div class="">
                                             <select  name="departemnt_name" id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                <option value="sw"> sw </option>
-                                                <option value="bio">bio</option>
+                                                <% departments.forEach(function (department){ %>
+
+                                                <option value="sw"> <%=department.name+" "+department.key%> </option>
+
+                                               <% })%>
+
                                             </select>
                                         </div>
                                     </div>
@@ -51,8 +54,7 @@
                                     <div class="form-group">
                                         <label for="dep_date"> Year </label>
                                         <input id="dep_date" name="year" type="text" placeholder="Ex:2014"
-                                               class="form-control"
-                                               required="required">
+                                               class="form-control" required="required">
                                     </div>
                                 </div>
                             </div>
