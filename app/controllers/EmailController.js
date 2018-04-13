@@ -53,8 +53,8 @@ MailController.send_new_mail = function(req,res,next){
     });
 
     var maillist = [
-        'ahmedmohamed1101140@outlook.com',
-        'esammohamed17121996@gmail.com',
+        //'ahmedmohamed1101140@outlook.com',
+       // 'esammohamed17121996@gmail.com',
       ];
   /*    req.body.recivers.forEach(element => {
         maillist.push(element);          

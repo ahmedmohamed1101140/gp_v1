@@ -70,6 +70,11 @@ app.use(function (req,res,next) {
 });
 
 
+app.get("/7mada",function(req,res){
+    console.log(req.isAuthenticated());
+    console.log(req.session);
+})
+
 app.use('/api',api);
 app.use('/',applicaition);
 
