@@ -20,16 +20,29 @@ UserController.register_user = function(req, res, next ) {
     });
 }
 
+UserController.display_all_users= function (req,res,next) {
 
+    User.find().select('firstname lastname collage_id usertype department_name username year email').exec(function (err, foundUser) {
+        if (err) {
+            console.log(err);
+            next(err);
+        }
+        else {
+            res.render('Users', {Users:foundUser });
+        }
+    });
+
+}
 
 UserController.login_view =function(req, res) {
     res.render("Users/login");
+
 }
 
 
 UserController.logout = function(req, res){
     req.logout();
-    req.flash("error","you loged out");
+    req.flash("success","you loged out");
     res.redirect("/Users/login");
 }
 
@@ -46,7 +59,7 @@ UserController.delete_user = function (req,res) {
     });
 }
 
-
+// Redirecting user after changing his profile
 UserController.redirector = function(req, res){
 
     console.log(req.user._id);
@@ -55,7 +68,6 @@ UserController.redirector = function(req, res){
             console.log(err);
         }
         else {
-
             if(user.changed==0){
                 res.render("Users/show" ,{USER:user});
             }else{
@@ -66,7 +78,7 @@ UserController.redirector = function(req, res){
 }
 
 
-
+//showing the user profile
 UserController.show_profile = function (req,res) {
 
     console.log(req.user._id);
@@ -80,10 +92,7 @@ UserController.show_profile = function (req,res) {
     })
 }
 
-UserController.edit_view=function (req,res) {
-   // front-end view
-}
-
+//editing the user  infomation
 UserController.edit_user=function (req,res) {  //done
 
     var updates_user={
@@ -104,17 +113,21 @@ UserController.edit_user=function (req,res) {  //done
     })
 }
 
+//changing userpassword
 UserController.change_old_password = function (req,res ,next) {
 
      var repassword = req.body.repassword;
-    var oldpassword=req.body.oldpassword;
-    var newpassword=req.body.newpassword;
+     var oldpassword=req.body.oldpassword;
+     var newpassword=req.body.newpassword;
+
 
     if(repassword!==newpassword){
-
-        req.flash("error","Please make sure that Password matches");
+           if(newpassword.length <=7){
+               req.flash("error","the password is less than 8 characters");
+           }else {
+              req.flash("error","Please make sure that Password matches");
+           }
         return res.redirect("/Users/profile");
-
 
     }else {
     console.log(req.body.oldpassword);
@@ -156,8 +169,7 @@ UserController.delete_all_Users =function (req, res, next) {
     })
 }
 
-
-
+//adding new users view
 UserController.addstudents_view=function (req,res,next) {
 
     Department.find().select('name key').exec(function (err , departments) {
@@ -165,7 +177,6 @@ UserController.addstudents_view=function (req,res,next) {
             console.log(err);
             next(err);
         }
-
         else{
             res.render('Users/new',{departments:departments});
         }
@@ -173,21 +184,19 @@ UserController.addstudents_view=function (req,res,next) {
 }
 
 
-
+// creating new  students
 UserController.Seed_all_users=function (req ,res,next) {
 
-    console.log(req.body);
 
     var departemnt_name= req.body.departemnt_name; //"sw";
     var studentsCount =req.body.studentscount;
     var year=req.body.year;
-    var collage_serial = req.body.collage_serial; //1709
+    var collage_serial =  req.body.collage_serial.toString(); //1709
     var student_colleage_id;
 
-    
 
     for(var i=1;i<= studentsCount;i++) {
-
+     console.log(i);
         student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
 
         console.log(student_colleage_id);
@@ -202,12 +211,11 @@ UserController.Seed_all_users=function (req ,res,next) {
                 console.log(err);
                 return res.render('Users/register');
             }
-             passport.authenticate("local")(req, res, function () {});
         });
     }
     req.flash("success" , "Users Created");
     res.redirect("/Users");
-}
+ }
 
 
 function leftPad(number, targetLength) {

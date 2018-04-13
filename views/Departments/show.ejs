@@ -28,7 +28,7 @@
                         <% if(department.desc_file.indexOf(".pdf") > -1) {%>
                             <p>Your web browser doesn't have a PDF Plugin. Instead you can <a href="http://partners.adobe.com/public/developer/en/acrobat/PDFOpenParameters.pdf"> Click here to download the PDF</a></p>
                             <iframe src="/uploads/<%= department.desc_file%>"></iframe>
-                        <%} else if(department.desc_file.indexOf(".docs") > -1) {%>
+                        <%} else if(department.desc_file.indexOf(".do") > -1) {%>
                             <p>Click to download the file:<p>
                             <a href="/uploads/<%= department.desc_file%>" download>
                                 <img border="0" src="https://cdn0.iconfinder.com/data/icons/document-file-types/512/doc-512.png" alt="W3Schools" width="142" height="142">

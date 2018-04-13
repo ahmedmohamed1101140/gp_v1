@@ -7,9 +7,7 @@
  var passport       =require('passport');
 
 
-router.get("/", function(req, res){
-    res.render("Users");
-});
+router.get("/",usercontroller.display_all_users);
 
 
 //Register
@@ -18,18 +16,23 @@ router.post("/register",userware.user_acc_validation,usercontroller.register_use
 
  //LOGIN
 router.get("/login",usercontroller.login_view);
-router.post("/login", userware.Pasport_auth,usercontroller.redirector);
+router.post("/login",userware.user_acc_validation
+ , userware.Pasport_auth,usercontroller.redirector);
 
 //LOGOUT
 router.get("/logout",usercontroller.logout);
 
 //ADD students
-router.get("/addstudents",usercontroller.addstudents_view);
+router.get("/createstudents",usercontroller.addstudents_view);
 
- router.post("/seedusers"
+ router.post("/createstudents"
      //    ,userware.isAdmin
+     ,userware.student_info_validation
      ,usercontroller.Seed_all_users
  );
+
+
+
 
 //Deleting USERS
  router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); // just for testing tested
@@ -40,7 +43,6 @@ router.get("/addstudents",usercontroller.addstudents_view);
  router.get("/profile",usercontroller.show_profile);
 
  //Edit User info
- router.get("/:UserId/edit",usercontroller.edit_view);
  router.put("/:UserId",usercontroller.edit_user);
 
 //change passowrd

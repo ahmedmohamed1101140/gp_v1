@@ -89,7 +89,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>New Password</label>
-                                        <input type="password" class="form-control" required name="newpassword" placeholder=" New Password" >
+                                        <input type="password" class="form-control"  pattern=".{8,}"  required title="8 characters minimum" name="newpassword" placeholder=" New Password" required >
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                 <div class="col-md-6 ">
                                     <div class="form-group">
                                         <label>re-type Passowrd</label>
-                                        <input type="password" class="form-control" required name="repassword" placeholder="Re-type password">
+                                        <input type="password" class="form-control" pattern=".{8,}"  required title="8 characters minimum" name="repassword" placeholder="Re-type password" required>
                                     </div>
                                 </div>
                                 </div>

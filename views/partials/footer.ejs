@@ -25,7 +25,7 @@
  <script type="text/javascript">
     
     $(document).ready(function() {
-        var table = $('#example').DataTable( {
+        var table = $('.example').DataTable( {
                 select: {
                     style:    'multi'
                 },
@@ -42,8 +42,8 @@
                 ]
             } 
         );
-    
         table.buttons().container().appendTo( '#example_wrapper .col-sm-6:eq(0)');
+
     } );    
 
 

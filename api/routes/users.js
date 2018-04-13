@@ -9,7 +9,7 @@ var  User          = require("../../models/user");  //remove
 router.post("/register",usercontroller.register_user);
 
 
-router.post("/login",userware.Pasport_auth_statelss,usercontroller.send_token);
+router.post("/login",userware.user_acc_validation,userware.Pasport_auth_statelss,usercontroller.send_token);
 
 
 router.get("/deleteusers",usercontroller.delete_all_Users);
