@@ -27,10 +27,18 @@ router.get("/createstudents",usercontroller.addstudents_view);
 
  router.post("/createstudents"
      //    ,userware.isAdmin
-     ,userware.student_info_validation
+     //,userware.student_info_validation
      ,usercontroller.Seed_all_users
  );
 
+// ADD teachers
+ router.get("/createteachers",usercontroller.addteacher_view);
+
+ router.post("/createteachers"
+     //    ,userware.isAdmin
+    // ,userware.student_info_validation
+     ,usercontroller.createteachers
+ );
 
 
 

@@ -67,7 +67,7 @@ var UserSchema = new mongoose.Schema({
         [{
             day:{ type: String },
             hour:{ type: String }, 
-        }]
+        }],
 });
 
 

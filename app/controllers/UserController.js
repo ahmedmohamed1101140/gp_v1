@@ -233,6 +233,51 @@ function leftPad(number, targetLength) {
     return output;
 }
 
+UserController.addteacher_view=function (req,res,next) {
+      
+    res.render("Users/newteacher");
+}
+
+UserController.createteachers=function(req,res,next){
+
+    var useremail=req.body.email;
+     console.log(req.body.email);
+    User.findOne({email:useremail},function(err,user){
+        if(err){
+            console.log(err);
+            next(err);
+        }else{
+            
+            if(user.length >=1){
+                req.flash("error" ,"this emial already exists");
+                return res.redirect("back");
+             }else{
+
+                User.register(new User({
+                    username: useremail,
+                    email:useremail,
+                    usertype:1
+                }), "password", function (err, user) {
+                    if (err) {
+                        console.log(err);
+                        next(err);
+                    }else{
+                          req.flash("success","A Teacher is created");
+                          res.redirect("/Users");
+                    }
+            
+                });
+
+
+             }
+            
+        }
+
+    });
+  
+}
+
+
 UserController.upload_user_image = function(req,res,next){
         console.log('into upload function');
     
