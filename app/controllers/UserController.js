@@ -71,7 +71,12 @@ UserController.redirector = function(req, res){
         }
         else {
             if(user.changed==0){
+                 if(user.usertype==4){ //student
                 res.render("Users/show" ,{USER:user});
+                 }else if(user.usertype==1){
+                    res.render("Users/showteacher" ,{USER:user});
+                 }
+
             }else{
                 res.redirect("/Users");
             }
@@ -89,7 +94,11 @@ UserController.show_profile = function (req,res) {
             console.log(err);
         }
         else {
-            res.render("Users/show" ,{USER:user});
+                if(user.usertype==4){ //student
+                res.render("Users/show" ,{USER:user});
+                 }else if(user.usertype==1){
+                    res.render("Users/showteacher" ,{USER:user});
+                 }
         }
     })
 }

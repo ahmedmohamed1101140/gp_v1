@@ -12,19 +12,14 @@
                     <div class="content">
                         <form  action="/Users/<%= USER._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
                             <div class="row">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label>College id :</label>
-                                        <input type="text" class="form-control"  disabled placeholder="Company" value="<%= USER.collage_id%>">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
+                
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Username</label>
                                         <input type="text" class="form-control" name="username" placeholder="Username" value="<%= USER.username%>">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Email address</label>
                                         <input type="email" class="form-control" name="email" required placeholder="Email" value="<%= USER.email %>">
@@ -36,7 +31,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" name="firstname" placeholder="frist name" value="<%=USER.firstname %>">
+                                        <input type="text" class="form-control" name="firstname" placeholder="first name" value="<%=USER.firstname %>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -56,21 +51,6 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Department Name</label>
-                                        <input type="text" class="form-control" disabled placeholder="Department name" value="<%= USER.department_name %>">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Year</label>
-                                        <input type="text"  disabled class="form-control" placeholder="Year" value="<%=USER.year %>">
-                                    </div>
-                                </div>
-
-                            </div>
                             <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
                             <div class="clearfix"></div>
                         </form>
