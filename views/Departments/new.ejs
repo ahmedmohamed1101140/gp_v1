@@ -30,6 +30,30 @@
                                     </div>
                                 </div>
                             </div>
+                            <br><br>
+                            <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class=" control-label">Choose the admin</label>
+                                            <div class="">
+                                                <select id="basic" name="admin" class="selectpicker show-tick form-control" data-live-search="true">
+                                                <% users.forEach(function (user) { %>                                                       
+                                                    <option value="<%=user._id%>"><%= user.username %></option>
+                                                <% }); %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="dep_date">Department Opened Since</label>
+                                            <input id="dep_date" name="dep_date" type="number" placeholder="Ex:2014"
+                                                   class="form-control"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <br><br><br>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -41,28 +65,12 @@
                             </div> 
                             <br><br>                               
                             <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label class=" control-label">Choose the admin</label>
-                                        <div class="">
-                                            <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                            <option>Ahmed MOhamed</option>
-                                            <option >George Nabil</option>
-                                            <option >Essam Mohamed</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="dep_date">Department Opened Since</label>
-                                        <input id="dep_date" name="dep_date" type="number" placeholder="Ex:2014"
-                                               class="form-control"
-                                               required="required">
-                                    </div>
+                                <div class="col-md-12">
+                                    <label for="objectives">Department Objectives</label><br>
+                                    <input type="text" name="objectives" class="form-control"id="inlineFormInputGroup" value="ahmed" data-role="tagsinput" >            
                                 </div>
                             </div>
-                            <br><br><br>
+                            <br><br>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">

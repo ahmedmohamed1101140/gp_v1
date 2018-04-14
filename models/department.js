@@ -17,6 +17,17 @@ var departmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    objectives:[
+        {
+            type: String,
+            required: true
+        }
+    ],
+    opinions: [
+        {
+            type: String,
+        }
+    ],
     since:{
         type: String,
         required: true
