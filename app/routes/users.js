@@ -43,7 +43,7 @@ router.get("/createstudents",usercontroller.addstudents_view);
  router.get("/profile",usercontroller.show_profile);
 
  //Edit User info
- router.put("/:UserId",usercontroller.edit_user);
+ router.put("/:UserId",usercontroller.upload_user_image,usercontroller.edit_user);
 
 //change passowrd
 router.put("/changepassword",usercontroller.change_old_password);

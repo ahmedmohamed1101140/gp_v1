@@ -41,11 +41,11 @@ var UserSchema = new mongoose.Schema({
     },
     department_name :{
         type: String,
-        default:null
+        //default:null
     },
     year :{
         type: String,
-        default:null
+       // default:null
     },
     changed:{
         type:Number,
@@ -62,7 +62,12 @@ var UserSchema = new mongoose.Schema({
             link:   { type: String },
             time:   { type: Date , default: Date.now()}
         }]
-    }
+    },
+    office_hours :
+        [{
+            day:{ type: String },
+            hour:{ type: String }, 
+        }]
 });
 
 

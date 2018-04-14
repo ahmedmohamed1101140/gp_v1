@@ -25,7 +25,7 @@ DepartmentController.get_department = function (req ,res ,next) {
         if(err){
             console.log(err.message);
             req.flash("error" , "invalid input data");
-            res.redirect('/departments');
+            res.redirect('/departments');   
         }
         else {
             if(found_department){

@@ -10,7 +10,7 @@
                         <h4 class="title">Profile</h4>
                     </div>
                     <div class="content">
-                        <form  action="/Users/<%= USER._id %>?_method=PUT" method="POST">
+                        <form  action="/Users/<%= USER._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
@@ -43,7 +43,7 @@
                                     <div class="form-group">
                                         <label>Last Name</label>
                                         <input type="text" class="form-control"  name="lastname" placeholder="Last Name" value="<%=USER.lastname %>">
-                                    </div>
+                                    </div>  
                                 </div>
                             </div>
 
@@ -51,7 +51,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Img URl</label>
-                                        <input type="text" class="form-control" name="img" placeholder="Home Address" value="<%=USER.image %>">
+                                        <input  type="file" class="form-control"  placeholder="upload your image" name="my_image">
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="image">
-                        <img src="<%= USER.image %>" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="..."/>
+                        <img src="/uploads/<%=USER.image%>" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="..."/>
                     </div>
                     <div class="content">
                         <div class="author">

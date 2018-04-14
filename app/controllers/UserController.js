@@ -1,6 +1,8 @@
 var User = require("../../models/user");
 var passport       =require('passport');
 var Department = require("../../models/department");
+var upload_image = require("../../config/image-multer");
+const fs = require('fs');
 var UserController = {};
 
 
@@ -94,20 +96,25 @@ UserController.show_profile = function (req,res) {
 
 //editing the user  infomation
 UserController.edit_user=function (req,res) {  //done
-
+ 
+    console.log(req.file.filename);
     var updates_user={
         username:req.body.username,
         firstname:req.body.firstname,
         lastname:req.body.lastname,
         email:req.body.email,
-        img:req.body.img,
+        image:req.file.filename,
         changed:1
     }
 
     User.findByIdAndUpdate({_id:req.params.UserId},updates_user,function (err,user) {
 
-        if(err){console.log(err)}
+        if(err){
+            delete_file(req.file.filename);
+            console.log(err);
+        }
         else{
+            delete_file(user.image);
             res.redirect("/Users");
         }
     })
@@ -226,5 +233,38 @@ function leftPad(number, targetLength) {
     return output;
 }
 
+UserController.upload_user_image = function(req,res,next){
+        console.log('into upload function');
+    
+    upload_image(req,res,function(err){
+        if(err){
+            console.log(err.message);
+            req.flash("error" , "Can't Upload Files");
+            res.redirect("back");
+        }
+        else{
+
+            console.log("upload done");
+            next();
+        }
+    });
+};
+
 
 module.exports = UserController;
+
+delete_file = function (file) {
+    var file = file;
+    fs.stat('./public/uploads/'+file, function (err, stats) {
+        //console.log(stats);//here we got all information of file in stats variable
+
+        if (err) {
+            return console.error(err.message);
+        }
+
+        fs.unlink('./public/uploads/'+file,function(err){
+            if(err) return console.log(err.message);
+            console.log('file deleted successfully');
+        });
+    });
+};

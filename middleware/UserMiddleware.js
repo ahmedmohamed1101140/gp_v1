@@ -5,6 +5,7 @@ const joi = require('joi');
 const jwt          =require("jsonwebtoken");
 
 
+
 middlewareObj.Pasport_auth= passport.authenticate("local", {failureRedirect: "/Users/login"})
 
 middlewareObj.Pasport_auth_statelss= passport.authenticate("local", {session:false})
@@ -28,7 +29,8 @@ middlewareObj.isLoggedIn =function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    res.redirect("/Users/login");
+    //res.redirect("/Users/login");
+    res.redirect("/login");
 }
 
 middlewareObj.isAdmin =function (req,res,next) {
@@ -132,9 +134,6 @@ middlewareObj.profile_data_valation=function (req,res, next) {
             next();
         }
     });
-
-
-
 }
 
 
