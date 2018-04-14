@@ -56,10 +56,11 @@ MailController.send_new_mail = function(req,res,next){
         'ahmedmohamed1101140@outlook.com',
         'esammohamed17121996@gmail.com',
       ];
-  /*    req.body.recivers.forEach(element => {
+      req.body.recivers.forEach(element => {
         maillist.push(element);          
       });    
-*/
+
+console.log(maillist)
       var emails = req.body.more_mails.split(",");
       emails = emails.map(function(val){
         maillist.push(val);

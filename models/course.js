@@ -16,10 +16,10 @@ var courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    related_fields:{
+    dependencies :[{
         type: String,
         required: true
-    },
+    }],
   
     logo:{
         type: String,

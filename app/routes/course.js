@@ -32,6 +32,10 @@ router.get("/edit/:course_id"
     , coursecontroller.display_update_form,
     departmentcontroller.get_all_departments
 );
+router.get("/info/:course_id"
+, coursecontroller.get_course_info
+
+);
 
 //update the department
 router.put("/:course_id" 

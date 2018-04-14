@@ -1,5 +1,4 @@
 <%include ../partials/header%>
-
 <div class="container-fluid">
         <div class="row ">
                     <div class="card">
@@ -11,7 +10,7 @@
                 
 
     <div class="content">
-           
+            <body onload='myFunction("<%=course.type%>","<%=course.helper_professor%>","<%=course.main_professor%>","<%=course.dependencies%>")' >
         <form   action="/courses/<%= course._id %>?_method=PUT" method="POST" enctype="multipart/form-data" onsubmit="checkboxx('SelectedValues','course_departments')" >
             <div class="row">
 
@@ -20,11 +19,22 @@
                     <input  name="course_name" type="text" class="form-control" required="required" value="<%= course.name %>">
                     
                 </div>
-                <div class="form-group col-md-4 ">   
-                    <label for="course_type">Course type</label>
-                    <input id="course_type" type="text" name="course_type" class="form-control" required="required" value="<%= course.type %>">
-                    
-                </div>
+                <div class="form-group col-md-4">
+                        <div class="form-group">
+                                            <label class=" control-label">course type </label>
+                                               <div class="">
+                                                <select id="course_type"  name ="course_type" class="selectpicker show-tick form-control" >
+                                                 <%if(course.type=="Mandatory") { %>         
+                                                 <option selected>Mandatory</option>
+                                                 <option>elective</option>
+                                                 <%} else {%>}
+                                                 <option >Mandatory</option>
+                                                <option selected>elective</option>
+                                                <%};%>
+                                                </select>
+                             </div>
+                        </div>
+                    </div>
             </div>
             <div class="row">
                     <div class="form-group col-md-12  ">
@@ -34,26 +44,85 @@
                 </div>
             </div>
             <div class="row">
-                    <div class="form-group col-md-3">   
-                            <label for="course_main_professor">course main professor</label>   
-                            <input id="course_main_professor" name="course_main_professor" type="text"  class="form-control" required="required" value="<%= course.main_professor %>">
-                        </div>
-                        <div class="form-group col-md-3 ">  
-                    <label for="course_lessons">course lessons</label>                 
-                     <input id="course_lessons" name="course_lessons" type="text"  class="form-control" required="required"value="<%= course.lessons %>">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="course_hours">course hours</label>  
-                     <input id="course_hours" name="course_hours" type="number"  class="form-control" required="required"value="<%= course.hours %>">
-                </div>
-                <div class="form-group col-md-3 ">
-                    <label for="course_related_fields">course relateted fields</label>
-                     <input id="course_related_fields" name="course_related_fields" type="text"  class="form-control" required="required"value="<%= course.related_fields %>" >
-                    
-                </div>
+                    <div class="col-md-3">
+                        <label> course main professor </label>
+                        <div class="form-group">
+                                <select class="selectpicker" name="course_main_professor"  data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" title="Professor Name" >
+                               
+                                        <optgroup label="Users">
+
+                                     <% users.forEach(function (user) { %>   
+                                         <% var arr=course.main_professor.toString() %>
+                                              <% if(arr.includes(user.username)){ %>
+                                                <option selected><%= user.username %></option>
+                                                <% console.log(user.username)%>
+                                                  <% } else { %>
+                                                    <option><%= user.username %></option>
+
+                                                      <%}%>
+        
+                                         <%});%>
+                                        </optgroup>
+                                </select>
+                            </div>
+                        </div>        
+                  
+                        <div class="col-md-3" >
+                                <div class="form-group" id="helpers">
+                                   <label for="course_helper_professor">course helper professor</label>
+                                   <select class="selectpicker" name="course_helper_professor" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" required="required">
+                                       <optgroup label="Users">
+                                         
+                                     <% users.forEach(function (user) { %>   
+                                        <% var arr=course.helper_professor.toString() %>
+                                             <% if(arr.includes(user.username)){ %>
+                                               <option selected><%= user.username %></option>
+                                               <% console.log(user.username)%>
+                                                 <% } else { %>
+                                                   <option><%= user.username %></option>
+
+                                                     <%}%>
+       
+                                        <%});%>
+                                       </optgroup>
+                                     
+                                       </select>
+                               </div>
+                           </div>
+            <div class="col-md-3">
+                <label>course hours</label> 
+                <div class="form-group"> 
+                        <input id="course_hours" name="course_hours" type="number"  class="form-control" required="required"value="<%= course.hours %>">
+                    </div>
             </div>
+
+           <div class="col-md-3">
+        <label> course dependencies </label>
+        <div class="form-group">
+                <select class="selectpicker" name="course_dependencies" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+                <optgroup label="courses">
+                    
+                        <% courses.forEach(function (Course) { %>   
+                            <% var arr=course.dependencies.toString() %>
+                                 <% if(arr.includes(Course.name)){ %>
+                                   <option selected><%= Course.name %></option>
+                                     <% } else { %>
+                                       <option><%= Course.name %></option>
+
+                                         <%}%>
+
+                            <%});%>
+                </optgroup>
+              
+                </select>
+            </div>
+        </div>
+    
+
+        </div>
+            
             <div class="row">
-            <div class="form-group col-md-6 " >
+            <div class="form-group col-md-4 " >
              <label for="registartion_closeday">registartion close day</label>
               <input id="course_registartion_closeday" name="course_registartion_closeday" type="text" class="form-control datepicker"  required="required" value="<%= course.registartion_closeday %>">
 
@@ -61,39 +130,18 @@
             
             
                 
-                <div class="form-group col-md-6 ">
+                <div class="form-group col-md-4 ">
                     <label for="course_max_students">course max students</label>
                     <input id="course_max_students" name="course_max_students" type="number"  class="form-control" required="required" value="<%= course.maxstudent_num %>">
                 </div>
-            </div>
+                <div class="form-group col-md-4 " >
+                        <label for="coruse_logo">Course logo</label>
+                             <input id="coruse_logo" class="form-control" name="my_file" type="file"required="required">
+                      </div>
+                     </div>
+            
             <div class="row">  
-                  <div class="col-md-6" >
-                        <div class="col-md-10" id="course_helper">
-                    <label for="course_helper_professor">course helper professor</label>
-
-        <%var counter=0%>
-            <%course.helper_professor.forEach(function (professor) { %> 
-              <%var newid = "course_helper_professor"+counter;%>
-              
-                <div class="col-md-12 " id= "<%=newid%>">
-                    <div class="col-md-11 form-group" style="margin-left: -30px">
-                            <input  class =" form-control "id="course_helper_professor" counter   name="course_helper_professor" type="text"   required="required" value="<%=professor%>">
-
-                    </div>
-                    <a style="line-height:40px" href="" onclick="javascript:removeElement('<%=newid%>'); return false;">Remove</a>
-                        
-                        <%console.log(professor)%>
-                        <%counter++%>
-                    </div>
-                
-                    <%});%>
-                </div>
-                <div class=".col-md-offset-4">
-                  <button  type="button" class="btn btn-outline-info" onclick="addElement2('course_helper', 'p','<%=counter%>')">Add</button>
-
-                </div>
-                    
-        </div>
+          
            
         <div class="col-md-6" >
             <div class="col-md-10" id="course_objective">
@@ -127,7 +175,7 @@
                   <!--  <input id ="add"type="button" value="Add another text input" onClick="repeat2('objectives')">-->
                   <div class="col-md-12">
                         <div class=" col-md-6" style="margin-left: -30px" >
-                                <h4>selectx departments</h4></li>
+                                <h4>selectx departments</h4>
                                     <%var counter =0%>
                                   
                                     <%console.log(course.department)%>
@@ -158,29 +206,25 @@
                                        
            
                                 
-                              </ul>
+                              
                              
                             </div>
             </div>
 
       
-     </div>
      <div class="row">
                 <input name="course_departments" id="course_departments" type="hidden" value="">
              
                 
-                    <div class="form-group col-md-4 " >
-                       <label for="coruse_logo">Course logo</label>
-                            <input id="coruse_logo" class="form-control" name="my_file" type="file"required="required">
-                     </div>
-                    </div>
+                  
                 
 
                      <div class="row">
                    <div class="col-md-8">
                         <button class="btn btn-info btn-fill pull-left" type="submit">Edit Course </button>
                         </div>
-            </div>  
+            </div> 
+            </div> 
             
         </form>
     </div>
@@ -193,8 +237,8 @@
 
 
 $('.datepicker').datepicker();
-$().button('toggle')
- 
+
+
 var objectivesid = 0;
     var helpersid = 0;
     

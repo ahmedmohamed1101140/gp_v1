@@ -3,6 +3,7 @@ const fs = require('fs');
 var upload_file = require("../../config/file-multer");
 var Course = require("../../models/course");
 var department = require("../../models/department");
+var User=require("../../models/user")
 
 
 var CourseController = {};
@@ -42,6 +43,26 @@ CourseController.get_course = function (req ,res ,next) {
         }
     });
 };
+CourseController.get_course_info = function (req ,res ,next) {
+    console.log(req.params.course_id);
+    Course.findById(req.params.course_id,function (err , found_course) {
+        if(err){
+            console.log(err);
+        }
+        else {
+            if(found_course){
+                console.log(found_course);
+                // rednder the page
+                res.render("Courses/info",{course:found_course});
+            }
+            else {
+                res.status(404).json({
+                    message: "no valid entry found for the provided ID"
+                });
+            }
+        }
+    });
+};
 
 //GET --display course creation form
 CourseController.display_creation_form = function(req,res,next){
@@ -52,10 +73,35 @@ CourseController.display_creation_form = function(req,res,next){
                 console.log(err);
             }
             else{
-                console.log("wasl");
+                Course.find(function(err,courses){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        User.find(function(err,users){
+                            if(err){
+                                console.log(err);
+                            }
+                            else{
 
-                res.render("Courses/new",{departments : departments});      
-            }
+
+
+                        console.log("wasl");
+
+                        res.render("Courses/new",{departments : departments,courses : courses,users:users});      
+
+
+                    }
+                
+                    })
+                }
+
+
+
+                
+               
+            })
+        }
         });
     
 
@@ -68,8 +114,8 @@ CourseController.display_creation_form = function(req,res,next){
 //POST  --create and add new course to the DB
 CourseController.create_new_course = function(req,res,next){
     //2- create new course
+   
     var departments=[];
-    console.log("22");
 var dep_id = req.body.course_departments.split(",");
 for(var i=0;i<dep_id.length-1;i++){
     department.findById(dep_id[i],function (err , found_department) {
@@ -104,19 +150,22 @@ for(var i=0;i<dep_id.length-1;i++){
     });
 }
     setTimeout(function(){
+      
+
         var course = new Course({
             name: req.body.course_name,
             type: req.body.course_type,
             description: req.body.course_description,
             registartion_closeday: req.body.course_registartion_closeday,
             logo: req.files[0].filename, 
-            related_fields:req.body.course_related_fields,
+            dependencies :req.body.course_dependencies ,
             department:departments,
             maxstudent_num:req.body.course_max_students,
             main_professor:req.body.course_main_professor,
             helper_professor:req.body.course_helper_professor,
             lessons:req.body.course_lessons,
             hours:req.body.course_hours,
+        
             objectives:req.body.course_objectives
         
         
@@ -167,12 +216,35 @@ CourseController.display_update_form = function(req,res,next){
                     console.log(err);
                 }
                 else{
-                    
-                    console.log("stage4");
-
+                    Course.find(function(err,courses){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            User.find(function(err,users){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
     
-                    res.render("Courses/edit",{course : course,departments:departments});  
-                }
+    
+    
+                            console.log("wasl");
+    
+                            res.render("Courses/edit",{departments : departments,course : course,users:users,courses:courses});      
+    
+    
+                        }
+                    
+                        })
+                    }
+    
+    
+    
+                    
+                   
+                })
+            }
             });
 
 
@@ -238,7 +310,7 @@ CourseController.update_course = function (req ,res, next) {
                 found_course.registartion_closeday = req.body.course_registartion_closeday;
                 found_course.logo = req.files[0].filename;
                 found_course.max_students = req.body.course_max_students;
-                found_course.related_fields = req.body.course_related_fields;
+                found_course.dependencies  = req.body.course_dependencies ;
                 found_course.main_professor = req.body.course_main_professor;
                 found_course.department=departments;
                 found_course.helper_professor = req.body.course_helper_professor;

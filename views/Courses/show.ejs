@@ -1,27 +1,64 @@
-<% include ../partials/header %>
 
-<div class="content">
-        <header class="jumbotron">
-            <div class="container">
-                <h1><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png"><%= course.name %></h1>
-                <p>here all you need to know about the <strong><%= course.name %> </strong> Course </p>
-                <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
-                <form style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
+
+    
+<%include ../partials/header%>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+
+          <div class="card mt-4">
+            <img class="card-img-top img-fluid" src="" alt="">
+            <div class="card-body">
+              <h3 class="card-title"><%=course.name%></h3>
+                            
             </div>
-        </header>
-        <div class="thumbnail">
-            <div class="header">
-                <h2>Course Description</h2>
+          </div>
+          <!-- /.card -->
+
+          <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+               Recent announcements
             </div>
-            <div class="content">
-                <br/>
-                <fieldset>
-                    <p><%= course.description %></p>
-                </fieldset>
+            <div class="card-body">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+              <hr>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+              <hr>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+              <hr>
             </div>
+          </div>
+          <!-- /.card -->
+
         </div>
-</div>
+        <!-- /.col-lg-9 -->
 
-<% include ../partials/footer %>
+        <div class="col-lg-3">
+                <h3 class="my-4">course controle</h3>
+                <div class="list-group">
+                  <a href="#" class="list-group-item ">Content</a>
+                  <a href="#" class="list-group-item">Attendance</a>
+                  <a href="#" class="list-group-item">Grades</a>
+                  <a href="#" class="list-group-item">Announcements</a>
+                  <a href="/courses/info/<%= course._id %>" class="list-group-item">Information</a>
+
+
+      
+                </div>
+              </div>
+      </div>
+
+    </div>
+    <!-- /.container -->
+
+    <%include ../partials/footer%>

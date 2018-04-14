@@ -1,0 +1,117 @@
+<%include ../partials/header%>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+
+                
+                <!-- First Blog Post -->
+                <h2>
+                    <a href="#"><%=course.name%></a>
+                </h2>
+                <p class="lead">
+                    by <a href=""><%=course.main_professor%></a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
+                <hr>
+                <img class="img-responsive" src="https://cheggexperts.com/wp-content/uploads/2017/09/ORFF360-900x300.jpg" alt="">
+                <hr>
+                <p><%=course.description%></p>
+                <a class="btn btn-primary" href="#">Registarter <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                <hr>
+               <div class="panel panel-primary">
+                    <div class="panel-heading">
+                            <h3 class="panel-title">Course objectives</h3>
+                          </div>
+                          <%course.objectives.forEach(function (Course) { %> 
+
+                 <div class="panel-body"><%=Course%></div>
+                 <%});%>
+               </div>
+               <div class="card card-outline-secondary my-4">
+                    <div class="card-header">
+                       course feedbacks
+                    </div>
+                    <div class="card-body">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                      <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                      <hr>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                      <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                      <hr>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                      <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                      <hr>
+                    </div>
+                  </div>
+                  <!-- /.card -->
+             
+
+
+            </div>
+
+            <!-- Blog Sidebar Widgets Column -->
+            <div class="col-md-4">
+
+                <!-- Blog Search Well -->
+                <div class="well">
+                    <h4>coures information</h4>
+                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true"> </span>
+                    <%=course.type%>  
+                </br>
+                    <span class="glyphicon glyphicon-time" aria-hidden="true"> </span>
+                         <%=course.hours%>  credit houres
+                </br>
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"> </span>
+                    <%=course.maxstudent_num%> student max
+                </br>
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"> </span>
+                <%=course.registartion_closeday%> registartion closeday
+
+
+
+                   
+                    </div>
+                    <!-- /.input-group -->
+                
+
+
+
+                <!-- Blog Categories Well -->
+                <div class="well">
+                    <h4>Course Dependencies </h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                         <%course.dependencies.forEach(function (Course) { %> 
+                                <li><a href="#"><%=Course%></a>
+                                </li>
+                                <%});%> 
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                        
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <!-- Side Widget Well -->
+                <div class="well">
+                    <h4>feedbacks</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+     
+
+<%include ../partials/footer%>
