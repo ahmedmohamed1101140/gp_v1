@@ -17,7 +17,7 @@
     "express-session": "^1.15.6",
     "froala-editor": "^2.7.6",
     "joi": "^13.1.2",
-    "materialize-css": "^0.100.2",
+    "jsonwebtoken": "^8.2.0",
     "method-override": "^2.3.10",
     "mongoose": "^5.0.7",
     "morgan": "^1.9.0",

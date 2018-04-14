@@ -2,11 +2,12 @@
 const fs = require('fs');
 var upload_file = require("../../config/file-multer");
 var Department = require("../../models/department");
+var User       = require("../../models/user");
 
 var DepartmentController = {};
 
 //GET --view all departments
-DepartmentController.get_all_departments = function(req,res,next){
+DepartmentController.get_all_departments = function(req,res,next){  
     Department.find(function(err,departments){
         if(err){
             console.log(err.message);
@@ -25,7 +26,7 @@ DepartmentController.get_department = function (req ,res ,next) {
         if(err){
             console.log(err.message);
             req.flash("error" , "invalid input data");
-            res.redirect('/departments');
+            res.redirect('/departments');   
         }
         else {
             if(found_department){
@@ -44,11 +45,22 @@ DepartmentController.get_department = function (req ,res ,next) {
 
 //GET --display department creation form
 DepartmentController.display_creation_form = function(req,res,next){
-    res.render("Departments/new");
+    User.find().exec(function(err,users){
+        if(err){
+            console.log(err.message);
+            req.flash("error" , "Sorry try Again");
+            res.redirect("back");
+        }
+        else{
+            res.render("Departments/new",{users:users});
+        }
+    })
 };
 
 //POST  --create and add new department to the DB
 DepartmentController.create_new_department = function(req,res,next){
+    console.log(req.body);
+
     //2- create new department
         var department = new Department({
         name: req.body.dep_name,
@@ -57,12 +69,21 @@ DepartmentController.create_new_department = function(req,res,next){
         since: req.body.dep_date,
         desc_file: req.files[0].filename,
         courses_file:req.files[1].filename ,                
-        logo: req.files[2].filename, 
+        logo: req.files[2].filename 
     });
+
+    var objectives = req.body.objectives.split(",");
+    objectives.forEach(element =>{
+        department.objectives.push(element);
+    });
+
     //3- save the department
     Department.create(department,function (err,newDepartment) {
         if(err){
             console.log(err.message);
+            delete_file(req.files[0].filename);
+            delete_file(req.files[1].filename);
+            delete_file(req.files[2].filename); 
             req.flash("error" , "Faild to Create Invalid Input or Duplicate Key Values please check your inputs");
             res.redirect('/departments/new');
         }
@@ -70,7 +91,7 @@ DepartmentController.create_new_department = function(req,res,next){
             console.log(newDepartment);
             req.flash("success" , "Department Added");
             //4- redirect to department/new department id
-            res.redirect("/departments/");
+            res.redirect("/departments/"+newDepartment._id);
         }
     });
 };
@@ -104,7 +125,6 @@ DepartmentController.update_department = function (req ,res, next) {
             if(found_department){
                 var files = [found_department.desc_file , found_department.courses_file , found_department.logo];
                 var uploaded_files = [req.files[0].filename , req.files[1].filename , req.files[2].filename];
-  
                 
                 found_department.name = req.body.dep_name;
                 found_department.key = req.body.dep_key;
@@ -113,6 +133,15 @@ DepartmentController.update_department = function (req ,res, next) {
                 found_department.desc_file =req.files[0].filename;
                 found_department.courses_file = req.files[1].filename;
                 found_department.logo = req.files[2].filename;
+                
+                for(var i=0;i<found_department.objectives.length;i++){
+                    found_department.objectives.pop();
+                };
+                var objectives = req.body.objectives.split(",");
+                objectives.forEach(element =>{
+                    found_department.objectives.push(element);
+                });
+
                 
 
                 found_department.save(function(err){
@@ -192,7 +221,7 @@ DepartmentController.upload_files = function(req,res,next){
     upload_file(req,res,function(err){
         if(err){
             console.log(err.message);
-            res.flash("error" , "Can't Upload Files");
+            req.flash("error" , "Can't Upload Files");
             res.redirect("back");
         }
         else{

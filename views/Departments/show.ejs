@@ -3,7 +3,7 @@
 <div class="content">
         <header class="jumbotron">
             <div class="container">
-                <h1><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png"><%= department.name %></h1>
+                <h1><img width="100px" class="img-responsive" style="display: inline;" src="/uploads/<%= department.logo%>"><%= department.name %></h1>
                 <p>here all you need to know about <strong><%= department.name %> </strong> Department </p>
                 <a href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
                 <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
@@ -11,15 +11,63 @@
                 </form>
             </div>
         </header>
-        <div class="thumbnail">
-            <div class="header">
-                <h2>Department Description</h2>
-            </div>
-            <div class="content">
-                <br/>
-                <fieldset>
-                    <p><%= department.description %></p>
-                </fieldset>
+        
+        <div class="container">
+            <h2>Department Info</h2>
+            <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link in active" id="pills-home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#dep_desc" role="tab" aria-controls="pills-profile" aria-selected="false">Department Description </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#course_desc" role="tab" aria-controls="pills-contact" aria-selected="false">Courses Description</a>
+                </li>
+            </ul>
+            
+            <div class="tab-content">
+                <div id="dep_desc" class="tab-pane fade">
+                <h3>Department Full Description</h3>
+                    <div class='embed-responsive' style='padding-bottom:150%'>
+                        <% if(department.desc_file.indexOf(".pdf") > -1) {%>
+                            <p>Your web browser doesn't have a PDF Plugin. Instead you can <a href="http://partners.adobe.com/public/developer/en/acrobat/PDFOpenParameters.pdf"> Click here to download the PDF</a></p>
+                            <iframe src="/uploads/<%= department.desc_file%>"></iframe>
+                        <%} else if(department.desc_file.indexOf(".do") > -1) {%>
+                            <p>Click to download the file:<p>
+                            <a href="/uploads/<%= department.desc_file%>" download>
+                                <img border="0" src="https://cdn0.iconfinder.com/data/icons/document-file-types/512/doc-512.png" alt="W3Schools" width="142" height="142">
+                            </a>
+                        <%}%>       
+                    </div>
+                </div>
+                <div id="course_desc" class="tab-pane fade">
+                <h3>Courses Description</h3>
+                    <div class='embed-responsive' style='padding-bottom:150%'>
+                        <% if(department.courses_file.indexOf(".pdf") > -1) {%>
+                            <p>Your web browser doesn't have a PDF Plugin. Instead you can <a href="http://partners.adobe.com/public/developer/en/acrobat/PDFOpenParameters.pdf"> Click here to download the PDF</a></p>
+                            <iframe src="/uploads/<%= department.courses_file%>"></iframe>
+                        <%} else if(department.courses_file.indexOf(".do") > -1) {%>
+                            <p>Click to download the file:<p>
+                            <a href="/uploads/<%= department.courses_file%>" download>
+                                <img border="0" src="https://cdn3.iconfinder.com/data/icons/brands-applications/512/File-512.png" alt="W3Schools" width="142" height="142">
+                            </a>
+                        <%}%>
+                    </div>
+                </div>
+                <div id="home" class="tab-pane fade in active">
+                    <div class="container-fluid" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                    <img src="/uploads/<%= department.logo%>" class="img-thumbnail" alt="Cinque Terre" width="304" height="236"> 
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-8">
+                                <h3><%= department.name %></h3>
+                                <p><%= department.description%></p> 
+                            </div>
+                        </div>    
+                    </div>
+                </div>
             </div>
         </div>
 </div>

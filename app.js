@@ -6,7 +6,7 @@ var app              = express();
 var path             = require("path");
 var bodyParser       = require("body-parser");
 var morgan           = require("morgan");
-const passport    = require("passport");
+const passport       = require("passport");
 var method_override  = require("method-override");
 var flash            = require("connect-flash");
 
@@ -14,6 +14,7 @@ var flash            = require("connect-flash");
 //adding routes
 var api           = require("./api/routes");
 var applicaition  = require("./app/routes");
+var api_check     = require("./config/agent_check");
 
 //add static files to be accessable 
 app.use(express.static(path.join(__dirname,"public")));
@@ -48,9 +49,8 @@ app.use(passport.initialize()); //can be in a folder ? will see
 app.use(passport.session());
 require("./config/passport");
 
-
+//handling errors with flash messages
 app.use(function (req,res,next) {
-
     res.locals.CurrentUSer = req.user;
     res.locals.error   = req.flash("error");
     res.locals.success = req.flash("success");
@@ -71,27 +71,35 @@ app.use(function (req,res,next) {
 });
 
 
+app.get("/7mada",function(req,res){
+    console.log(req.isAuthenticated());
+    console.log(req.session);
+})
+
 app.use('/api',api);
 app.use('/',applicaition);
 
-
-
-//normal errors handling
-app.use(function (req,res,next) {
-    var error = new Error('Not Found');
+app.use("*",function(req,res,next){
+    var error = new Error('Not Found!');
     error.status = 404;
     next(error);
 });
 
+
 //custom app error handling
 app.use(function (error,req,res,next) {
-   res.status(error.status || 500);
-   req.flash("error",error.message);
-   res.json({
-       error:{
-           message: error.message
-       }
-   });
+    res.status(error.status || 500);
+    if(api_check(req)){
+
+        res.json({
+            error:{
+                message: error.message
+            }
+        });
+    }else {
+        req.flash("error", error.message);
+        res.redirect("back");
+    }
 });
 
 var server = app.listen(process.env.PORT || "8080   ",function (err) {

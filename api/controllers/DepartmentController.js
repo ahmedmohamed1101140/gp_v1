@@ -8,7 +8,7 @@ var DepartmentController = {};
 
 //GET --JSON all departments
 DepartmentController.get_all_departments = function(req,res,next){
-    Department.find().select('name key description since desc_file courses_file logo student_num graduated_num').exec(function (err , departments) {
+    Department.find().select('name key description objectives since desc_file courses_file logo student_num graduated_num').exec(function (err , departments) {
         if(err){
             console.log(err.message);
             res.status(500).json({
@@ -52,6 +52,10 @@ DepartmentController.create_new_department = function(req,res,next){
         desc_file: req.files[0].filename,
         courses_file:req.files[1].filename ,                
         logo: req.files[2].filename,
+    });
+    var objectives = req.body.objectives.split(",");
+    objectives.forEach(element =>{
+        department.objectives.push(element);
     });
     //3- save the department
     Department.create(department,function (err,newDepartment) {
@@ -127,7 +131,17 @@ DepartmentController.update_department = function (req ,res, next) {
                 found_department.desc_file =req.files[0].filename;
                 found_department.courses_file = req.files[1].filename;
                 found_department.logo = req.files[2].filename;
+
                 
+                for(var i=0;i<found_department.objectives.length;i++){
+                    found_department.objectives.pop();
+                };
+                var objectives = req.body.objectives.split(",");
+                objectives.forEach(element =>{
+                    found_department.objectives.push(element);
+                });
+
+
 
                 found_department.save(function(err){
                     if(err){

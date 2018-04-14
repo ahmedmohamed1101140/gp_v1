@@ -1,16 +1,76 @@
 <%include ../partials/header%>
 
+
 <div class="container">
     <header class="jumbotron">
         <div class="container">
             <h1>User Mangement</h1>
             <p>here add all users </p>
             <p>
-                <a class="btn btn-primary btn-large" href="/Users/addusers"> Add Users </a>
+                <a class="btn btn-primary btn-large" href="/Users/createstudents"> Add students </a> 
+                <a class="btn btn-primary btn-large" href="/Users/createteachers"> Add teachers </a> 
+
             </p>
         </div>
     </header>
 
+
+          <div class="container" style="margin:auto auto;">
+            <table id="example" class="table table-striped table-bordered example" >
+        <thead>
+        <tr>
+            <th>Collage_ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>User name</th>
+            <th>department name</th>
+            <th>year</th>
+            <th>User-type</th>
+            <th>E-mail</th>
+            <th>action</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+    <% Users.forEach(function (user) {  %>
+        <tr>
+            <td><%=user.collage_id%></td>
+            <td><%=user.firstname%></td>
+            <td><%=user.lastname%></td>
+            <td><%=user.username%></td>
+            <td><%=user.department_name%></td>
+            <td><%=user.year%></td>
+            <td>
+                <% if(user.usertype==4){ %>
+                      student
+              <% }else if(user.usertype==3){%>
+                        staff
+                <% }else if(user.usertype==2){%>
+                         T.assistant
+                <% }else if(user.usertype==1){%>
+                         instructor
+                 <%}else {%>
+                         admin
+                  <%}%>
+            </td>
+            <td><%=user.email%></td>
+            <td>
+                <a style=" margin-right:30px; " href="/"><i class="glyphicon glyphicon-remove"></i></a>
+                <a href="/"><i class="glyphicon glyphicon-wrench"></i></a>
+            </td>
+        </tr>
+
+         <% })%>
+
+        </tbody>
+    </table>
 </div>
+<!-->
+
+
+    </div>
+
+
 
 <%include ../partials/footer%>
