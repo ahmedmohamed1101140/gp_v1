@@ -51,6 +51,25 @@ var UserSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
+    courses:[
+        {
+        id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"course",  }
+        ,
+        attendance:[{
+            attendancetype:{ type: String},
+            number:{ type: Number},
+            attended:{ type: Boolean,default:false},
+            date:{ type: Date , default: Date.now()}
+
+        }],
+        grade:[{
+            name:{ type: String },
+            gradescore:{ type: Number,default:0},
+        }]
+    }]
+,
     notifications:{
         new_notifcations:{
             type:Number,

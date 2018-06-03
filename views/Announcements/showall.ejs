@@ -1,0 +1,116 @@
+    
+<%include ../partials/header%>
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    
+    <!-- /.col-lg-3 -->
+
+    <div class="col-lg-10">
+
+     
+      <!-- /.card -->
+
+      <div class="card card-outline-secondary my-4 clearfix">
+        <div class="card-header" style="display:inline-block" >
+           Recent announcements
+        </div>
+        <a href="/courses/<%=course_id%>/announcement/new">
+        <button type="button" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus"></span> Add
+          </button>
+          </a>
+        <hr>
+        <%var counter =0%>
+        <script>
+            var x =0;
+        </script>
+            <%announcement.forEach(function (announcement){%> 
+        <div class="card-body clearfix "style="margin-top:30px;background-color:#f6f6f6;border-style:groove;border-width: 1px;border-color:white"id="posts">
+           <div>
+                <h3 style="margin-left:5px;display:inline-block;width:450px">   
+                    <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"> </span>
+                   <%=announcement.name%> 
+               </h3>
+                  <div class="dropdown pull-right" style="margin-top:10px;margin-right:10px">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        options
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"style="min-width:8px">
+                        <li><a href="/courses/<%= course_id%>/announcement/<%=announcement.id%>/edit ">Edit</a></li>
+                        <li role="separator" class="divider"></li>
+                            <form  action="/courses/<%= course_id%>/announcement/<%=announcement.id%>?_method=DELETE" method="POST">
+                              <button class="btn" style="background-color:transparent" >Delete</button>
+                          </form>
+                        
+                        
+                       
+                       
+                      </ul>
+                    </div>
+           
+           </div>
+         <div>
+           
+            <small class="text-muted"style="margin-left:5px">Posted by <%=announcement.upload_user%> on  <%=announcement.upload_date%></small>
+
+         </div>
+          <div style="margin-left:10px">
+                <input type="hidden" value="<%=announcement.description%>"id=announcementdescription<%=counter%>>
+                <script>
+                        document.write(document.getElementById("announcementdescription"+x).value); 
+                        x++; 
+                    </script>
+          </div> 
+        </div>
+        <hr>
+        <%counter++%>
+        <%});%>
+      </div>
+      <!-- /.card -->
+
+    </div>
+    <!-- /.col-lg-9 -->
+
+    <div class="col-lg-3">
+            
+  
+            </div>
+          </div>
+  </div>
+
+</div>
+<!-- /.container -->
+
+<%include ../partials/footer%>
+<script>
+  var searchbar = document.getElementById('search');
+var posts=document.querySelectorAll('#posts');
+searchbar.addEventListener('keyup',function (e) {
+
+    const term=e.target.value.toLowerCase();
+
+    for (var i = 0, len = posts.length; i < len; i++) {
+        if (posts[i].textContent.toLocaleLowerCase().indexOf(term)!=-1)
+        {
+            posts[i].style.display='block';
+
+        }
+        else{
+            posts[i].style.display='none'
+        }
+    }
+
+})
+
+
+
+
+
+
+
+</script>

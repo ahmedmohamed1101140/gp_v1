@@ -2,6 +2,7 @@ var User = require("../../models/user");
 var passport       =require('passport');
 var Department = require("../../models/department");
 var upload_image = require("../../config/image-multer");
+var Course= require("../../models/course");
 const fs = require('fs');
 var UserController = {};
 
@@ -204,6 +205,7 @@ UserController.addstudents_view=function (req,res,next) {
 UserController.Seed_all_users=function (req ,res,next) {
 
 
+    var course ="5adc96a7fd49b762b840cc02";
     var departemnt_name= req.body.departemnt_name; //"sw";
     var studentsCount =req.body.studentscount;
     var year=req.body.year;
@@ -222,10 +224,20 @@ UserController.Seed_all_users=function (req ,res,next) {
             collage_id: student_colleage_id,
             department_name:departemnt_name,
             year:year
-        }), "password", function (err, user) {
+            
+        }), "password", function (err,user) {
             if (err) {
                 console.log(err);
                 return res.render('Users/register');
+            }
+            else {
+                Course.findOne(function(err,found_course){
+                    user.courses.push(found_course) ;
+                    user.save();
+                    found_course.student_registrated.push(user);
+                    found_course.save();
+          
+                });
             }
         });
     }

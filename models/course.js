@@ -72,26 +72,20 @@ var courseSchema = new mongoose.Schema({
             type:String
         }
     ],
-    lessons:
-    {
-         type:String,
-          /*  id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User"
-            },*/
-           default:""
-        
-    },
+  
     student_registrated:[{
     
-        /*  id: {
+         
               type: mongoose.Schema.Types.ObjectId,
-              ref: "User"
-          },*/
-          type:String,
-          default:""
+              ref: "user"
+          
+         
 
-
+    }],
+    yearwork:[{
+        name:{type:String},
+        totalgradescore:{ type: Number },
+        precentage:{ type: Number  },
     }],
     hours:{
         type:Number,
@@ -102,7 +96,19 @@ var courseSchema = new mongoose.Schema({
         type:Date,
         required:true
 
-    }
+    },
+    lecturestaken:{
+        type:Number,
+        default:1
+    },
+    labstaken:{
+        type:Number,
+        default:1
+    },
+    sectionstaken:{
+        type:Number,
+        default:1
+    },
 
 
 

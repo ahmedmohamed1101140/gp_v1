@@ -1,0 +1,46 @@
+<%include ../partials/header%>
+
+<div class="container-fluid">
+        <div class="row ">
+                    <div class="card">
+    
+                        <div class="header">
+                            <h4 class="title">Add New Announcement</h4>
+                            <br>
+                        </div>
+                
+
+    <div class="content">
+        <form  action="/courses/<%=course._id%>/announcement" method="POST" >
+            <div class="row">
+
+                <div class="form-group col-md-8 ">
+                        <label for="announcement_name">announcement Header</label>
+                    <input  name="announcement_name" type="text" class="form-control" required="required">
+                    
+                </div>
+            </div>
+            <div class="row">
+                    <div class="form-group col-md-12  ">
+                 <label for="summernote">announcement Description</label>  
+                   <textarea id="summernote" name="announcement_description" class="form-control" required="required"></textarea>
+                    
+                </div>
+            </div>
+                     <div class="row">
+                   <div class="col-md-8">
+                        <button class="btn btn-info btn-fill pull-left" type="submit">Add Announcement </button>
+                        </div>
+            </div>  
+        </form>
+    </div>
+   </div>
+ </div>
+</div>
+
+
+<%include ../partials/footer%>
+
+
+
+

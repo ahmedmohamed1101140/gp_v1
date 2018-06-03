@@ -36,6 +36,35 @@ router.get("/info/:course_id"
 , coursecontroller.get_course_info
 
 );
+router.get("/:course_id/attendance"
+, coursecontroller.get_course_attendance
+
+);
+router.get("/:course_id/editgrades/:student_id"
+, coursecontroller.edit_student_grades
+
+);
+router.put("/:course_id/editgrades/:student_id"
+, coursecontroller.put_student_grades
+
+);
+router.get("/:course_id/grades/add"
+, coursecontroller.add_course_grades
+
+);
+router.get("/:course_id/grades"
+, coursecontroller.get_course_grades
+
+);
+router.put("/:course_id/attendance"
+, coursecontroller.put_course_attendance
+
+);
+router.put("/:course_id/grades"
+, coursecontroller.put_course_grades
+
+);
+
 
 //update the department
 router.put("/:course_id" 
