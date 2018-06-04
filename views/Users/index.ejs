@@ -56,8 +56,12 @@
             </td>
             <td><%=user.email%></td>
             <td>
-                <a style=" margin-right:30px; " href="/"><i class="glyphicon glyphicon-remove"></i></a>
-                <a href="/"><i class="glyphicon glyphicon-wrench"></i></a>
+                   <form action="/Users/<%= user._id %>?_method=DELETE" method="POST">
+                <button style="display: inline-block" href="" type="submit" ><i class="glyphicon glyphicon-remove"></i></button>
+                <button style=" display: inline-block" href="" type="submit" ><i class="glyphicon glyphicon-wrench"></i></button>
+            
+            </form>
+
             </td>
         </tr>
 

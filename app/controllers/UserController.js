@@ -51,15 +51,15 @@ UserController.logout = function(req, res){
 
 
 UserController.delete_user = function (req,res) {
-    User.findByIdAndRemove({_id:req.params.UserId},function (err,user) {
-        if(err){console.log(err);}
 
-        const response = {
-            message: "successfully deleted",
-            id: user._id
-        };
-        return res.status(200).send(response);
-    });
+        User.findByIdAndRemove({_id:req.params.UserId},function (err,user) {
+            if(err){console.log(err);}
+         else{
+            req.flash("success","the user is deleted");
+            res.redirect('/Users'); 
+         }
+        });
+   
 }
 
 // Redirecting user after changing his profile
@@ -105,7 +105,7 @@ UserController.show_profile = function (req,res) {
 }
 
 //editing the user  infomation
-UserController.edit_user=function (req,res) {  //done
+UserController.edit_user=function (req,res,next) {  //done
  
     console.log(req.file.filename);
     var updates_user={
@@ -116,18 +116,35 @@ UserController.edit_user=function (req,res) {  //done
         image:req.file.filename,
         changed:1
     }
+   
+    User.findOne({username:req.body.username},function(err,user1){
 
-    User.findByIdAndUpdate({_id:req.params.UserId},updates_user,function (err,user) {
+         if(err){
+             console.log("this an error"); 
+            
+         }
+        else if(user1){
 
-        if(err){
-            delete_file(req.file.filename);
-            console.log(err);
+           const error= new Error ("this user name already exits");
+            next(error);
+
+        }else{
+           
+            User.findByIdAndUpdate({_id:req.params.UserId},updates_user,function (err,user) {
+
+                if(err){
+                    delete_file(req.file.filename);
+                    console.log(err);
+                }
+                else{
+                    delete_file(user.image);
+                    res.redirect("/Users");
+                }
+            });
         }
-        else{
-            delete_file(user.image);
-            res.redirect("/Users");
-        }
-    })
+
+    });
+
 }
 
 //changing userpassword
