@@ -44,10 +44,37 @@ router.get("/:course_id/editgrades/:student_id"
 , coursecontroller.edit_student_grades
 
 );
+router.get("/:course_id/editpercentage"
+, coursecontroller.edit_percentage
+
+);
+router.put("/:course_id/editpercentage"
+, coursecontroller.put_percentage
+
+);
 router.put("/:course_id/editgrades/:student_id"
 , coursecontroller.put_student_grades
 
 );
+  
+
+
+router.get("/:course_id/editattendance/:student_id/:type"
+, coursecontroller.edit_student_attendance
+
+);
+router.put("/:course_id/editattendance/:student_id/:type"
+, coursecontroller.put_student_attendance
+
+);
+
+
+
+
+
+
+
+
 router.get("/:course_id/grades/add"
 , coursecontroller.add_course_grades
 
