@@ -222,7 +222,7 @@ UserController.addstudents_view=function (req,res,next) {
 UserController.Seed_all_users=function (req ,res,next) {
 
 
-    var course ="5adc96a7fd49b762b840cc02";
+    //var course ="5adc96a7fd49b762b840cc02";
     var departemnt_name= req.body.departemnt_name; //"sw";
     var studentsCount =req.body.studentscount;
     var year=req.body.year;
@@ -231,35 +231,47 @@ UserController.Seed_all_users=function (req ,res,next) {
 
 
     for(var i=1;i<= studentsCount;i++) {
-     console.log(i);
         student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
 
         console.log(student_colleage_id);
 
-        User.register(new User({
-            username: student_colleage_id,
-            collage_id: student_colleage_id,
-            department_name:departemnt_name,
-            year:year
-            
-        }), "password", function (err,user) {
-            if (err) {
-                console.log(err);
-                return res.render('Users/register');
-            }
-            else {
-                Course.findOne(function(err,found_course){
-                    user.courses.push(found_course) ;
-                    user.save();
-                    found_course.student_registrated.push(user);
-                    found_course.save();
-          
-                });
-            }
-        });
-    }
-    req.flash("success" , "Users Created");
-    res.redirect("/Users");
+      User.findOne({collage_id:student_colleage_id},function(err,user){
+
+
+               if(err){console.log(err);}
+               else if(user){
+
+                  console.log("user exits");
+               }else{
+
+                User.register(new User({
+                    username: student_colleage_id,
+                    collage_id: student_colleage_id,
+                    department_name:departemnt_name,
+                    year:year
+                    
+                }), "password", function (err,user) {
+                    if (err) {
+                        console.log(err);
+                        return res.render('Users/register');
+                    }
+                    else {
+                        /*
+                        Course.findOne(function(err,found_course){
+                            user.courses.push(found_course) ;
+                            user.save();
+                            found_course.student_registrated.push(user);
+                            found_course.save();
+                        });
+                         */
+                    }
+                   });
+               }
+      });   
+           
+    } 
+       req.flash("success" , "Users Created");
+       res.redirect("/Users");
  }
 
 
@@ -286,7 +298,7 @@ UserController.createteachers=function(req,res,next){
             next(err);
         }else{
             
-            if(user.length >=1){
+            if(user){
                 req.flash("error" ,"this emial already exists");
                 return res.redirect("back");
              }else{
@@ -351,3 +363,4 @@ delete_file = function (file) {
         });
     });
 };
+

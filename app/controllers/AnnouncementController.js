@@ -55,7 +55,7 @@ announcementController.new_announcement_announcement =function(req,res){
             console.log("ERR");
 
             console.log(err.message);
-            req.flash("error" , "Failed To Find course  ... please Try Again.");
+           req.flash("error" , "Failed To Find course  ... please Try Again.");
             res.redirect("course/show");
 
         } 
