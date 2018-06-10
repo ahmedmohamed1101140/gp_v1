@@ -1,0 +1,51 @@
+<%include ../partials/header%>
+
+<div class="container">
+        
+<div class="form-row">
+        <form  action="/courses/<%=course._id %>/editpercentage?_method=PUT" method="POST" >
+
+        <div class="container" style="margin:auto auto;">
+                <button type ="submit"class="btn btn-info btn-fill pull-right clearfix"style="margin-bottom:10px">edit grades</button>
+
+                <table id="example" class="table table-striped table-bordered " >
+            <thead>
+            <tr>
+                <%var percentage=0%>
+                <%course.yearwork.forEach(function(grade){%>
+                    <th>
+                        <%=grade.name%>
+                    </br>
+                        (<%=grade.totalgradescore%> total )
+                    </br>
+                    (<%=grade.precentage%> % )
+                    <%percentage=percentage+grade.precentage%>
+                </th>
+                <%})%>
+                <th>Total</br>(<%=percentage%>%)</br>  </th> 
+            </tr>
+            </thead>
+            <tbody>
+                <%var totalstudentgrade=0%>
+                     <tr>
+                        <%course.yearwork.forEach(function(grade){%>
+                                <td>
+                                    <%console.log(grade.percentage)%>
+                                        <input name="<%=grade.name%>" type="number" class="form-control" required="required" value="<%=grade.precentage%>">
+                                        <%totalstudentgrade=grade.precentage+totalstudentgrade%>
+
+                                </td>
+                                          <%});%>
+                                 <td>
+                                    <%=totalstudentgrade%>%
+                                 </td>
+                   
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </form>
+           </div>
+        </div>
+
+<%include ../partials/footer%>

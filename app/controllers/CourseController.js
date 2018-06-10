@@ -4,12 +4,8 @@ var upload_file = require("../../config/file-multer");
 var Course = require("../../models/course");
 var department = require("../../models/department");
 var User=require("../../models/user")
-
-
 var CourseController = {};
 var DepartmentController={}
-
-
 //GET --view all courses
 CourseController.get_all_courses = function(req,res,next){
     Course.find(function(err,courses){
@@ -22,7 +18,6 @@ CourseController.get_all_courses = function(req,res,next){
         }
     })
 };
-
 //GET --view spacific course
 CourseController.get_course = function (req ,res ,next) {
     console.log(req.params.course_id);
@@ -204,7 +199,6 @@ CourseController.get_course_attendance = function (req ,res ,next) {
         }
     });
 };
-
 CourseController.put_course_grades=function(req,res,next){
     Course.findById(req.params.course_id,function(err,found_course){
     if(err)
@@ -264,7 +258,6 @@ CourseController.put_course_grades=function(req,res,next){
  });
 
 }
-
 CourseController.edit_student_grades=function(req,res,next){
     Course.findById(req.params.course_id,function (err , found_course) {
         if(err){
@@ -358,7 +351,57 @@ CourseController.put_student_grades=function(req,res,next){
      });
 
 }
+CourseController.edit_percentage=function(req,res,next){
+    Course.findById(req.params.course_id,function (err , found_course) {
+        if(err){
+            console.log(err);
+        }
+        else {
+            if(found_course){
+                console.log("ma3alm");
+                res.render("Courses/editpercentage",{ course:found_course});   
+              
+            }                        
+            else {
+                res.status(404).json({
+                    message: "no valid entry found for the provided ID"
+                });
+            } }
+    });
+}
+CourseController.put_percentage=function(req,res,next){
+    console.log("888");
 
+    Course.findById(req.params.course_id,function(err,found_course){
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+         if(found_course)
+         {      found_course.yearwork.forEach(function(grade){
+
+                   grade.precentage=req.body[grade.name]  
+
+         }
+        )
+            found_course.save();
+            req.flash("succes" , "grades added");
+            res.redirect("/courses/"+req.params.course_id+"/grades"); 
+        }
+            else
+            {
+                req.flash("failed" , "attendance not added");
+                res.redirect("/courses/"+req.params.course_id); 
+    
+    
+            }
+    
+        }
+     });
+
+}
 CourseController.put_course_attendance=function(req,res,next){
     Course.findById(req.params.course_id,function(err,found_course){
     if(err)
@@ -478,6 +521,112 @@ CourseController.put_course_attendance=function(req,res,next){
  })
 
 }
+
+CourseController.edit_student_attendance=function(req,res,next){
+    Course.findById(req.params.course_id,function (err , found_course) {
+        if(err){
+            console.log(err);
+        }
+        else {
+            if(found_course){
+                User.findById(req.params.student_id,function (err , found_student) { 
+                   
+                        if(err)
+                        {
+                            console.log(err);
+                        }
+                        else
+                        {
+                            if(found_student)
+                            { 
+                              
+                                res.render("Courses/editattendance",{ course:found_course,student:found_student,type:req.params.type});      
+                                 // rednder the page
+                            }
+                            else {
+                                res.status(404).json({
+                                    message: "no valid users found for the provided course"
+                                }) }
+                    }
+                 })
+            }                        
+            else {
+                res.status(404).json({
+                    message: "no valid entry found for the provided ID"
+                });
+            } }
+    });
+  
+
+}
+CourseController.put_student_attendance=function(req,res,next){
+    Course.findById(req.params.course_id,function(err,found_course){
+    if(err)
+    {
+        console.log(err);
+    }
+    else
+    {
+     if(found_course)
+        {
+            User.findById(req.params.student_id,function(err,student_found)
+                {
+                    if(err)
+                    {
+                        console.log(err);
+                        console.log("student with name:"+student_found.firstname+" not found ")
+                    }
+                    else
+                    {  
+                        student_found.courses.forEach(function(student_course){
+                            if(student_course._id.toString()==found_course._id.toString())
+                            {
+                                if(req.params.type.toString()=="lecture")
+                                {
+                                    student_course.attendance.forEach(function(attendance){
+                                        if(attendance.attendancetype.toString()=="lecture"){
+                                        attendance.attended=req.body[attendance.number]  
+                                        } 
+                                      });
+                                                                        
+                                }
+                                else if (req.params.type.toString()=="lab")
+                                {
+                                    student_course.attendance.forEach(function(attendance){
+                                        if(attendance.attendancetype.toString()=="Lab"){
+                                        attendance.attended=req.body[attendance.number]  
+                                        } 
+                                      });
+                                                                        
+                                }
+                                else if (req.params.type.toString()=="section")
+                                {
+                                    student_course.attendance.forEach(function(attendance){ 
+                                        if(attendance.attendancetype.toString()=="Section"){
+                                        attendance.attended=req.body[attendance.number]  
+                                        } 
+                                      });
+                                      
+    
+                                   
+                                }
+                                student_found.save();
+
+                             }
+                                   })        
+                            req.flash("success" , "attendance edited");
+                            res.redirect("/courses/"+req.params.course_id+"/attendance"); 
+                        }
+                    })
+                }      
+                else
+                        {
+                            req.flash("failed" , "attendance not edited");
+                            res.redirect("/courses/"+req.params.course_id); 
+                        }
+                    }
+                })
+}
 //GET --display course creation form
 CourseController.display_creation_form = function(req,res,next){
         department.find(function(err,departments){
@@ -582,7 +731,6 @@ CourseController.create_new_course = function(req,res,next){
     }, 2000);
     
 };
-
 CourseController.display_update_form = function(req,res,next){
     
     Course.findById(req.params.course_id,function(err,course){
@@ -702,7 +850,6 @@ CourseController.update_course = function (req ,res, next) {
         }
     });
 };
-
 //DELETE --delete specific course
 CourseController.delete_course = function (req , res, next) {
    
@@ -728,7 +875,6 @@ CourseController.delete_course = function (req , res, next) {
         }
     });
 };
-
 CourseController.upload_files = function(req,res,next){
     upload_file(req,res,function(err){
         if(err){
@@ -740,9 +886,7 @@ CourseController.upload_files = function(req,res,next){
         }
     });
 };
-
 module.exports = CourseController;
-
 //static function for deleting file
 delete_file = function (file) {
     var file = file;
