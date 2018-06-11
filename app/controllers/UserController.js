@@ -73,8 +73,9 @@ UserController.redirector = function(req, res){
         else {
             if(user.changed==0){
                  if(user.usertype==4){ //student
+
                 res.render("Users/show" ,{USER:user});
-                 }else if(user.usertype==1){
+                 }else {
                     res.render("Users/showteacher" ,{USER:user});
                  }
 
@@ -95,9 +96,9 @@ UserController.show_profile = function (req,res) {
             console.log(err);
         }
         else {
-                if(user.usertype==4){ //student
+                if(user.usertype==4){ 
                 res.render("Users/show" ,{USER:user});
-                 }else if(user.usertype==1){
+                 }else{
                     res.render("Users/showteacher" ,{USER:user});
                  }
         }
@@ -118,18 +119,20 @@ UserController.edit_user=function (req,res,next) {  //done
     }
    
     User.findOne({username:req.body.username},function(err,user1){
-
+           
+         
          if(err){
              console.log("this an error"); 
             
-         }
-        else if(user1){
-
+         } 
+        else if(user1 && (req.user.username != req.body.username)){
+            console.log("here");
+             console.log(user1);
            const error= new Error ("this user name already exits");
             next(error);
 
         }else{
-           
+          
             User.findByIdAndUpdate({_id:req.params.UserId},updates_user,function (err,user) {
 
                 if(err){
@@ -138,9 +141,12 @@ UserController.edit_user=function (req,res,next) {  //done
                 }
                 else{
                     delete_file(user.image);
+                    req.flash("success","profile is edited successfully")
                     res.redirect("/Users");
                 }
-            });
+            });/*
+          req.flash("success","what ??????????????");
+                    res.redirect("/Users");*/
         }
 
     });
@@ -230,45 +236,35 @@ UserController.Seed_all_users=function (req ,res,next) {
     var student_colleage_id;
 
 
-    for(var i=1;i<= studentsCount;i++) {
-        student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
+ for(var i=1;i<= studentsCount;i++) {
+    
+          student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);  
 
-        console.log(student_colleage_id);
+            User.findOne({collage_id:student_colleage_id},function(err,user){
+                      
+                console.log(student_colleage_id);
 
-      User.findOne({collage_id:student_colleage_id},function(err,user){
-
-
-               if(err){console.log(err);}
-               else if(user){
-
-                  console.log("user exits");
-               }else{
-
-                User.register(new User({
-                    username: student_colleage_id,
-                    collage_id: student_colleage_id,
-                    department_name:departemnt_name,
-                    year:year
-                    
-                }), "password", function (err,user) {
-                    if (err) {
+                       if(err){   
                         console.log(err);
-                        return res.render('Users/register');
-                    }
-                    else {
-                        /*
-                        Course.findOne(function(err,found_course){
-                            user.courses.push(found_course) ;
-                            user.save();
-                            found_course.student_registrated.push(user);
-                            found_course.save();
-                        });
-                         */
-                    }
-                   });
-               }
+                       
+                       }else if(user){
+
+                          console.log("user exits");
+
+                        }else{
+
+                           console.log("here3");
+
+                         User.register(new User({username: student_colleage_id,collage_id: student_colleage_id,department_name:departemnt_name, year:year}), "password", function (err,Reg_user) {
+                             if (err) {
+                               console.log(err);
+                                return res.render('Users/register');
+                            }else {}
+
+                                                    });
+                         }
       });   
-           
+        
     } 
        req.flash("success" , "Users Created");
        res.redirect("/Users");
@@ -291,7 +287,9 @@ UserController.addteacher_view=function (req,res,next) {
 UserController.createteachers=function(req,res,next){
 
     var useremail=req.body.email;
-     console.log(req.body.email);
+    var type = req.body.usertype;
+    
+     console.log(req.body.usertype);
     User.findOne({email:useremail},function(err,user){
         if(err){
             console.log(err);
@@ -306,13 +304,13 @@ UserController.createteachers=function(req,res,next){
                 User.register(new User({
                     username: useremail,
                     email:useremail,
-                    usertype:1
+                    usertype:type
                 }), "password", function (err, user) {
                     if (err) {
                         console.log(err);
                         next(err);
                     }else{
-                          req.flash("success","A Teacher is created");
+                          req.flash("success","A User is created");
                           res.redirect("/Users");
                     }
             

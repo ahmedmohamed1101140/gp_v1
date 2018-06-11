@@ -29,7 +29,7 @@ var UserSchema = new mongoose.Schema({
 
     image : {
         type: String,
-        default:"https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
+        default:"UserImage.png"
     },
     usertype :{
         type: Number,

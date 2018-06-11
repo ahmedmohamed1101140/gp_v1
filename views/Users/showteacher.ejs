@@ -22,7 +22,7 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" name="email" required placeholder="Email" value="<%= USER.email %>">
+                                        <input type="email" class="form-control" name="email" required placeholder="Email" value="<%= USER.email %>" required>
                                     </div>
                                 </div>
                             </div>
@@ -31,13 +31,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" name="firstname" placeholder="first name" value="<%=USER.firstname %>">
+                                        <input type="text" class="form-control" name="firstname" placeholder="first name" value="<%=USER.firstname %>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control"  name="lastname" placeholder="Last Name" value="<%=USER.lastname %>">
+                                        <input type="text" class="form-control"  name="lastname" placeholder="Last Name" value="<%=USER.lastname %>"required>
                                     </div>  
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Img URl</label>
-                                        <input  type="file" class="form-control"  placeholder="upload your image" name="my_image">
+                                        <input  type="file" class="form-control"  placeholder="upload your image" name="my_image" required>
                                     </div>
                                 </div>
                             </div>
@@ -101,11 +101,15 @@
                         <div class="author">
                             <a href="#">
                                 <h4 class="title"  style="text-align:center"><%= USER.firstname+" "+USER.lastname%><br />
-                                    <% if(USER.usertype==2){ %>
-                                    <small>Student</small>
-                                    <%}else if(USER.usertype==1){ %>
-                                    <small>instructor</small>
-                                    <%}else {%>
+                                    <% if(USER.usertype==1){ %>
+                                    <small> instructor </small>
+                                    <%}else if(USER.usertype==2){ %>
+                                    <small>Teacher Assistant</small>
+                                    <%}else if(USER.usertype==3){ %>
+                                        <small>Staff</small>
+                                     <%}else if(USER.usertype==4){ %>
+                                            <small>Student</small>
+                                        <%}else {%>
                                     <small>Admin</small>
                                     <%}%>
 
