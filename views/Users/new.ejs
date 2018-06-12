@@ -42,7 +42,7 @@
                                             <select  name="departemnt_name" id="basic" class="selectpicker show-tick form-control" data-live-search="true">
                                                 <% departments.forEach(function (department){ %>
 
-                                                <option value="sw"> <%=department.name+" "+department.key%> </option>
+                                                <option value="<%=department.key%>"> <%=department.name+" "+department.key%> </option>
 
                                                <% })%>
 

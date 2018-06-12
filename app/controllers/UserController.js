@@ -5,7 +5,9 @@ var upload_image = require("../../config/image-multer");
 var Course= require("../../models/course");
 const fs = require('fs');
 var UserController = {};
-
+var Users_to_be_add =[];
+ 
+Users_to_be_add.push(1222222222222222);
 
 UserController.register_view = function(req, res,next){
     res.render("Users/register");
@@ -227,44 +229,27 @@ UserController.addstudents_view=function (req,res,next) {
 // creating new  students
 UserController.Seed_all_users=function (req ,res,next) {
 
-
-    //var course ="5adc96a7fd49b762b840cc02";
     var departemnt_name= req.body.departemnt_name; //"sw";
     var studentsCount =req.body.studentscount;
     var year=req.body.year;
     var collage_serial =  req.body.collage_serial.toString(); //1709
     var student_colleage_id;
-
-
+    
+    //check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial);
+   
+    
  for(var i=1;i<= studentsCount;i++) {
     
           student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);  
-
-            User.findOne({collage_id:student_colleage_id},function(err,user){
-                      
-                console.log(student_colleage_id);
-
-                       if(err){   
-                        console.log(err);
-                       
-                       }else if(user){
-
-                          console.log("user exits");
-
-                        }else{
-
-                           console.log("here3");
-
-                         User.register(new User({username: student_colleage_id,collage_id: student_colleage_id,department_name:departemnt_name, year:year}), "password", function (err,Reg_user) {
-                             if (err) {
-                               console.log(err);
-                                return res.render('Users/register');
-                            }else {}
-
-                                                    });
-                         }
-      });   
+          console.log(student_colleage_id);
         
+           User.register(new User({username: student_colleage_id,collage_id: student_colleage_id,department_name:departemnt_name, year:year}), "password", function (err,Reg_user) {
+             if (err) {
+                 console.log(err);
+               //return res.render('Users/register');
+                 }
+                            });
+                    
     } 
        req.flash("success" , "Users Created");
        res.redirect("/Users");
@@ -278,6 +263,29 @@ function leftPad(number, targetLength) {
     }
     return output;
 }
+
+ function check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial){
+    
+    for(var i=1;i<=studentsCount;i++) {
+        student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
+              
+        User.findOne({collage_id:student_colleage_id },function(err,user){
+             
+            if(err){
+                console.log(err);
+            }
+            else if(user){
+               console.log("the repteaed ids"+user.collage_id);
+               Users_to_be_add.push(user.collage_id);
+            }
+        });
+      
+    } 
+      console.log("hreeee");
+      Users_to_be_add;
+ }
+ 
+
 
 UserController.addteacher_view=function (req,res,next) {
       
