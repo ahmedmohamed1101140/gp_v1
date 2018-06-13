@@ -39,6 +39,15 @@
                 Mails
             </a>
         </li>
+        <%if(!CurrentUSer) { %>
+        <% }else {%>
+            <li>
+                <a href="/users/<%=CurrentUSer._id%>/subscriptions">
+                    <i class="glyphicon glyphicon-user"></i>
+                    My subscriptions
+                </a>
+            </li>
+            <%}%>
     </ul>
 
 </nav>

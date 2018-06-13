@@ -353,6 +353,26 @@ UserController.upload_user_image = function(req,res,next){
     });
 };
 
+UserController.subscriptions = function(req,res,next){
+    
+        console.log(req.params.UserId);
+ 
+       User.findById(req.params.UserId).populate("groups").populate("courses").exec(function (err,foundUser) {
+         if(err){
+             console.log(err);
+         }
+         else if(foundUser) {
+               console.log("there is a user ");
+              res.render("Users/subscriptions",{user: foundUser});
+         }else{
+             console.log("there is no user");
+         }
+ 
+      });
+      
+ }
+
+
 
 module.exports = UserController;
 
