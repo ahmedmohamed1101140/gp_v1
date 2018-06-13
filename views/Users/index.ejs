@@ -4,10 +4,12 @@
      function ConfirmDelete()
     {
       var x = confirm("Are you sure you want to delete?");
-      if (x)
+      if (x){
           return true;
-      else
+      }else{
         return false;
+     }
+
     }
 
    </script>
@@ -67,7 +69,7 @@
             </td>
             <td><%=user.email%></td>
             <td>
-                   <form action="/Users/<%= user._id %>?_method=DELETE" onsubmit="ConfirmDelete()" method="POST">
+                   <form action="/Users/<%= user._id %>?_method=DELETE" on onsubmit="return ConfirmDelete()" method="POST">
                 <button style="display: inline-block" href="" type="submit" ><i class="glyphicon glyphicon-remove"></i></button>
                <!-- <button style=" display: inline-block" href="" type="submit" ><i class="glyphicon glyphicon-wrench"></i></button>-->
             

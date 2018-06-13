@@ -95,7 +95,11 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="image">
+                        <%if(USER.image){%>
                         <img src="/uploads/<%=USER.image%>" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="..."/>
+                        <%}else if(USER.image==null){ %>
+                        <img src="/userimage/user_male2-512.png" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="..."/>
+                        <%}%>
                     </div>
                     <div class="content">
                         <div class="author">

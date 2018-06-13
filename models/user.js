@@ -29,7 +29,7 @@ var UserSchema = new mongoose.Schema({
 
     image : {
         type: String,
-        default:"UserImage.png"
+        default:null
     },
     usertype :{
         type: Number,

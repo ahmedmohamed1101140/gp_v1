@@ -40,7 +40,8 @@ UserController.display_all_users= function (req,res,next) {
 }
 
 UserController.login_view =function(req, res) {
-    res.render("Users/login");
+   // res.render("Users/login");
+   res.render("Users/login2");
 
 }
 
@@ -53,7 +54,8 @@ UserController.logout = function(req, res){
 
 
 UserController.delete_user = function (req,res) {
-
+   
+    
         User.findByIdAndRemove({_id:req.params.UserId},function (err,user) {
             if(err){console.log(err);}
          else{
