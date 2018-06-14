@@ -3,6 +3,7 @@ var passport       =require('passport');
 var Department = require("../../models/department");
 var upload_image = require("../../config/image-multer");
 var Course= require("../../models/course");
+var Group = require("../../models/group");
 const fs = require('fs');
 var UserController = {};
 var Users_to_be_add =[];
@@ -411,20 +412,23 @@ UserController.upload_user_image = function(req,res,next){
 UserController.subscriptions = function(req,res,next){
     
         console.log(req.params.UserId);
- 
-       User.findById(req.params.UserId).populate("groups").populate("courses").exec(function (err,foundUser) {
-         if(err){
-             console.log(err);
-         }
-         else if(foundUser) {
-               console.log("there is a user ");
-              res.render("Users/subscriptions",{user: foundUser});
-         }else{
-             console.log("there is no user");
-         }
- 
-      });
-      
+        console.log("hello");
+  
+        Course.find({student_registrated:{$in:[req.params.UserId]}},function(err,mycourses){
+
+            console.log("da5el");
+           // console.log(mycoures);
+
+            if(err){console.log(err);
+            }
+            else if(mycourses.length>=1){
+
+                res.render("Users/subscriptions",{Mycourses:mycourses});
+            }
+
+        });
+                     
+  
  }
 
 

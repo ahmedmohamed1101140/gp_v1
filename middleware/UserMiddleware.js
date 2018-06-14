@@ -8,7 +8,7 @@ const jwt          =require("jsonwebtoken");
 
 middlewareObj.Pasport_auth= passport.authenticate("local", {
     failureRedirect: "/Users/login",
-    failureFlash: 'Invalid username or password.' 
+    failureFlash: 'Invalid username or password.' ,
 })
     
 middlewareObj.Pasport_auth_statelss= passport.authenticate("local", {session:false})

@@ -1,5 +1,4 @@
 <%include ../partials/header%>
-
 <style>
 hr{
     border-top: 1px solid #8c8b8b;
@@ -15,54 +14,55 @@ img{
 
 <h3>My Courses</h3>
 <hr>
-<div class="row">
-  <div class="col-sm-3 col-md-3">
-    <div class="thumbnail">
+<% Mycourses.forEach(function(course){ %>
+   <div style="display:inline-block; width:20%; margin:2.5%;" >
+     <div class="thumbnail" >
       <img src="/userimage/user_male2-512.png" alt="descrption ">
       <div class="caption">
-        <h3>Course Name</h3>
-        <p>descrption </p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+        <h3><%=course.name%></h3>
+        <p style="overflow:auto; height:100px; " ><%=course.description%></p>
+        <a href="/courses/<%course._id%>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
       </div>
     </div>
   </div>
-  <div class="col-sm-3 col-md-3">
-    <div class="thumbnail">
-    <img src="/userimage/user_male2-512.png" alt="descrption ">
-      <div class="caption">
-        <h3>Course Name</h3>
-        <p>descrption </p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-3 col-md-3">
-    <div class="thumbnail">
-    <img src="/userimage/user_male2-512.png" alt="descrption ">
-      <div class="caption">
-        <h3>Course Name</h3>
-        <p>descrption </p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-      </div>
-    </div>
-  </div>
+<%})%>
 
-</div> 
+<div style="display:inline-block; width:20%; margin:2.0%;" >
+    <div class="thumbnail" >
+     <img src="/userimage/user_male2-512.png" alt="descrption ">
+     <div class="caption">
+       <h3>name</h3>
+       <p style="overflow:auto; height:100px; " >description%</p>
+       <a href="/courses/group.id>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
+     </div>
+   </div>
+ </div>
+ <div style="display:inline-block; width:20%; margin:2.0%;" >
+    <div class="thumbnail" >
+     <img src="/userimage/user_male2-512.png" alt="descrption ">
+     <div class="caption">
+       <h3>name</h3>
+       <p style="overflow:auto; height:100px; " >description%</p>
+       <a href="/courses/group.id>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
+     </div>
+   </div>
+ </div>
+  
+
 
 <h3>My groups</h3>
 <hr>
-<div class="row">
-<div class="col-sm-3 col-md-3">
-    <div class="thumbnail">
-      <img src="/userimage/user_male2-512.png" alt="descrption ">
-      <div class="caption">
-        <h3>Course Name</h3>
-        <p>descrption </p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-      </div>
-    </div>
-  </div>
-</div>
+
+<div style="display:inline-block; width:20%; margin:2.5%;" >
+    <div class="thumbnail" >
+     <img src="/userimage/user_male2-512.png" alt="descrption ">
+     <div class="caption">
+       <h3>name</h3>
+       <p style="overflow:auto; height:100px; " >description%</p>
+       <a href="/courses/group.id>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
+     </div>
+   </div>
+ </div>
   
 
 
