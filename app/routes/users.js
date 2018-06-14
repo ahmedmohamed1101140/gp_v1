@@ -4,6 +4,8 @@
  var usercontroller = require("../controllers/UserController");
  var userware       = require("../../middleware/UserMiddleware");
  var  User          = require("../../models/user");
+ var  Courses        = require("../../models/course");
+ var  groups         = require("../../models/group");
  var passport       =require('passport');
 
 
@@ -55,7 +57,8 @@ router.put("/changepassword",usercontroller.change_old_password);
 router.put("/:UserId/password",usercontroller.change_old_password);
 
 
-
+//subscriptions 
+router.get("/:UserId/subscriptions",usercontroller.subscriptions);
 
 
 

@@ -5,7 +5,9 @@ var upload_image = require("../../config/image-multer");
 var Course= require("../../models/course");
 const fs = require('fs');
 var UserController = {};
-
+var Users_to_be_add =[];
+ 
+Users_to_be_add.push(1222222222222222);
 
 UserController.register_view = function(req, res,next){
     res.render("Users/register");
@@ -38,7 +40,8 @@ UserController.display_all_users= function (req,res,next) {
 }
 
 UserController.login_view =function(req, res) {
-    res.render("Users/login");
+   // res.render("Users/login");
+   res.render("Users/login2");
 
 }
 
@@ -76,7 +79,8 @@ UserController.GPA_view=function(req,res)
 
 
 UserController.delete_user = function (req,res) {
-
+   
+    
         User.findByIdAndRemove({_id:req.params.UserId},function (err,user) {
             if(err){console.log(err);}
          else{
@@ -98,8 +102,9 @@ UserController.redirector = function(req, res){
         else {
             if(user.changed==0){
                  if(user.usertype==4){ //student
+
                 res.render("Users/show" ,{USER:user});
-                 }else if(user.usertype==1){
+                 }else {
                     res.render("Users/showteacher" ,{USER:user});
                  }
 
@@ -120,9 +125,9 @@ UserController.show_profile = function (req,res) {
             console.log(err);
         }
         else {
-                if(user.usertype==4){ //student
+                if(user.usertype==4){ 
                 res.render("Users/show" ,{USER:user});
-                 }else if(user.usertype==1){
+                 }else{
                     res.render("Users/showteacher" ,{USER:user});
                  }
         }
@@ -143,18 +148,20 @@ UserController.edit_user=function (req,res,next) {  //done
     }
    
     User.findOne({username:req.body.username},function(err,user1){
-
+           
+         
          if(err){
              console.log("this an error"); 
             
-         }
-        else if(user1){
-
+         } 
+        else if(user1 && (req.user.username != req.body.username)){
+            console.log("here");
+             console.log(user1);
            const error= new Error ("this user name already exits");
             next(error);
 
         }else{
-           
+          
             User.findByIdAndUpdate({_id:req.params.UserId},updates_user,function (err,user) {
 
                 if(err){
@@ -163,9 +170,12 @@ UserController.edit_user=function (req,res,next) {  //done
                 }
                 else{
                     delete_file(user.image);
+                    req.flash("success","profile is edited successfully")
                     res.redirect("/Users");
                 }
-            });
+            });/*
+          req.flash("success","what ??????????????");
+                    res.redirect("/Users");*/
         }
 
     });
@@ -246,8 +256,6 @@ UserController.addstudents_view=function (req,res,next) {
 // creating new  students
 UserController.Seed_all_users=function (req ,res,next) {
 
-
-    var course ="5adc96a7fd49b762b840cc02";
     var departemnt_name= req.body.departemnt_name; //"sw";
     var studentsCount =req.body.studentscount;
     var year=req.body.year;
@@ -255,6 +263,7 @@ UserController.Seed_all_users=function (req ,res,next) {
     var student_colleage_id;
 
 
+/*
     for(var i=1;i<= studentsCount;i++) {
      console.log(i);
         student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
@@ -281,6 +290,26 @@ UserController.Seed_all_users=function (req ,res,next) {
     }
     req.flash("success" , "Users Created");
     res.redirect("/Users");
+=======
+    */
+    //check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial);
+   
+    
+ for(var i=1;i<= studentsCount;i++) {
+    
+          student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);  
+          console.log(student_colleage_id);
+        
+           User.register(new User({username: student_colleage_id,collage_id: student_colleage_id,department_name:departemnt_name, year:year}), "password", function (err,Reg_user) {
+             if (err) {
+                 console.log(err);
+               //return res.render('Users/register');
+                 }
+                            });
+                    
+    } 
+       req.flash("success" , "Users Created");
+       res.redirect("/Users");
  }
 
 
@@ -292,6 +321,29 @@ function leftPad(number, targetLength) {
     return output;
 }
 
+ function check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial){
+    
+    for(var i=1;i<=studentsCount;i++) {
+        student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
+              
+        User.findOne({collage_id:student_colleage_id },function(err,user){
+             
+            if(err){
+                console.log(err);
+            }
+            else if(user){
+               console.log("the repteaed ids"+user.collage_id);
+               Users_to_be_add.push(user.collage_id);
+            }
+        });
+      
+    } 
+      console.log("hreeee");
+      Users_to_be_add;
+ }
+ 
+
+
 UserController.addteacher_view=function (req,res,next) {
       
     res.render("Users/newteacher");
@@ -300,14 +352,16 @@ UserController.addteacher_view=function (req,res,next) {
 UserController.createteachers=function(req,res,next){
 
     var useremail=req.body.email;
-     console.log(req.body.email);
+    var type = req.body.usertype;
+    
+     console.log(req.body.usertype);
     User.findOne({email:useremail},function(err,user){
         if(err){
             console.log(err);
             next(err);
         }else{
             
-            if(user.length >=1){
+            if(user){
                 req.flash("error" ,"this emial already exists");
                 return res.redirect("back");
              }else{
@@ -315,13 +369,13 @@ UserController.createteachers=function(req,res,next){
                 User.register(new User({
                     username: useremail,
                     email:useremail,
-                    usertype:1
+                    usertype:type
                 }), "password", function (err, user) {
                     if (err) {
                         console.log(err);
                         next(err);
                     }else{
-                          req.flash("success","A Teacher is created");
+                          req.flash("success","A User is created");
                           res.redirect("/Users");
                     }
             
@@ -354,6 +408,26 @@ UserController.upload_user_image = function(req,res,next){
     });
 };
 
+UserController.subscriptions = function(req,res,next){
+    
+        console.log(req.params.UserId);
+ 
+       User.findById(req.params.UserId).populate("groups").populate("courses").exec(function (err,foundUser) {
+         if(err){
+             console.log(err);
+         }
+         else if(foundUser) {
+               console.log("there is a user ");
+              res.render("Users/subscriptions",{user: foundUser});
+         }else{
+             console.log("there is no user");
+         }
+ 
+      });
+      
+ }
+
+
 
 module.exports = UserController;
 
@@ -372,3 +446,4 @@ delete_file = function (file) {
         });
     });
 };
+
