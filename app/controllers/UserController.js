@@ -49,6 +49,31 @@ UserController.logout = function(req, res){
     res.redirect("/Users/login");
 }
 
+UserController.GPA_view=function(req,res)
+{
+
+  User.findById(req.params.UserId,function (err,user) {
+            if(err){
+                console.log(err);
+                req.flash("failed","User not found");
+            }
+         else{
+             Course.find(function(err,courses){
+                 if(err)
+                 {
+                    req.flash("failed","No Courses Found");
+                 }
+                 else
+                 {
+
+                    res.render("Users/GPA",{user:user,courses:courses});
+
+                 }
+             })           
+         }
+    });
+}
+
 
 UserController.delete_user = function (req,res) {
 
@@ -248,13 +273,9 @@ UserController.Seed_all_users=function (req ,res,next) {
                 return res.render('Users/register');
             }
             else {
-                Course.findOne(function(err,found_course){
-                    user.courses.push(found_course) ;
-                    user.save();
-                    found_course.student_registrated.push(user);
-                    found_course.save();
-          
-                });
+               
+                user.save();
+
             }
         });
     }

@@ -52,6 +52,14 @@ router.put("/:course_id/editpercentage"
 , coursecontroller.put_percentage
 
 );
+router.get("/:course_id/addstudent"
+, coursecontroller.add_student
+
+);
+router.put("/:course_id/addstudent"
+, coursecontroller.put_student
+
+);
 router.put("/:course_id/editgrades/:student_id"
 , coursecontroller.put_student_grades
 

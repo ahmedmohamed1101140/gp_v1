@@ -2,7 +2,7 @@ const fs = require('fs');
 var upload_file = require("../../config/file-multer");
 var Announcement       = require("../../models/announcement");
 var Course=       require("../../models/course");
-
+var User=        require("../../models/user");
 var announcementController = {};
 
 announcementController.show = function (req, res){
@@ -60,6 +60,9 @@ announcementController.new_announcement_announcement =function(req,res){
 
         } 
         else{     
+            
+
+            
              var announcement = new Announcement({
                 name: req.body.announcement_name,
                 description:req.body.announcement_description,

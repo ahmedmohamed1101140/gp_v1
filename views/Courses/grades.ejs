@@ -39,12 +39,12 @@
                                     <td><%=user._id.toString()%> <a href="/courses/<%=course._id%>/editgrades/<%=user._id%>"<span class="glyphicon glyphicon-pencil"></span></a>  </td>
                                     <td>ramy</td>
                             
-                        <%course.yearwork.forEach(function(grade){%>
-                        <%Course.grade.forEach(function(student_grade){%>
-                            <%if(student_grade.name==grade.name){%>
-                                <td>
-                                        <%=student_grade.gradescore%>
-                                        <%totalstudentgrade=totalstudentgrade+(student_grade.gradescore*grade.precentage)/grade.totalgradescore%>
+                            <%course.yearwork.forEach(function(grade){%>
+                            <%Course.grade.forEach(function(student_grade){%>
+                                <%if(student_grade.name==grade.name){%>
+                                    <td>
+                                            <%=student_grade.gradescore%>
+                                            <%totalstudentgrade=totalstudentgrade+(student_grade.gradescore*grade.precentage)/grade.totalgradescore%>
 
                                         
                                     </td>

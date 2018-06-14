@@ -4,6 +4,9 @@ var upload_file = require("../../config/file-multer");
 var Course = require("../../models/course");
 var department = require("../../models/department");
 var User=require("../../models/user")
+var Groups=require("../../models/group")
+
+
 var CourseController = {};
 var DepartmentController={}
 //GET --view all courses
@@ -29,7 +32,6 @@ CourseController.get_course = function (req ,res ,next) {
         }
         else {
             if(found_course){
-                console.log(found_course);
                 // rednder the page
                 res.render("Courses/show",{course:found_course});
             }
@@ -49,7 +51,6 @@ CourseController.get_course_info = function (req ,res ,next) {
         }
         else {
             if(found_course){
-                console.log(found_course);
                 // rednder the page
                 res.render("Courses/info",{course:found_course});
             }
@@ -668,15 +669,8 @@ CourseController.create_new_course = function(req,res,next){
         }
         else {
             if(found_department){
-                console.log(found_department);
-                console.log("wasl");
-
-                // rednder the page
-                
-                departments.push(found_department._id)
-                console.log( departments[0]);
-                console.log( departments[1]);
-
+               departments.push(found_department._id)
+            
             }
             else {
                 res.status(404).json({
@@ -687,8 +681,7 @@ CourseController.create_new_course = function(req,res,next){
     });
  }
     setTimeout(function(){
-      
-
+    
         var course = new Course({
             name: req.body.course_name,
             type: req.body.course_type,
@@ -710,12 +703,7 @@ CourseController.create_new_course = function(req,res,next){
         }
         
         );
-        console.log(course);
-    console.log("23");
-    
-    
-    
-    console.log("44");
+   
     
         //3- save the course
         Course.create(course,function (err,newCourse) {
@@ -734,17 +722,14 @@ CourseController.create_new_course = function(req,res,next){
 CourseController.display_update_form = function(req,res,next){
     
     Course.findById(req.params.course_id,function(err,course){
-        console.log("stage1");
 
         if(err){
             console.log(err);
         }
         else{
-            console.log("stage2");
 
 
             department.find(function(err,departments){
-                console.log("stage3");
 
                 if(err){
                     console.log(err);
@@ -763,7 +748,6 @@ CourseController.display_update_form = function(req,res,next){
     
     
     
-                            console.log("wasl");
     
                             res.render("Courses/edit",{departments : departments,course : course,users:users,courses:courses});      
 
@@ -778,28 +762,27 @@ CourseController.display_update_form = function(req,res,next){
 };
 //PUT --update specific course data
 CourseController.update_course = function (req ,res, next) {
-   
+
     Course.findById(req.params.course_id , function (err, found_course) {
         if(err){
             console.log(err);
         }
         else{
             if(found_course){
+                
+
                 var departments=[];
                 var dep_id = req.body.course_departments.split(",");
        for(var i=0;i<dep_id.length-1;i++){
            department.findById(dep_id[i],function (err , found_department) {
-              console.log(dep_id[i]);
 
         if(err){
             console.log(err);
         }
         else {
             if(found_department){
-              
-
-                // rednder the page
                 
+                // rednder the page          
                 departments.push(found_department._id)
             }
             else {
@@ -907,3 +890,134 @@ delete_file = function (file) {
 
     
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CourseController.add_student=function(req,res,next){
+    Course.findById(req.params.course_id,function (err , found_course) {
+        if(err){
+            console.log(err);
+        }
+        else {
+            if(found_course){
+                
+                    department.find().select("name").exec(function(err,departments){
+                        if(err){
+                            console.log(err.message);
+                            req.flash("error" , "Sorry Server Error!");
+                            res.redirect("/mails");
+                        }
+                        else{
+                            User.find().select('id').exec(function(err,users){
+                                if(err){
+                                    console.log(err.message);
+                                    req.flash("error" , "Sorry Server Error!");
+                                    res.redirect("/mails");
+                                }
+                                else{
+                                    Groups.find().select("name").exec(function(err,groups){
+                                        if(err){
+                                            console.log(err.message);
+                                            req.flash("error" , "Sorry Server Error!");
+                                            res.redirect("/mails");
+                                        }
+                                        else{
+                                            res.render("Courses/addstudents",{ course:found_course,departments:departments , users:users , groups:groups});
+                                        }
+                                    });    
+                                }
+                            });
+                        }
+                    
+                     // rednder the page   
+                }) 
+            }
+        }
+      
+    });
+}
+CourseController.put_student=function(req,res,next){
+    Course.findById(req.params.course_id,function(err,found_course){
+    if(err)
+    {
+        console.log(err);
+    }
+    else
+    {
+     if(found_course)
+     
+        { var arr=[]
+          
+                       var bool =false
+                        req.body.recivers.forEach(element => {
+                            console.log(element)  
+                            User.find(function(err,users){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                
+                                    users.forEach(function(person)
+                                    {
+
+                                        
+                                       if(person._id.toString()==element)
+                                       {
+                                           
+                                       person.courses.push(found_course) 
+                                       arr.push(person._id);
+
+                                       console.log("here")
+
+                                        person.save();
+                                       }
+                                       
+
+                                    })
+                                  
+                                }
+                          })
+                      });  
+                      
+                      
+
+                     setTimeout(function(){ 
+                          arr.forEach(function(ele)
+                          {
+                          found_course.student_registrated.push(ele.toString())
+                        })
+
+                        found_course.save()},4200)
+
+                     
+                                req.flash("success" , "attendance edited");
+                                res.redirect("/courses/"+req.params.course_id+"/attendance"); 
+                            
+
+                       
+                         
+                           
+                    }
+                    
+                      
+                else
+                        {
+                            req.flash("failed" , "attendance not edited");
+                            res.redirect("/courses/"+req.params.course_id); 
+                        }
+                    }
+                })
+}

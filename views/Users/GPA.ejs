@@ -1,0 +1,154 @@
+<%include ../partials/header%>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+                <% var season_arr=["Spring","Summer","Winter","Fall"]%>
+                    <%var counter=0%>
+                    <%var total_gpaXhours=0%>
+                    <%var total_hours=0%>        
+                <!-- First Blog Post -->
+               <% for (year =(new Date().getFullYear()).toString() ; year>user.year.toString()-1; year--) { %>
+
+                <% for (season =0; season<3; season++) { %>
+                  <%  var found="false"%>
+                   <% user.courses.forEach(function(course){%>
+                      <%  if(course.year==year&&course.season==season_arr[season]){%>
+                          <% found="true" } %>
+                      <%  })%>
+                       
+                   <% if(found=="true"){  %>
+
+               <div class="panel panel-primary" style="border-bottom-style:none">
+                    <div class="panel-heading clearfix">
+                            <h3 class="panel-title " style="display:inline-block" ><%=season_arr[season]+" "+year%>  </h3>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block; float:right">
+                                show 
+                              </button>
+                          </div> 
+                        <div style="border-bottom-style:ridge; border-color:cadetblue;border-width:thin  ">
+                              <!--  <div class="panel-body" style="display : inline-block; margin-right:150px ;width:250px;  max-width:250px; "></div>-->                          
+                                         <div class="collapse" id="collapseExample<%=counter%>">
+                                        <div class="card card-body" style="margin-left:10px">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Course</th>
+                                                    <th>Grade</th>
+                                                    <th>GPA</th>
+                                                    <th>Weight</th>
+                                                    <th>Hours</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                            <%var total_semster_gpaXhours=0%>
+                                            <%var total_semster_hours=0%>
+                                         <%user.courses.forEach(function(course){%>
+                                         <%  if(course.year==year&&course.season==season_arr[season]){%>
+                                             <%var totalstudentgrade=0%>
+                                             <%var course_gpa=0%>
+                                             <%var course_weight=""%>
+                                             <%courses.forEach(function(course_info){%>
+                                             
+                                                 <%if(course_info._id.toString()==course._id.toString()){%>
+                                                 
+                                                    <%course_info.yearwork.forEach(function(grade){%>
+                                          
+                                                        <%course.grade.forEach(function(student_grade){%>
+                                                            <%if(student_grade.name==grade.name){%> 
+                                                             <%totalstudentgrade=totalstudentgrade+(student_grade.gradescore*grade.precentage)/grade.totalgradescore%>
+                                                             <%}%>
+                                                         <%});%>
+                                                     <%});%>
+
+                                                 <%if(totalstudentgrade>=90){ %>
+
+                                                    <%course_gpa=4.00%>
+                                                    <%course_weight="A"%>
+
+                                                    <%  } else if(totalstudentgrade>=85) { %>
+
+                                                        <%course_gpa=3.7%>
+                                                        <%course_weight="-A"%>
+
+                                                        <%  } else if(totalstudentgrade>=80) { %>
+
+                                                            <%course_gpa=3.0%>
+                                                            <%course_weight="B"%>
+
+                                                            <%  } else if(totalstudentgrade>=75) { %>
+
+                                                                <%course_gpa=2.7%>
+                                                                <%course_weight="-B"%>
+
+                                                                <%  } else if(totalstudentgrade>=70) { %>
+
+                                                                    <%course_gpa=2.0%>
+                                                                    <%course_weight="C"%>
+
+                                                                    <%  } else if(totalstudentgrade>=65) { %>
+                                                                        
+                                                                        <%course_gpa=1.7%>
+                                                                        <%course_weight="-C"%>
+
+                                                                        <%  } else if(totalstudentgrade>=60) { %>
+                                                                            <%course_gpa=1.5%>
+                                                                            <%course_weight="D"%>
+
+                                                                            <%  } else if(totalstudentgrade>=50) { %>
+                                                                                <%course_gpa=1.0%>
+                                                                                <%course_weight="-D"%>
+
+                                                                                <%  } else if(totalstudentgrade < 50) { %>
+                                                                                    <%course_gpa=0.0%>
+                                                                                    <%course_weight="F"%>
+                                                                                        <%}%>
+
+                                                                                        <tr>
+                                                                                            <td><%=course_info.name%></td>
+                                                                                            <td><%=totalstudentgrade%></td>
+                                                                                            <td> <%=course_gpa%></td>
+                                                                                            <td> <%=course_weight%></td>
+                                                                                            <td> <%=course_info.hours%></td>
+
+
+                                                                                            
+                                                                                        </tr>
+                                                                        <% total_semster_gpaXhours=total_semster_gpaXhours+(course_info.hours*course_gpa)%>
+                                                                        <% total_gpaXhours=total_gpaXhours+(course_info.hours*course_gpa)%>
+                                                                        <% total_semster_hours=course_info.hours+total_semster_hours%>
+                                                                        <% total_hours=course_info.hours+total_hours%>
+
+                                                                <% }%>
+                                                             <% })%>  
+                                                             <%}%>
+                                                          <% })%>   
+                                                </tbody>
+                                              </table>
+                                            <footer class="blockquote-footer"><h3>Total Semster GPA : <%=(total_semster_gpaXhours/total_semster_hours).toFixed(2)%>  </h3> <cite title="Source Title"><p></p></cite></footer>
+                                     </div>
+                                </div>
+                              <% counter=counter+1 %>
+                         </div> 
+                        
+                             
+                     </div> 
+                     <%}%>
+                     <%}%>
+                     <%}%>
+                     <div>
+                            <h3 style="float:right;">Total GPA : <%=(total_gpaXhours/total_hours).toFixed(2)%></h3>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <script>
+        $('.collapse').collapse()
+        </script>
+        <!-- /.row -->
+<%include ../partials/footer%>

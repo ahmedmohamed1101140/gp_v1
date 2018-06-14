@@ -57,6 +57,8 @@ var UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"course",  }
         ,
+        year:{type:Number,default:2014},
+        season:{type:String,default:"Spring"},
         attendance:[{
             attendancetype:{ type: String},
             number:{ type: Number},

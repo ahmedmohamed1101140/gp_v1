@@ -40,16 +40,13 @@ router.get("/createstudents",usercontroller.addstudents_view);
      ,usercontroller.createteachers
  );
 
-
-
 //Deleting USERS
  router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); // just for testing tested
  router.delete("/:UserId",usercontroller.delete_user);
-
-
  //Show Profile
  router.get("/profile",usercontroller.show_profile);
-
+ // show GPA
+ router.get("/:UserId/GPA",usercontroller.GPA_view);
  //Edit User info
  router.put("/:UserId",usercontroller.upload_user_image,usercontroller.edit_user);
 
