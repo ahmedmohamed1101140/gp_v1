@@ -55,7 +55,7 @@ var UserSchema = new mongoose.Schema({
         {
         id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"course",  }
+        ref:"courses",  }
         ,
         year:{type:Number,default:2014},
         season:{type:String,default:"Spring"},

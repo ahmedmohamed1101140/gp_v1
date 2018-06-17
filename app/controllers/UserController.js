@@ -3,11 +3,11 @@ var passport       =require('passport');
 var Department = require("../../models/department");
 var upload_image = require("../../config/image-multer");
 var Course= require("../../models/course");
+var Group = require("../../models/group");
 const fs = require('fs');
+var async =require('async');
 var UserController = {};
-var Users_to_be_add =[];
- 
-Users_to_be_add.push(1222222222222222);
+
 
 UserController.register_view = function(req, res,next){
     res.render("Users/register");
@@ -317,55 +317,68 @@ UserController.Seed_all_users=function (req ,res,next) {
     var year=req.body.year;
     var collage_serial =  req.body.collage_serial.toString(); //1709
     var student_colleage_id;
+   // check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial);
 
 
-/*
-    for(var i=1;i<= studentsCount;i++) {
-     console.log(i);
-        student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
 
-        console.log(student_colleage_id);
-
-        User.register(new User({
-            username: student_colleage_id,
-            collage_id: student_colleage_id,
-            department_name:departemnt_name,
-            year:year
-            
-        }), "password", function (err,user) {
-            if (err) {
-                console.log(err);
-                return res.render('Users/register');
-            }
-            else {
-               
-                user.save();
-
-            }
-        });
-    }
-    req.flash("success" , "Users Created");
-    res.redirect("/Users");
-=======
-    */
-    //check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial);
+    var Users_to_be_add =[];  
    
-    
- for(var i=1;i<= studentsCount;i++) {
-    
-          student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);  
-          console.log(student_colleage_id);
-        
-           User.register(new User({username: student_colleage_id,collage_id: student_colleage_id,department_name:departemnt_name, year:year}), "password", function (err,Reg_user) {
-             if (err) {
-                 console.log(err);
-               //return res.render('Users/register');
-                 }
-                            });
-                    
-    } 
-       req.flash("success" , "Users Created");
-       res.redirect("/Users");
+    for(var i=1;i<=studentsCount;i++) {
+        student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
+        Users_to_be_add.push(student_colleage_id);
+    }
+   
+    var filtered_usercollage_ids=[];
+
+       async.each(Users_to_be_add, function(usercollage_id, done){
+        User.findOne({collage_id:usercollage_id },function(err,user){
+            if(err){
+                console.log(err);
+            }
+            else if(user){
+               console.log("the repteaed ids " + user.collage_id);  
+
+            }else if(!user){
+
+                filtered_usercollage_ids.push(usercollage_id);
+            }
+            done();
+        })
+    },function(err){
+
+        if(err){console.log(err);}
+ 
+           if(filtered_usercollage_ids.length>=1){
+
+            console.log(filtered_usercollage_ids);
+
+        filtered_usercollage_ids.forEach(function(usercid){
+
+            User.register(new User({
+                username: usercid,
+                collage_id: usercid,
+                department_name:departemnt_name,
+                year:year
+                
+            }), "password", function (err,user) {
+                if (err) {
+                    console.log(err);
+                    return res.render('Users/register');
+                }
+                else {
+               //
+                }
+            });
+
+        });
+
+    }
+     
+    req.flash("success" , "Users Created");
+   return res.redirect("/Users");
+ 
+    });
+   
  }
 
 
@@ -378,25 +391,62 @@ function leftPad(number, targetLength) {
 }
 
  function check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial){
-    
+    var Users_to_be_add =[];  
+   
     for(var i=1;i<=studentsCount;i++) {
         student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
-              
-        User.findOne({collage_id:student_colleage_id },function(err,user){
-             
+        Users_to_be_add.push(student_colleage_id);
+    }
+   
+    var filtered_usercollage_ids=[];
+
+       async.each(Users_to_be_add, function(usercollage_id, done){
+        User.findOne({collage_id:usercollage_id },function(err,user){
             if(err){
                 console.log(err);
             }
             else if(user){
-               console.log("the repteaed ids"+user.collage_id);
-               Users_to_be_add.push(user.collage_id);
+               console.log("the repteaed ids "+user.collage_id);  
+            }else if(!user){
+                filtered_usercollage_ids.push(usercollage_id);
             }
+            done();
+        })
+    },function(err){
+
+        
+        filtered_usercollage_ids.forEach(function(usercid){
+
+            User.register(new User({
+                username: usercid,
+                collage_id: usercid,
+                department_name:departemnt_name,
+                year:year
+                
+            }), "password", function (err,user) {
+                if (err) {
+                    console.log(err);
+                    return res.render('Users/register');
+                }
+                else {
+                   
+                    user.save();
+    
+                }
+            });
+
         });
-      
-    } 
-      console.log("hreeee");
-      Users_to_be_add;
+
+     
+    req.flash("success" , "Users Created");
+   return res.redirect("/Users");
+
+
+    } );
+
  }
+
+ 
  
 
 
@@ -467,20 +517,23 @@ UserController.upload_user_image = function(req,res,next){
 UserController.subscriptions = function(req,res,next){
     
         console.log(req.params.UserId);
- 
-       User.findById(req.params.UserId).populate("groups").populate("courses").exec(function (err,foundUser) {
-         if(err){
-             console.log(err);
-         }
-         else if(foundUser) {
-               console.log("there is a user ");
-              res.render("Users/subscriptions",{user: foundUser});
-         }else{
-             console.log("there is no user");
-         }
- 
-      });
-      
+        console.log("hello");
+  
+        Course.find({student_registrated:{$in:[req.params.UserId]}},function(err,mycourses){
+
+            console.log("da5el");
+           // console.log(mycoures);
+
+            if(err){console.log(err);
+            }
+            else if(mycourses.length>=1){
+
+                res.render("Users/subscriptions",{Mycourses:mycourses});
+            }
+
+        });
+                     
+  
  }
 
 
