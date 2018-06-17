@@ -23,15 +23,18 @@
                           <%if(lesson.type=="lecture Work") { %>
                          
                         <div style="border-bottom-style:ridge; border-color:cadetblue;border-width:thin  ">
-                                <div class="panel-body" style="display : inline-block; margin-right:150px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
-                                <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;" download >download</a>
-                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block;">
+                                <div class="panel-body" style="display : inline-block; margin-right:50px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
+                                <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px" download >download</a>
+                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block;float:right;margin-top:10px;margin-right:10px">
                                         show more
-                                      </button>                               
-                                 <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;">edit</a>
-                                 <form style="display:inline-block;" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
+                                      </button> 
+                                      <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>                              
+                                 <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px">edit</a>
+                                 <form style="display:inline-block;float:right;margin-top:10px;margin-right:10px" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
                                     <button class="btn btn-danger">Delete</button>
-                                </form>                                <div class="collapse" id="collapseExample<%=counter%>">
+                                </form>
+                                <%}%>                                
+                                <div class="collapse" id="collapseExample<%=counter%>">
                                         <div class="card card-body" style="margin-left:10px">
                                          <p><%=lesson.description%></p>
                                             <footer class="blockquote-footer"><p>BY : <%=lesson.upload_user%> </p> <cite title="Source Title"><p><%=lesson.upload_date%></p></cite></footer>
@@ -52,15 +55,17 @@
                           <%lesson.forEach(function (lesson){%> 
                             <%if(lesson.type=="Lab Work") { %>
                         <div style="border-bottom-style:ridge; border-color:cadetblue;border-width:thin  ">
-                                <div class="panel-body" style="display : inline-block;margin-right:150px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
-                                <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;" download >download</a>
-                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block; ">
-                                        show more
-                                      </button>                               
-                                 <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;">edit</a>
-                                 <form style="display:inline-block;" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
-                                    <button class="btn btn-danger">Delete</button>
-                                </form>         
+                          <div class="panel-body" style="display : inline-block; margin-right:50px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
+                          <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px" download >download</a>
+                          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block;float:right;margin-top:10px;margin-right:10px">
+                                  show more
+                                </button> 
+                                <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>                              
+                           <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px">edit</a>
+                           <form style="display:inline-block;float:right;margin-top:10px;margin-right:10px" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
+                              <button class="btn btn-danger">Delete</button>
+                          </form>
+                          <%}%>   
                             
                                 <div class="collapse" id="collapseExample<%=counter%>">
                                         <div class="card card-body" style="margin-left:10px">
@@ -83,15 +88,17 @@
                           <%lesson.forEach(function (lesson){%> 
                             <%if(lesson.type=="Exams") { %>
                         <div style="border-bottom-style:ridge; border-color:cadetblue;border-width:thin  ">
-                                <div class="panel-body" style="display : inline-block;margin-right:150px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
-                                <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;" download >download</a>
-                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block;">
-                                        show more
-                                      </button>                               
-                                 <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;">edit</a>
-                                 <form style="display:inline-block;" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
-                                    <button class="btn btn-danger">Delete</button>
-                                </form>
+                          <div class="panel-body" style="display : inline-block; margin-right:50px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
+                          <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px" download >download</a>
+                          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block;float:right;margin-top:10px;margin-right:10px">
+                                  show more
+                                </button> 
+                                <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>                              
+                           <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px">edit</a>
+                           <form style="display:inline-block;float:right;margin-top:10px;margin-right:10px" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
+                              <button class="btn btn-danger">Delete</button>
+                          </form>
+                          <%}%>   
                                  <div class="collapse" id="collapseExample<%=counter%>">
                                         <div class="card card-body" style="margin-left:10px">
                                          <p><%=lesson.description%></p>
@@ -113,15 +120,18 @@
                             <%if(lesson.type=="Others") { %>
                          
                         <div style="border-bottom-style:ridge; border-color:cadetblue;border-width:thin  ">
-                                <div class="panel-body" style="display : inline-block; margin-right:150px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
-                                <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;" download >download</a>
-                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block;">
-                                        show more
-                                      </button>                               
-                                 <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;">edit</a>
-                                 <form style="display:inline-block;" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
-                                    <button class="btn btn-danger">Delete</button>
-                                </form>                                <div class="collapse" id="collapseExample<%=counter%>">
+                          <div class="panel-body" style="display : inline-block; margin-right:50px ;width:250px;  max-width:250px; "><%=lesson.name%></div>
+                          <a href="/uploads/<%=lesson.file%>"  class="btn btn-success  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px" download >download</a>
+                          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=counter%>" aria-expanded="false" aria-controls="collapseExample"style="display : inline-block;float:right;margin-top:10px;margin-right:10px">
+                                  show more
+                                </button> 
+                                <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>                              
+                           <a href="/courses/<%=course_id%>/<%=lesson._id%>/lesson/edit" class="btn btn-warning  "style="display : inline-block;float:right;margin-top:10px;margin-right:10px">edit</a>
+                           <form style="display:inline-block;float:right;margin-top:10px;margin-right:10px" action="/courses/<%=course_id%>/<%=lesson._id%>?_method=DELETE" method="POST">
+                              <button class="btn btn-danger">Delete</button>
+                          </form>
+                          <%}%>            
+                                   <div class="collapse" id="collapseExample<%=counter%>">
                                         <div class="card card-body" style="margin-left:10px">
                                          <p><%=lesson.description%></p>
                                             <footer class="blockquote-footer"><p>BY : <%=lesson.upload_user%> </p> <cite title="Source Title"><p><%=lesson.upload_date%></p></cite></footer>
@@ -137,6 +147,8 @@
               
 
                 </div>
+                <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>
+
                 <div class="col-md-4">
                         <div class="card text-center pull-center" style="width: 18rem;margin-left:70px" >
                             <div class="card-body">
@@ -145,10 +157,8 @@
                               <a href="/courses/<%=course_id%>/lesson/new" class="btn btn-info">Add content</a>
                             </div>
                         </div>
-
-
-
                 </div>
+                <%}%>
             </div>
 
         </div>

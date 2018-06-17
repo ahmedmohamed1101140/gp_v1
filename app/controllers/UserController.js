@@ -76,8 +76,64 @@ UserController.GPA_view=function(req,res)
          }
     });
 }
+UserController.My_Attendance=function(req,res)
+{
+
+  User.findById(req.params.UserId,function (err,user) {
+            if(err){
+                console.log(err);
+                req.flash("failed","User not found");
+            }
+         else{
+            Course.findById(req.params.CourseId,function(err,course){
+                if(err)
+                {
+                   req.flash("failed","No Courses Found");
+                }
+                else
+                {
+                     
+                       
+                           res.render("Users/myattendance",{course:course,user:user});
+                       
+                   
 
 
+                }
+            })   
+        }        
+    });
+}
+UserController.My_grade=function(req,res)
+{
+  User.findById(req.params.UserId,function (err,user) {
+            if(err){
+                console.log(err);
+                req.flash("failed","User not found");
+            }
+         else{
+
+             Course.findById(req.params.CourseId,function(err,course){
+                 if(err)
+                 {
+                    req.flash("failed","No Courses Found");
+                 }
+                 else
+                 {
+                     user.courses.forEach(function(user_course)     
+                    {     
+                        if(user_course._id.toString()==course._id.toString())
+                        { 
+                            res.render("Users/mygrade",{user_course:user_course,course:course,user:user});
+                        }
+                    })
+
+
+                 }
+             })           
+         }
+    });
+}
 UserController.delete_user = function (req,res) {
    
     

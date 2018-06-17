@@ -34,9 +34,8 @@
             </div>
             <div class="row">
                     <div class="form-group col-md-12  ">
-                 <label for="froala-editor">Course Description</label>  
-                   <textarea id="froala-editor" name="course_description"  class="form-control" rows="6" required="required"></textarea>
-                    
+                 <label for="summernote">Course Description</label>  
+                   <textarea id="summernote" name="course_description" class="form-control" required="required"></textarea>
                 </div>
             </div>
             <div class="row">
@@ -45,8 +44,10 @@
                             <div class="form-group">
                                     <select class="selectpicker" name="course_main_professor"  data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" title="Professor Name" >
                                     <optgroup label="Users">
-                                        <% users.forEach(function (user) { %>                                                       
-                                            <option><%= user.username %></option>
+                                        <% users.forEach(function (user) { %>  
+                                            <%if(user.usertype===1||user.usertype===2){%>                                                   
+                                            <option value="<%=user._id%>"> <%= user.firstname+" "+user.lastname %></option>
+                                            <%}%>
                                         <% }); %>
                                     </optgroup>
                                   
@@ -60,10 +61,11 @@
                                        <select class="selectpicker" name="course_helper_professor" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" required="required">
                                            <optgroup label="Users">
                                                <% users.forEach(function (user) { %>                                                       
-                                                   <option><%= user.username %></option>
-                                               <% }); %>
+                                                <%if(user.usertype===1||user.usertype===2){%>                                                   
+                                                    <option value="<%=user._id%>"> <%= user.firstname+" "+user.lastname %></option>
+                                                    <%}%>
+                                              <% }); %>
                                            </optgroup>
-                                         
                                            </select>
                                    </div>
                                </div>
@@ -80,15 +82,13 @@
                     <select class="selectpicker" name="course_dependencies" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
                     <optgroup label="courses">
                         <% courses.forEach(function (course) { %>                                                       
-                            <option><%= course.name %></option>
+                            <option value="<%=course._id%>"><%= course.name %></option>
                         <% }); %>
                     </optgroup>
                   
                     </select>
                 </div>
             </div>
-        
-
             </div>
             <div class="row">
             <div class="form-group col-md-4 " >

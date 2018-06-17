@@ -49,6 +49,12 @@ router.get("/createstudents",usercontroller.addstudents_view);
  router.get("/profile",usercontroller.show_profile);
  // show GPA
  router.get("/:UserId/GPA",usercontroller.GPA_view);
+ router.get("/:CourseId/:UserId/mygrade",usercontroller.My_grade);
+ router.get("/:CourseId/:UserId/myattendance",usercontroller.My_Attendance);
+
+
+
+ 
  //Edit User info
  router.put("/:UserId",usercontroller.upload_user_image,usercontroller.edit_user);
 

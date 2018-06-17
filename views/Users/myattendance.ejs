@@ -2,40 +2,7 @@
 
 <div class="container">
 
-    <form action="/courses/<%=course._id%>/attendance?_method=PUT" method="POST">
-        <div class="form-row"> 
-            <div class="col-md-5">
-            <label>Select students attend</label>
-            <div class="form-group">
-                    <select class="selectpicker" name="users" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
-                    <optgroup label="Users">
-                        <option value="" selected>No one</option>
-                        <% course.student_registrated.forEach(function (user) { %>                                                       
-                            <option ><%= user %></option>
-                        <% }); %>
-                    </optgroup>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <label>Select students attend</label>
-                <div class="form-group">
-                        <select class="selectpicker" name="type" placeholder="Search" data-actions-box="true">
-                        <optgroup label="type">                         
-                                <option >Lecture</option>
-                                <option >Lab</option>
-                                <option >Section</option>
-
-                        </optgroup>
-                        </select>
-                    </div>
-                </div>
-        </div>
-        <button type="submit" class="btn btn-info btn-fill pull-right">Put Attendance</button>
-        <div class="clearfix"></div>
-    </form>
-
-   
+    
 </div>
 <h1>Lectures</h1>
 <div class="container" style="margin:auto auto;">
@@ -43,7 +10,7 @@
 <thead>
 <tr>
     <th>Collage_ID</th>
-    <th>First name</th>
+    <th>Name</th>
    <% for (i = 1; i < course.lecturestaken; i++) { %> 
     <th>lectur<%=i%></th>
         <%}%>
@@ -51,12 +18,11 @@
 </thead>
 <tbody>
 
-    <%Users.forEach(function(user){%>
         <% user.courses.forEach(function(Course){ %>
             <%if(Course._id.toString()==course._id.toString()){%>
 
                 <tr>
-                        <td><%=user.username%> <a href="/courses/<%=course._id%>/editattendance/<%=user._id%>/lecture"<span class="glyphicon glyphicon-pencil"></span></a> </td>
+                        <td><%=user.username%>  </td>
                         <td><%=user.firstname+" "+user.lastname%></td>
                
     <% for (i = 1; i < course.lecturestaken; i++) { %>        
@@ -80,7 +46,7 @@
             <%}%>
         <% }); %>   
 </tr>
- <% });%>
+ 
 </tbody>
 </table>
 </div>
@@ -99,12 +65,11 @@
 </tr>
 </thead>
 <tbody>
-        <%Users.forEach(function(user){%>
             <% user.courses.forEach(function(Course){ %>
                 <%if(Course._id.toString()==course._id.toString()){%>
     
                     <tr>
-                            <td><%=user.username%>  <a href="/courses/<%=course._id%>/editattendance/<%=user._id%>/lab"<span class="glyphicon glyphicon-pencil"></span></a></td>
+                            <td><%=user.username%> </td>
                             <td><%=user.firstname+" "+user.lastname%></td>
                    
         <% for (i = 1; i < course.lecturestaken; i++) { %>        
@@ -128,7 +93,6 @@
                 <%}%>
             <% }); %>     
     </tr>
-     <% });%>
 </tbody>
 </table>
 </div>
@@ -145,13 +109,11 @@
 </tr>
 </thead>
 <tbody>
-
-        <%Users.forEach(function(user){%>
             <% user.courses.forEach(function(Course){ %>
                 <%if(Course._id.toString()==course._id.toString()){%>
     
                     <tr>
-                            <td><%=user.username%>  <a href="/courses/<%=course._id%>/editattendance/<%=user._id%>/section"<span class="glyphicon glyphicon-pencil"></span></a></td>
+                            <td><%=user.username%>  </td>
                             <td><%=user.firstname+" "+user.lastname%></td>
                    
         <% for (i = 1; i < course.lecturestaken; i++) { %>        
@@ -178,8 +140,6 @@
     
             
     </tr>
-    
-     <% });%>
 
 </tbody>
 </table>

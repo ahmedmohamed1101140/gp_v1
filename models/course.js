@@ -17,8 +17,8 @@ var courseSchema = new mongoose.Schema({
         required: true
     },
     dependencies :[{
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "course"
     }],
   
     logo:{
@@ -41,30 +41,21 @@ var courseSchema = new mongoose.Schema({
     },
     main_professor:
     {
-        /*  id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },*/
-        type:String,
-        required:true
+            ref: "user",
+            required:true
     },
     helper_professor:
     [{
-        type:String
-      /*  id: {
+        
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },*/
-       
-     
+            ref: "user"
+        
     }],
     department:
     [{
-        
-        
             type: mongoose.Schema.Types.ObjectId,
             ref: "department"
-        
     }],
     objectives:
     [
@@ -74,13 +65,8 @@ var courseSchema = new mongoose.Schema({
     ],
   
     student_registrated:[{
-    
-         
               type: mongoose.Schema.Types.ObjectId,
               ref: "user"
-          
-         
-
     }],
     yearwork:[{
         name:{type:String},
@@ -110,7 +96,12 @@ var courseSchema = new mongoose.Schema({
         default:1
     },
 
+    upload_date:
+    {
+        type:Date,
+        default: Date.now()
 
+    },
 
 
 });

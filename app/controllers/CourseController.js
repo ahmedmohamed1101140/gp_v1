@@ -5,25 +5,49 @@ var Course = require("../../models/course");
 var department = require("../../models/department");
 var User=require("../../models/user")
 var Groups=require("../../models/group")
-
-
 var CourseController = {};
 var DepartmentController={}
 //GET --view all courses
 CourseController.get_all_courses = function(req,res,next){
     Course.find(function(err,courses){
         if(err){
-            console.log(err.message);
             req.flash("error" , "Faild");
         }
         else{
-            res.render("Courses/index" , {courses : courses});
+            User.find(function(err,users){
+                res.render("Courses/index" , {courses : courses,users:users});
+
+            // rednder the page
+            })
         }
     })
 };
 //GET --view spacific course
 CourseController.get_course = function (req ,res ,next) {
-    console.log(req.params.course_id);
+    Course.findById(req.params.course_id,function (err , found_course) {
+        if(err){
+            console.log(err);
+        }
+        else {
+            if(found_course){
+                User.find(function(err,users){
+                    Course.find(function(err,courses)
+                {
+                    res.render("Courses/info",{course:found_course,users:users,courses:courses});
+                })
+                // rednder the page
+                })
+            }
+            else {
+                res.status(404).json({
+                    message: "no valid entry found for the provided ID"
+                });
+            }
+        }
+    });
+   
+};
+CourseController.get_course_info = function (req ,res ,next) {
     Course.findById(req.params.course_id,function (err , found_course) {
         if(err){
             console.log(err.message);
@@ -42,25 +66,7 @@ CourseController.get_course = function (req ,res ,next) {
             }
         }
     });
-};
-CourseController.get_course_info = function (req ,res ,next) {
-    
-    Course.findById(req.params.course_id,function (err , found_course) {
-        if(err){
-            console.log(err);
-        }
-        else {
-            if(found_course){
-                // rednder the page
-                res.render("Courses/info",{course:found_course});
-            }
-            else {
-                res.status(404).json({
-                    message: "no valid entry found for the provided ID"
-                });
-            }
-        }
-    });
+  
 };
 CourseController.add_course_grades = function (req ,res ,next) {
     Course.findById(req.params.course_id,function (err , found_course) {
@@ -352,6 +358,88 @@ CourseController.put_student_grades=function(req,res,next){
      });
 
 }
+CourseController.put_registration=function(req,res,next){
+    Course.findById(req.params.course_id,function(err,found_course){
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+         if(found_course)
+         {       
+            User.findById(req.params.student_id,function(err,student_found)
+                {
+                    if(err)
+                    {
+                        console.log(err);
+                    }
+                    else
+                    { 
+                        if(student_found)
+                        {  
+                            console.log("1111111");
+
+                        var registrable=true
+                        student_found.courses.forEach(function(student_course){
+                            if(!found_course.dependencies.includes(student_course._id.toString()))
+                            {                              console.log("22222");
+
+                                registrable=false  
+                            }  
+                        })
+                                if(registrable)
+                                {
+                                    if(found_course.student_registrated.length.toString()<found_course.max_students.toString())
+                                   {
+                                       if(!found_course.student_registrated.includes(student_course._id.toString())){
+                                    student_found.courses.push(found_course)
+                                    student_found.save()
+                                    found_course.student_registrated.push(student_found)
+                                    found_course.save()
+                                    console.log("*************");
+                                   console.log(found_course);
+                                    console.log("*************");
+                                    req.flash("succes" , "successfully registered");
+                                    res.redirect("/courses/info"+req.params.course_id); 
+                                       }
+                                       else 
+                                       {
+
+
+
+
+                                        
+                                       }
+
+
+
+
+
+
+
+                                   }
+                                   else{
+                                    req.flash("failed" , "no places in course left");
+                                    res.redirect("/courses/"+req.params.course_id); 
+                                   }
+                                }
+                                else{
+                                    req.flash("failed" , "Course Dependencies are not complete");
+                                    res.redirect("/courses/"+req.params.course_id); 
+                                }
+                    }
+                }
+            })
+        }
+            else
+            {
+                req.flash("failed" , "Registration Failed");
+                res.redirect("/courses/"+req.params.course_id); 
+            }
+        }
+     });
+}
 CourseController.edit_percentage=function(req,res,next){
     Course.findById(req.params.course_id,function (err , found_course) {
         if(err){
@@ -456,7 +544,6 @@ CourseController.put_course_attendance=function(req,res,next){
          }
             
             var studnetarr=req.body.users
-            console.log(studnetarr)
             found_course.student_registrated.forEach(student=>{
                 User.findById(student,function(err,user){
                     if(err)
@@ -471,9 +558,6 @@ CourseController.put_course_attendance=function(req,res,next){
                             
 
                             user.courses.forEach(course => {
-                                console.log(student);
-                                console.log();
-
                                 if(course._id.toString()== found_course._id.toString())
                                 {
                                     if(studnetarr.includes(student.toString()))
@@ -488,8 +572,7 @@ CourseController.put_course_attendance=function(req,res,next){
 
                                 }
                                 else{
-                                    req.flash("failed" , "attendance not added");
-                                    res.redirect("/courses/"+req.params.course_id); 
+                                    req.flash("failed" , "can't finf course");
 
                                 }
                             });   
@@ -508,11 +591,13 @@ CourseController.put_course_attendance=function(req,res,next){
             })
             found_course.save();
             req.flash("success" , "attendance added");
-            res.redirect("/courses/"+req.params.course_id); 
+            res.redirect("/courses/"+req.params.course_id+"/attendance"); 
+
         }
         else
-        {
-            req.flash("failed" , "attendance not added");
+        {             
+
+            res.redirect("/courses/"+req.params.course_id+"/attendance"); 
             res.redirect("/courses/"+req.params.course_id); 
 
 
@@ -522,7 +607,6 @@ CourseController.put_course_attendance=function(req,res,next){
  })
 
 }
-
 CourseController.edit_student_attendance=function(req,res,next){
     Course.findById(req.params.course_id,function (err , found_course) {
         if(err){
@@ -657,20 +741,17 @@ CourseController.display_creation_form = function(req,res,next){
 //POST  --create and add new course to the DB
 CourseController.create_new_course = function(req,res,next){
     //2- create new course
-   
-    var departments=[];
- var dep_id = req.body.course_departments.split(",");
+ var departments=[]
+ var dep_id = req.body.course_departments.split(",")
  for(var i=0;i<dep_id.length-1;i++){
     department.findById(dep_id[i],function (err , found_department) {
-        console.log(dep_id[i]);
-
         if(err){
             console.log(err);
         }
         else {
+        
             if(found_department){
-               departments.push(found_department._id)
-            
+               departments.push(found_department._id)            
             }
             else {
                 res.status(404).json({
@@ -679,9 +760,8 @@ CourseController.create_new_course = function(req,res,next){
             }
         }
     });
- }
+}
     setTimeout(function(){
-    
         var course = new Course({
             name: req.body.course_name,
             type: req.body.course_type,
@@ -695,29 +775,42 @@ CourseController.create_new_course = function(req,res,next){
             helper_professor:req.body.course_helper_professor,
             lessons:req.body.course_lessons,
             hours:req.body.course_hours,
-        
             objectives:req.body.course_objectives
-        
-        
-        
-        }
-        
-        );
-   
-    
+        });   
         //3- save the course
         Course.create(course,function (err,newCourse) {
             if(err){
                 console.log(err);
             }
             else{
-                console.log(newCourse);
+               /* User.findById(course.main_professor,function (err , found_user) {   
+                 if(found_user){
+                        found_user.courses.push(newCourse)
+                        found_user.save();
+                    }
+                 })
+                course.helper_professor.forEach(function(Found_User) {
+                    User.findById(Found_User,function (err , found_user) {                
+                        if(err){
+                        }
+                        else {
+                            if(found_user){
+                                found_user.courses.push(newCourse)
+                                found_user.save();
+                            }
+                            else {
+                                res.status(404).json({
+                                    message: "no valid entry found for the provided ID"
+                                });
+                            }
+                        }
+                    });
+                })*/
                 //4- redirect to course/new course id
                 res.redirect("/courses/"+course._id);
             }
         });
     }, 2000);
-    
 };
 CourseController.display_update_form = function(req,res,next){
     
@@ -891,21 +984,6 @@ delete_file = function (file) {
     
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 CourseController.add_student=function(req,res,next){
     Course.findById(req.params.course_id,function (err , found_course) {
         if(err){
@@ -971,9 +1049,7 @@ CourseController.put_student=function(req,res,next){
                                 else{
                 
                                     users.forEach(function(person)
-                                    {
-
-                                        
+                                    {   
                                        if(person._id.toString()==element)
                                        {
                                            
@@ -984,16 +1060,11 @@ CourseController.put_student=function(req,res,next){
 
                                         person.save();
                                        }
-                                       
-
                                     })
-                                  
+
                                 }
                           })
                       });  
-                      
-                      
-
                      setTimeout(function(){ 
                           arr.forEach(function(ele)
                           {
@@ -1002,17 +1073,9 @@ CourseController.put_student=function(req,res,next){
 
                         found_course.save()},4200)
 
-                     
                                 req.flash("success" , "attendance edited");
                                 res.redirect("/courses/"+req.params.course_id+"/attendance"); 
-                            
-
-                       
-                         
-                           
-                    }
-                    
-                      
+                    }   
                 else
                         {
                             req.flash("failed" , "attendance not edited");

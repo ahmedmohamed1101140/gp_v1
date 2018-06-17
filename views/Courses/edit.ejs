@@ -38,9 +38,9 @@
             </div>
             <div class="row">
                     <div class="form-group col-md-12  ">
-                 <label for="textarea1">Course Description</label>  
-                   <textarea id="textarea1" name="course_description"  class="form-control" rows="6" required="required" ><%= course.description %></textarea>
-                    
+                   <label for="summernote">Course Description</label>  
+                   <textarea id="summernote" name="course_description" class="form-control" required="required"><%= course.description %></textarea>
+
                 </div>
             </div>
             <div class="row">
@@ -50,17 +50,19 @@
                                 <select class="selectpicker" name="course_main_professor"  data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" title="Professor Name" >
                                
                                         <optgroup label="Users">
-
+                                             
                                      <% users.forEach(function (user) { %>   
                                          <% var arr=course.main_professor.toString() %>
-                                              <% if(arr.includes(user.username)){ %>
-                                                <option selected><%= user.username %></option>
-                                                <% console.log(user.username)%>
+                                         <%if(user.usertype===1||user.usertype===2){%>                                                   
+
+                                              <% if(arr.includes(user._id)){ %>
+                                                <option selected  value="<%=user._id%>"><%= user.firstname+" "+user.lastname %></option>
                                                   <% } else { %>
-                                                    <option><%= user.username %></option>
+                                                    <option  value="<%=user._id%>"><%= user.firstname+" "+user.lastname %></option>
 
                                                       <%}%>
-        
+                                                      <%}%>
+
                                          <%});%>
                                         </optgroup>
                                 </select>
@@ -75,14 +77,14 @@
                                          
                                      <% users.forEach(function (user) { %>   
                                         <% var arr=course.helper_professor.toString() %>
-                                             <% if(arr.includes(user.username)){ %>
-                                               <option selected><%= user.username %></option>
-                                               <% console.log(user.username)%>
+                                        <%if(user.usertype===1||user.usertype===2){%>                                                   
+                                             <% if(arr.includes(user._id)){ %>
+                                               <option selected  value="<%=user._id%>"><%= user.firstname+" "+user.lastname %></option>
                                                  <% } else { %>
-                                                   <option><%= user.username %></option>
+                                                   <option  value="<%=user._id%>"><%= user.firstname+" "+user.lastname %></option>
 
                                                      <%}%>
-       
+                                                     <%}%>
                                         <%});%>
                                        </optgroup>
                                      
@@ -104,10 +106,10 @@
                     
                         <% courses.forEach(function (Course) { %>   
                             <% var arr=course.dependencies.toString() %>
-                                 <% if(arr.includes(Course.name)){ %>
-                                   <option selected><%= Course.name %></option>
+                                 <% if(arr.includes(Course._id)){ %>
+                                    <option selected value="<%=course._id%>"><%= course.name %></option>
                                      <% } else { %>
-                                       <option><%= Course.name %></option>
+                                       <option value="<%=course._id%>">><%= Course.name %></option>
 
                                          <%}%>
 

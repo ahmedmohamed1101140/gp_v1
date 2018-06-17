@@ -18,11 +18,14 @@
         <div class="card-header" style="display:inline-block" >
            Recent announcements
         </div>
+        <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>
+
         <a href="/courses/<%=course_id%>/announcement/new">
         <button type="button" class="btn btn-primary pull-right">
             <span class="glyphicon glyphicon-plus"></span> Add
           </button>
           </a>
+          <%}%>
         <hr>
         <%var counter =0%>
         <script>
