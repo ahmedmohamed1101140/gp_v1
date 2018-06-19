@@ -17,7 +17,7 @@
 
         <div class="row">
                 <% courses.forEach(function (course) { %>
-                <div class="col-sm-3 col-md-3"" >
+                <div class="col-sm-3 col-md-3" >
                   <div class="thumbnail" >
                       <img src="/uploads/<%=course.logo%>"style="height:200px" alt="descrption">
                     <div class="card-body"  >
@@ -29,11 +29,15 @@
                              </p>
                              <%}%>
                     <% })%>
-                      <a href="/courses/<%= course._id%>" class="btn btn-primary">View</a>
-                      <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
+                    <% if(CurrentUSer.usertype===0){ %>
+                    <a href="/courses/info/<%= course._id%>" class="btn btn-info">control</a>
+                    <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
                         <form style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
+                    <%}else{%>
+                      <a href="/courses/<%= course._id%>" class="btn btn-primary">View</a>
+                      <%}%>
                     </div>
                   </div>
                 </div>

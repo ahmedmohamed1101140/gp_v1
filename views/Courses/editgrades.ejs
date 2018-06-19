@@ -35,8 +35,8 @@
                         <%if(Course._id.toString()==course._id.toString()){%>
             
                             <tr>
-                                    <td><%=student._id.toString()%>  </td>
-                                    <td>ramy</td>
+                                    <td><%=student.username%></td>
+                                    <td><%=student.firstname+" "+student.lastname%></td>
                             
                         <%course.yearwork.forEach(function(grade){%>
                         <%Course.grade.forEach(function(student_grade){%>

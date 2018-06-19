@@ -242,6 +242,17 @@ CourseController.put_course_grades=function(req,res,next){
                                 "gradescore":req.body[student_found._id]
                                 
                             }
+                            console.log( "++++++++++++++++++++++++");
+                            console.log( student_course.grade.total);
+                            console.log( "++++++++++++++++++++++++");
+                            console.log(req.body[student_found._id] );
+                            console.log( "++++++++++++++++++++++++");
+                            console.log(req.body.grade_precentage);
+                            console.log( "++++++++++++++++++++++++");
+                            student_course.total=student_course.total+(req.body[student_found._id]*req.body.grade_precentage/req.body.grade_totalgradescore)
+                            console.log( "***********************");
+                            console.log( student_course.grade.total);
+                            console.log( "***********************");
                             student_course.grade.push(Grade);
                             student_found.save();
 
@@ -378,54 +389,64 @@ CourseController.put_registration=function(req,res,next){
                     { 
                         if(student_found)
                         {  
-                            console.log("1111111");
-
                         var registrable=true
-                        student_found.courses.forEach(function(student_course){
-                            if(!found_course.dependencies.includes(student_course._id.toString()))
-                            {                              console.log("22222");
-
-                                registrable=false  
-                            }  
-                        })
+                        found_course.dependencies.forEach(function(dependencies_course){
+                        if(registrable)
+                                {
+                                    registrable=false
+                                student_found.courses.forEach(function(course){
+                                    if(course._id.toString()==dependencies_course.toString())
+                                    {
+                                        if(course.total<50)
+                                        {
+                                            registrable=false  
+                                            console.log("ya fashal ya fashal")
+                                        }
+                                        else{
+                                            registrable=true  
+                                        }
+                                        
+                                    }                
+                            })  
+                        }
+                        console.log(registrable);
+                    })
                                 if(registrable)
                                 {
-                                    if(found_course.student_registrated.length.toString()<found_course.max_students.toString())
-                                   {
-                                       if(!found_course.student_registrated.includes(student_course._id.toString())){
-                                    student_found.courses.push(found_course)
+                                    console.log(Date.now())
+                                    if( Date.parse(found_course.registartion_closeday)>= Date.now()){
+
+                                    if(found_course.student_registrated.length<found_course.maxstudent_num)
+                                   { 
+                                       if(!found_course.student_registrated.toString().includes(student_found._id)){
+                                    student_found.courses.push(found_course._id)
                                     student_found.save()
-                                    found_course.student_registrated.push(student_found)
+                                    found_course.student_registrated.push(student_found._id)
                                     found_course.save()
-                                    console.log("*************");
-                                   console.log(found_course);
-                                    console.log("*************");
-                                    req.flash("succes" , "successfully registered");
-                                    res.redirect("/courses/info"+req.params.course_id); 
+                                    req.flash("success" , "successfully registered");
+                                    res.redirect("/courses/info/"+req.params.course_id); 
+
                                        }
                                        else 
                                        {
-
-
-
-
-                                        
+                                        req.flash("success" , "alreadyregistered");
+                                        res.redirect("/courses/info/"+req.params.course_id); 
                                        }
-
-
-
-
-
-
 
                                    }
                                    else{
-                                    req.flash("failed" , "no places in course left");
-                                    res.redirect("/courses/"+req.params.course_id); 
+                                    req.flash("error" , "no places in course left");
+                                    res.redirect("/courses"); 
+
                                    }
                                 }
                                 else{
-                                    req.flash("failed" , "Course Dependencies are not complete");
+                                    req.flash("error" , "Registartion Date is closed");
+                                    res.redirect("/courses/"+req.params.course_id); 
+                                }
+                                }
+                                else{
+                                    req.flash("error" , "Course Dependencies are not complete");
                                     res.redirect("/courses/"+req.params.course_id); 
                                 }
                     }
@@ -434,7 +455,7 @@ CourseController.put_registration=function(req,res,next){
         }
             else
             {
-                req.flash("failed" , "Registration Failed");
+                req.flash("error" , "Registration Failed");
                 res.redirect("/courses/"+req.params.course_id); 
             }
         }
@@ -999,7 +1020,7 @@ CourseController.add_student=function(req,res,next){
                             res.redirect("/mails");
                         }
                         else{
-                            User.find().select('id').exec(function(err,users){
+                            User.find(function(err,users){
                                 if(err){
                                     console.log(err.message);
                                     req.flash("error" , "Sorry Server Error!");
@@ -1052,29 +1073,36 @@ CourseController.put_student=function(req,res,next){
                                     {   
                                        if(person._id.toString()==element)
                                        {
-                                           
+                                           if(!found_course.student_registrated.toString().includes(person._id))
+                                           {
                                        person.courses.push(found_course) 
-                                       arr.push(person._id);
+                                       found_course.student_registrated.push(person._id)
 
-                                       console.log("here")
+                                       console.log("mesh mwgood")
 
                                         person.save();
+                                           }   
+                                           else 
+                                           {
+
+                                            console.log("mwgood")
+
+                                           } 
                                        }
                                     })
 
                                 }
                           })
                       });  
-                     setTimeout(function(){ 
-                          arr.forEach(function(ele)
-                          {
-                          found_course.student_registrated.push(ele.toString())
-                        })
 
-                        found_course.save()},4200)
+                  setTimeout(function(){ 
+    
+                        found_course.save()
+                  },10000)
 
                                 req.flash("success" , "attendance edited");
                                 res.redirect("/courses/"+req.params.course_id+"/attendance"); 
+                    
                     }   
                 else
                         {

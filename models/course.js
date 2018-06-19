@@ -69,7 +69,7 @@ var courseSchema = new mongoose.Schema({
               ref: "user"
     }],
     yearwork:[{
-        name:{type:String},
+        name:{type:String,unique: true },
         totalgradescore:{ type: Number },
         precentage:{ type: Number  },
     }],

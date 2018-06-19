@@ -57,6 +57,7 @@ var UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"courses",  }
         ,
+        total:{type:Number,default:0},
         year:{type:Number,default:2014},
         season:{type:String,default:"Spring"},
         attendance:[{
@@ -67,7 +68,7 @@ var UserSchema = new mongoose.Schema({
 
         }],
         grade:[{
-            name:{ type: String },
+            name:{ type: String,unique: true },
             gradescore:{ type: Number,default:0},
         }]
     }]

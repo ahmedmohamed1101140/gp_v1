@@ -29,7 +29,7 @@
             </tr>
             </thead>
             <tbody>
-            
+            <%var is_found=false%>
                 <%Users.forEach(function(user){%>
                     <%var totalstudentgrade=0%>
                     <% user.courses.forEach(function(Course){ %>
@@ -38,21 +38,26 @@
                             <tr>
                                 <td><%=user.username%> <a href="/courses/<%=course._id%>/editgrades/<%=user._id%>"<span class="glyphicon glyphicon-pencil"></span></a>  </td>
                                 <td><%=user.firstname+" "+user.lastname%></td>
-                            
+                               
                             <%course.yearwork.forEach(function(grade){%>
+                                <%is_found=false%>
                             <%Course.grade.forEach(function(student_grade){%>
                                 <%if(student_grade.name==grade.name){%>
                                     <td>
+                                            <%is_found=true%>
                                             <%=student_grade.gradescore%>
                                             <%totalstudentgrade=totalstudentgrade+(student_grade.gradescore*grade.precentage)/grade.totalgradescore%>
 
                                         
                                     </td>
-        
-        
-                                    
-                                <%}%>
+                                   <%}%>
+                                      
                             <%});%>
+                            <%if(!is_found){%>
+                                <td>-</td>
+
+                                <%}%>   
+                       
                         <%});%>
                         <td>
                             <%=totalstudentgrade%>%

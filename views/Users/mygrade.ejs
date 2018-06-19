@@ -28,7 +28,7 @@
                     <%var totalstudentgrade=0%>
                             <tr>
                                     <td><%=user.username.toString()%>  </td>
-                                    <td><%=user.firstname.toString()+" "+user.lastname.toString()%></td>
+                                    <td><%=user.firstname+" "+user.lastname%></td>
                                     <%user_course.grade.forEach(function(grade){%>
                                         <%course.yearwork.forEach(function(course_grade){%>
                                             <%if(grade.name.toString()==course_grade.name.toString()){%>

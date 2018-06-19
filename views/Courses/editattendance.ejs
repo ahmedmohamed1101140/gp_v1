@@ -21,9 +21,8 @@
             <%if(Course._id.toString()==course._id.toString()){%>
 
                 <tr>
-                        <td><%=student._id.toString()%> </td>
-                        <td>ramy</td>
-               
+                        <td><%=student.username%></td>
+                        <td><%=student.firstname+" "+student.lastname%></td>
     <% for (i = 1; i < course.lecturestaken; i++) { %>        
                 <%Course.attendance.forEach(function(Attendance){%>
                     <%console.log(Attendance.attendancetype)%>
@@ -86,9 +85,9 @@
             <% student.courses.forEach(function(Course){ %>
                 <%if(Course._id.toString()==course._id.toString()){%>
     
-                    <tr>
-                            <td><%=student._id.toString()%> </td>
-                            <td>ramy</td>
+                    <tr> 
+                        <td><%=student.username%></td>
+                        <td><%=student.firstname+" "+student.lastname%></td>
                    
         <% for (i = 1; i < course.sectionstaken; i++) { %>        
                     <%Course.attendance.forEach(function(Attendance){%>
@@ -155,8 +154,8 @@
                     <%if(Course._id.toString()==course._id.toString()){%>
         
                         <tr>
-                                <td><%=student._id.toString()%> </td>
-                                <td>ramy</td>
+                                < <td><%=student.username%></td>
+                                <td><%=student.firstname+" "+student.lastname%></td>
                        
             <% for (i = 1; i < course.labstaken; i++) { %>        
                         <%Course.attendance.forEach(function(Attendance){%>

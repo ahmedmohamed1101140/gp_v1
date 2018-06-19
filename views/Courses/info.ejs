@@ -30,7 +30,6 @@
                 
                <% course.helper_professor.forEach(function(helper_user){%>
                     <%users.forEach(function(user){%>
-                        <%console.log(helper_user.toString())%>
                        <% if(user._id.toString()==helper_user.toString()){%>
                         
                                 <a href=""><%=user.firstname+" "+user.lastname%></a>

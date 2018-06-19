@@ -49,16 +49,6 @@ if(foundcourse.helper_professor.toString().includes(founduser._id)||foundcourse.
     bool=true;
 }
 
-
-                        founduser.courses.forEach(function(course)
-                     {
-
-                         if(course._id.toString()==foundcourse._id.toString())
-                         {
-                            
-                         }
-
-                       })
                        if(req.user.usertype === 0||req.user.usertype === 1||req.user.usertype === 2)
                        {
                            if(bool||req.user.usertype === 0)
@@ -106,7 +96,6 @@ if(foundcourse.helper_professor.toString().includes(founduser._id)||foundcourse.
             
                                     founduser.courses.forEach(function(course)
                                  {
-                                    console.log(course)
             
                                      if(course._id.toString()==foundcourse._id.toString())
                                      {
@@ -118,7 +107,6 @@ if(foundcourse.helper_professor.toString().includes(founduser._id)||foundcourse.
                                    if(foundcourse.helper_professor.toString().includes(founduser._id)||foundcourse.main_professor.toString()==founduser._id.toString())
                                         {
                                             bool=true;
-                                            console.log("gamed")
                                         }
                                                                         
                                         if(bool||req.user.usertype === 0)

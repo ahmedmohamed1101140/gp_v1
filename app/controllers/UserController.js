@@ -515,29 +515,27 @@ UserController.upload_user_image = function(req,res,next){
 };
 
 UserController.subscriptions = function(req,res,next){
-    
-        console.log(req.params.UserId);
-        console.log("hello");
-  
-        Course.find({student_registrated:{$in:[req.params.UserId]}},function(err,mycourses){
-
-            console.log("da5el");
-           // console.log(mycoures);
-
+        
+        Course.find({student_registrated:{$in:[req.params.UserId]}},function(err,courses){
             if(err){console.log(err);
             }
-            else if(mycourses.length>=1){
-
-                res.render("Users/subscriptions",{Mycourses:mycourses});
+            else{
+            User.findById({_id:req.params.UserId},function (err,user) {
+                if (err) {
+                    console.log(err);
+                }
+                else {         // console.log(mycoures);
+            if(err){console.log(err);
             }
-
+            else if(courses.length>=1){
+                console.log(user);
+                res.render("Users/subscriptions",{courses:courses,user:user});
+            }
+        }
         });
-                     
-  
+    }
+    });
  }
-
-
-
 module.exports = UserController;
 
 delete_file = function (file) {
