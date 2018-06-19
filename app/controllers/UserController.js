@@ -447,9 +447,6 @@ function leftPad(number, targetLength) {
  }
 
  
- 
-
-
 UserController.addteacher_view=function (req,res,next) {
       
     res.render("Users/newteacher");

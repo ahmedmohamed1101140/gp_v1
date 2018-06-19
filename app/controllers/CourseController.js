@@ -378,7 +378,38 @@ CourseController.put_registration=function(req,res,next){
         else
         {
          if(found_course)
-         {       
+         {       var month=new Date().getMonth().toString();
+            switch (true) {
+                case (month==11||month==0||month==1):
+                var course_info ={
+                   "_id": found_course._id,
+                   "year":new Date().getFullYear().toString(),
+                   "season": "winter"
+               }
+                    break;
+                case (month==2||month==3||month==4):
+                var course_info ={
+                   "_id": found_course._id,
+                   "year":new Date().getFullYear().toString(),
+                   "season": "spring"
+               }
+                    break;
+                case (month==8||month==9||month==10):
+                var course_info ={
+                   "_id": found_course._id,
+                   "year":new Date().getFullYear().toString(),
+                   "season": "fall"
+               }
+                    break;
+                case(month==5||month==6||month==7):
+                var course_info ={
+                   "_id": found_course._id,
+                   "year":new Date().getFullYear().toString(),
+                   "season":"Summer"
+               }
+                    break;
+   
+           }
             User.findById(req.params.student_id,function(err,student_found)
                 {
                     if(err)
@@ -419,7 +450,7 @@ CourseController.put_registration=function(req,res,next){
                                     if(found_course.student_registrated.length<found_course.maxstudent_num)
                                    { 
                                        if(!found_course.student_registrated.toString().includes(student_found._id)){
-                                    student_found.courses.push(found_course._id)
+                                    student_found.courses.push(course_info)
                                     student_found.save()
                                     found_course.student_registrated.push(student_found._id)
                                     found_course.save()
@@ -1057,12 +1088,43 @@ CourseController.put_student=function(req,res,next){
     else
     {
      if(found_course)
-     
         { var arr=[]
+            var month=new Date().getMonth().toString();
+         switch (true) {
+             case (month==11||month==0||month==1):
+             var course_info ={
+                "_id": found_course._id,
+                "year":new Date().getFullYear().toString(),
+                "season": "winter"
+            }
+                 break;
+             case (month==2||month==3||month==4):
+             var course_info ={
+                "_id": found_course._id,
+                "year":new Date().getFullYear().toString(),
+                "season": "spring"
+            }
+                 break;
+             case (month==8||month==9||month==10):
+             var course_info ={
+                "_id": found_course._id,
+                "year":new Date().getFullYear().toString(),
+                "season": "fall"
+            }
+                 break;
+             case(month==5||month==6||month==7):
+             var course_info ={
+                "_id": found_course._id,
+                "year":new Date().getFullYear().toString(),
+                "season":"Summer"
+            }
+                 break;
+
+        }
+            
           
                        var bool =false
                         req.body.recivers.forEach(element => {
-                            console.log(element)  
                             User.find(function(err,users){
                                 if(err){
                                     console.log(err);
@@ -1075,7 +1137,14 @@ CourseController.put_student=function(req,res,next){
                                        {
                                            if(!found_course.student_registrated.toString().includes(person._id))
                                            {
-                                       person.courses.push(found_course) 
+                                       person.courses.push(course_info) 
+                                       
+                                     /*
+                                           console.log("da5al")
+                                          
+                                       person.courses.found_course.year=new Date().getFullYear().toString() 
+                                       person.courses.found_course.season=Month
+*/
                                        found_course.student_registrated.push(person._id)
 
                                        console.log("mesh mwgood")

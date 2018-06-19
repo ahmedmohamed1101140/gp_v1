@@ -21,36 +21,27 @@ hr{
         <%var total_hours=0%>        
     <!-- First Blog Post -->
    <% for (year =(new Date().getFullYear()).toString() ; year>user.year.toString()-1; year--) { %>
-<%console.log("1")%>
     <% for (season =0; season<3; season++) { %>
-        <%console.log("2")%>
-
       <%  var found="false"%>
        <% user.courses.forEach(function(course){%>
           <%  if(course.year==year&&course.season==season_arr[season]){%>
               <% found="true" } %>
-              <%console.log("3")%>
 
           <%  })%>
            
        <% if(found=="true"){  %>
-        <%console.log("4")%>
         <hr>
+        <div class="col-sm-12 col-md-12"> 
         <h3><%=season_arr[season]+" "+year%></h3>
         <%user.courses.forEach(function(course){%>
           <%  if(course.year==year&&course.season==season_arr[season]){%>
+            
               <%courses.forEach(function(course_info){%>
                   <%if(course_info._id.toString()==course._id.toString()){%>
-                    <%console.log("5")%>
-
-   <div style="display:inline-block; margin:2.5%;" >
+   <div class="col-sm-3 col-md-3" slyle="display: inline-block"id="posts" >
      <div class="thumbnail" >
-      <img style="position: relative;
-      width:  200px;
-      height: 150px;
-      background-position: 50% 50%;
-      background-repeat:   no-repeat;
-      background-size:cover;"src="/uploads/<%=course_info.logo%>" alt="descrption ">
+      <img style=" height: 150px;
+   "src="/uploads/<%=course_info.logo%>" alt="descrption ">
       <div class="caption">
         <h3><%=course_info.name%></h3>
         <a href="/courses/info/<%=course_info._id%>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
@@ -60,29 +51,10 @@ hr{
   <% }%>  
 <%})%>
 <%}%>
+
 <%})%>
+</div>
 <%}%>
 <%}%>
 <%}%>
-
-
-
-<h3>My groups</h3>
-<hr>
-
-<div style="display:inline-block; width:20%; margin:2.5%;" >
-    <div class="thumbnail" >
-     <img src="/userimage/user_male2-512.png" alt="descrption ">
-     <div class="caption">
-       <h3>name</h3>
-       <p style="overflow:auto; height:100px; " >description%</p>
-       <a href="/courses/group.id>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
-     </div>
-   </div>
- </div>
-  
-
-
-
-
 <%include ../partials/footer%>
