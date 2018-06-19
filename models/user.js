@@ -68,7 +68,7 @@ var UserSchema = new mongoose.Schema({
 
         }],
         grade:[{
-            name:{ type: String,unique: true },
+            name:{ type: String },
             gradescore:{ type: Number,default:0},
         }]
     }]
