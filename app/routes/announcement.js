@@ -23,7 +23,7 @@ router.get("/new"
 ,announcementController.new_announcement);
 
 
-router.post("/"
+router.post("/:name"
 ,authorizationmiddleware.isCoursecontoller
 ,announcementMiddleware.validate_data,
 announcementController.new_announcement_announcement);

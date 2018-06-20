@@ -5,6 +5,9 @@ var Course = require("../../models/course");
 var department = require("../../models/department");
 var User=require("../../models/user")
 var Groups=require("../../models/group")
+var Announcement=require("../../models/announcement")
+
+
 var CourseController = {};
 var DepartmentController={}
 //GET --view all courses
@@ -56,8 +59,16 @@ CourseController.get_course_info = function (req ,res ,next) {
         }
         else {
             if(found_course){
+                Announcement.find({ course_id: req.params.course_id},function(err,announcement_found){
+                    if(err){
+                         console.log(err.message);
+                         req.flash("error" , "Failed To Get announcement ... please Try Again.");
+                         req.redirect("back");
+                     }else{
+                        res.render("Courses/show",{announcement:announcement_found,course:found_course});
+                     }
+                });
                 // rednder the page
-                res.render("Courses/show",{course:found_course});
             }
             else {
                 console.log("Can't find course");
@@ -460,7 +471,8 @@ CourseController.put_registration=function(req,res,next){
                                        }
                                        else 
                                        {
-                                        req.flash("success" , "alreadyregistered");
+                                           console.log("waldd")
+                                        req.flash("success" , "already registered");
                                         res.redirect("/courses/info/"+req.params.course_id); 
                                        }
 

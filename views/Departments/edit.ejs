@@ -35,23 +35,12 @@
                                             <br><br>
                                             <label for="textarea1">Department Description</label>
                                             <textarea placeholder="Description" id="textarea1" name="dep_description" class="form-control" rows="6" required="required"><%= department.description %></textarea>
+                                            
                                         </div>
                                     </div>
                                 </div> 
                                 <br><br>                               
                                 <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label class=" control-label">Choose the admin</label>
-                                            <div class="">
-                                                <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
-                                                <option>Ahmed MOhamed</option>
-                                                <option >George Nabil</option>
-                                                <option >Essam Mohamed</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="dep_date">Department Opened Since</label>
@@ -60,39 +49,25 @@
                                                    required="required">
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="depart_desc">Department Description File</label>
+                                                <input id="depart_desc" class="form-control" name="my_file" type="file"
+                                                       required="required">
+                                            </div>
+                                        </div>    
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="dep_logo">Department logo</label>
+                                                <input id="dep_logo" class="form-control" name="my_file" type="file"
+                                                       required="required">
+                                            </div>
+                                        </div>
                                 </div>
                                 <br><br>                               
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="objectives">Department Objectives</label><br>
-                                        <input type="text" name="objectives" class="form-control"id="inlineFormInputGroup" value="<%= department.objectives%>" data-role="tagsinput" >            
-                                    </div>
-                                </div>
                                 <br><br><br>
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="depart_desc">Department Description File</label>
-                                            <input id="depart_desc" class="form-control" name="my_file" type="file"
-                                                   required="required">
-                                        </div>
-                                    </div>
-    
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="courses_desc">Courses Description File</label>
-                                            <input id="courses_desc" class="form-control" name="my_file" type="file"
-                                                   required="required">
-                                        </div>
-                                    </div>
-    
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="dep_logo">Department logo</label>
-                                            <input id="dep_logo" class="form-control" name="my_file" type="file"
-                                                   required="required">
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <br><br>
                                 <div class="row">

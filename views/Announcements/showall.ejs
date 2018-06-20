@@ -31,8 +31,9 @@
         <script>
             var x =0;
         </script>
+        <%announcement.reverse()%>
             <%announcement.forEach(function (announcement){%> 
-        <div class="card-body clearfix "style="margin-top:30px;background-color:#f6f6f6;border-style:groove;border-width: 1px;border-color:white"id="posts">
+        <div class="card-body clearfix "style="margin-top:30px;background-color:#f6f6f6;"id="posts">
            <div>
                 <h3 style="margin-left:5px;display:inline-block;width:450px">   
                     <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"> </span>
@@ -57,18 +58,19 @@
                     </div>
            
            </div>
-         <div>
-           
-            <small class="text-muted"style="margin-left:5px">Posted by <%=announcement.upload_user%> on  <%=announcement.upload_date%></small>
-
-         </div>
+         
           <div style="margin-left:10px">
                 <input type="hidden" value="<%=announcement.description%>"id=announcementdescription<%=counter%>>
                 <script>
                         document.write(document.getElementById("announcementdescription"+x).value); 
                         x++; 
                     </script>
-          </div> 
+          </div>
+          <div>
+                <hr>
+                <small class="text-muted"style="margin-left:5px">Posted by <%=announcement.upload_user%> on  <%=announcement.upload_date%></small>
+    
+             </div> 
         </div>
         <hr>
         <%counter++%>
