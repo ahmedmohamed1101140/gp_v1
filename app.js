@@ -74,11 +74,6 @@ app.use(function (req,res,next) {
 //app.use('/api',api);
 app.use('/',applicaition);
 
-app.use("*",function(req,res,next){
-    var error = new Error('Not Found!');
-    error.status = 404;
-    next(error);
-});
 
 
 //custom app error handling

@@ -380,6 +380,7 @@ CourseController.put_student_grades=function(req,res,next){
      });
 
 }
+//  student registration request
 CourseController.put_registration=function(req,res,next){
     Course.findById(req.params.course_id,function(err,found_course){
         if(err)
@@ -1055,8 +1056,7 @@ CourseController.add_student=function(req,res,next){
         }
         else {
             if(found_course){
-                
-                    department.find().select("name").exec(function(err,departments){
+                    department.find(function(err,departments){
                         if(err){
                             console.log(err.message);
                             req.flash("error" , "Sorry Server Error!");
@@ -1133,9 +1133,11 @@ CourseController.put_student=function(req,res,next){
                  break;
 
         }
-            
-          
-                       var bool =false
+        console.log( req.body.recivers)
+
+          if( req.body.recivers!=null){
+            if( req.body.recivers.constructor === Array) {
+
                         req.body.recivers.forEach(element => {
                             User.find(function(err,users){
                                 if(err){
@@ -1150,13 +1152,7 @@ CourseController.put_student=function(req,res,next){
                                            if(!found_course.student_registrated.toString().includes(person._id))
                                            {
                                        person.courses.push(course_info) 
-                                       
-                                     /*
-                                           console.log("da5al")
-                                          
-                                       person.courses.found_course.year=new Date().getFullYear().toString() 
-                                       person.courses.found_course.season=Month
-*/
+                                     
                                        found_course.student_registrated.push(person._id)
 
                                        console.log("mesh mwgood")
@@ -1175,19 +1171,58 @@ CourseController.put_student=function(req,res,next){
                                 }
                           })
                       });  
+                    }
+                }
+                    if( req.body.Dep_recivers!=null){
+                        if( req.body.Dep_recivers.constructor === Array) {
+                            // do foreach
+                        
+                      req.body.Dep_recivers.forEach(element => {
+                        User.find(function(err,users){
+                            if(err){
+                                console.log(err);
+                            }
+                            else{
+            
+                                users.forEach(function(person)
+                                {   
+
+                                   if(person.department_Id==element)
+                                   {
+                                       if(!found_course.student_registrated.toString().includes(person._id))
+                                       {
+                                   person.courses.push(course_info) 
+                                   found_course.student_registrated.push(person._id)
+                                    person.save();
+                                       }   
+                                       else 
+                                       {
+
+                                        console.log("mwgood")
+
+                                       } 
+                                   }
+                                })
+
+                            }
+                      })
+                  });  
+                }
+            }
 
                   setTimeout(function(){ 
     
                         found_course.save()
                   },10000)
-
-                                req.flash("success" , "attendance edited");
+                                 console.log("success")
+                                req.flash("success" , "Students Added");
                                 res.redirect("/courses/"+req.params.course_id+"/attendance"); 
                     
                     }   
                 else
                         {
-                            req.flash("failed" , "attendance not edited");
+                            console.log("failed")
+                            req.flash("failed" , "Students not Added");
                             res.redirect("/courses/"+req.params.course_id); 
                         }
                     }

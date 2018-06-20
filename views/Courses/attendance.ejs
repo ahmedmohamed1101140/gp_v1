@@ -2,7 +2,7 @@
 
 <div class="container">
 
-    <form id="form" action="/courses/<%=course._id%>/attendance?_method=PUT" method="POST">
+    <form  action="/courses/<%=course._id%>/attendance?_method=PUT" method="POST">
         <div class="form-row"> 
             <div class="col-md-5">
             <label>Select students attend</label>
@@ -50,7 +50,7 @@
             </ul>
 
 <div class="tab-content">
-<div id="home" class="tab-pane show">
+<div id="home" class="tab-pane active ">
 <h1>Lectures</h1>
 <div class="container" style="margin:auto auto;">
     <table id="example" class="table table-striped table-bordered " >
@@ -68,7 +68,6 @@
     <%Users.forEach(function(user){%>
         <% user.courses.forEach(function(Course){ %>
             <%if(Course._id.toString()==course._id.toString()){%>
-
                 <tr>
                         <td><%=user.username%> <a href="/courses/<%=course._id%>/editattendance/<%=user._id%>/lecture"<span class="glyphicon glyphicon-pencil"></span></a> </td>
                         <td><%=user.firstname+" "+user.lastname%></td>
