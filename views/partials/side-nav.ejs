@@ -27,18 +27,35 @@
                 Groups
             </a>
         </li>
+
+        <%if(!CurrentUSer) { %>
+            <% }else {%>
+
+            <% if(CurrentUSer.usertype==0){ %>
+
         <li>
             <a href="/users">
                 <i class="glyphicon glyphicon-paperclip"></i>
                 Users
             </a>
         </li>
+
+        <%}%>
+        <%}%>
+
+        <%if(!CurrentUSer) { %>
+            <% }else {%>
+
+            <% if(CurrentUSer.usertype==0){ %>
         <li>
             <a href="/mails">
                 <i class="glyphicon glyphicon-send"></i>
                 Mails
             </a>
         </li>
+        <%}%>
+        <%}%>
+
         <%if(!CurrentUSer) { %>
         <% }else {%>
             <li>

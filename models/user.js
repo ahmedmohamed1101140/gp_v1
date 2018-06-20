@@ -43,6 +43,10 @@ var UserSchema = new mongoose.Schema({
         type: String,
         //default:null
     },
+    department_Id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Department", 
+    },
     year :{
         type: String,
        // default:null

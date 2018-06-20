@@ -148,9 +148,9 @@ UserController.delete_user = function (req,res) {
 }
 
 // Redirecting user after changing his profile
-UserController.redirector = function(req, res){
+UserController.redirector = function(req,res){
 
-    console.log(req.user._id);
+
     User.findById({_id:req.user._id},function (err,user) {
         if (err) {
             console.log(err);
@@ -212,7 +212,7 @@ UserController.edit_user=function (req,res,next) {  //done
          } 
         else if(user1 && (req.user.username != req.body.username)){
             console.log("here");
-             console.log(user1);
+           //  console.log(user1);
            const error= new Error ("this user name already exits");
             next(error);
 
@@ -312,13 +312,14 @@ UserController.addstudents_view=function (req,res,next) {
 // creating new  students
 UserController.Seed_all_users=function (req ,res,next) {
 
-    var departemnt_name= req.body.departemnt_name; //"sw";
+     var departemnt_data =req.body.department_data.split(" ");
+    var departemnt_name= departemnt_data[0]; //"sw";
     var studentsCount =req.body.studentscount;
     var year=req.body.year;
     var collage_serial =  req.body.collage_serial.toString(); //1709
     var student_colleage_id;
-   // check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial);
-
+    var departemnt_id=departemnt_data[1] //id:5ca46dada
+    
 
 
     var Users_to_be_add =[];  
@@ -358,7 +359,8 @@ UserController.Seed_all_users=function (req ,res,next) {
                 username: usercid,
                 collage_id: usercid,
                 department_name:departemnt_name,
-                year:year
+                year:year,
+                department_Id:departemnt_id
                 
             }), "password", function (err,user) {
                 if (err) {
@@ -378,7 +380,7 @@ UserController.Seed_all_users=function (req ,res,next) {
    return res.redirect("/Users");
  
     });
-   
+
  }
 
 
