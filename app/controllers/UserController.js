@@ -148,9 +148,9 @@ UserController.delete_user = function (req,res) {
 }
 
 // Redirecting user after changing his profile
-UserController.redirector = function(req, res){
+UserController.redirector = function(req,res){
 
-    console.log(req.user._id);
+
     User.findById({_id:req.user._id},function (err,user) {
         if (err) {
             console.log(err);
@@ -212,7 +212,7 @@ UserController.edit_user=function (req,res,next) {  //done
          } 
         else if(user1 && (req.user.username != req.body.username)){
             console.log("here");
-             console.log(user1);
+           //  console.log(user1);
            const error= new Error ("this user name already exits");
             next(error);
 
