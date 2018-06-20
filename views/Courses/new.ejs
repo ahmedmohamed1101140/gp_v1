@@ -19,40 +19,79 @@
                     <input  name="course_name" type="text" class="form-control" required="required">
                     
                 </div>
-                <div class="form-group col-md-4 ">   
-                    <label for="course_type">Course type</label>
-                    <input id="course_type" type="text" name="course_type" class="form-control" required="required">
-                    
+             
+               <div class="form-group col-md-4">
+                    <div class="form-group">
+                                        <label class=" control-label">course type </label>
+                                           <div class="">
+                                            <select id="basic"  name ="course_type" class="selectpicker show-tick form-control" >
+                                            <option>Mandatory</option>
+                                            <option>elective</option>
+                                            </select>
+                         </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                     <div class="form-group col-md-12  ">
-                 <label for="textarea1">Course Description</label>  
-                   <textarea id="textarea1" name="course_description"  class="form-control" rows="6" required="required"></textarea>
-                    
+                 <label for="summernote">Course Description</label>  
+                   <textarea id="summernote" name="course_description" class="form-control" required="required"></textarea>
                 </div>
             </div>
             <div class="row">
-                    <div class="form-group col-md-3">   
-                            <label for="course_main_professor">course main professor</label>   
-                            <input id="course_main_professor" name="course_main_professor" type="text"  class="form-control" required="required">
-                        </div>
-                        <div class="form-group col-md-3 ">  
-                    <label for="course_lessons">course lessons</label>                 
-                     <input id="course_lessons" name="course_lessons" type="text"  class="form-control" required="required">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="course_hours">course hours</label>  
+                        <div class="col-md-3">
+                            <label> course main professor </label>
+                            <div class="form-group">
+                                    <select class="selectpicker" name="course_main_professor"  data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" title="Professor Name" >
+                                    <optgroup label="Users">
+                                        <% users.forEach(function (user) { %>  
+                                            <%if(user.usertype===1||user.usertype===2){%>                                                   
+                                            <option value="<%=user._id%>"> <%= user.firstname+" "+user.lastname %></option>
+                                            <%}%>
+                                        <% }); %>
+                                    </optgroup>
+                                  
+                                    </select>
+                                </div>
+                            </div>        
+                      
+                            <div class="col-md-3" >
+                                    <div class="form-group" id="helpers">
+                                       <label for="course_helper_professor">course helper professor</label>
+                                       <select class="selectpicker" name="course_helper_professor" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" required="required">
+                                           <optgroup label="Users">
+                                               <% users.forEach(function (user) { %>                                                       
+                                                <%if(user.usertype===1||user.usertype===2){%>                                                   
+                                                    <option value="<%=user._id%>"> <%= user.firstname+" "+user.lastname %></option>
+                                                    <%}%>
+                                              <% }); %>
+                                           </optgroup>
+                                           </select>
+                                   </div>
+                               </div>
+                <div class="col-md-3">
+                    <label>course hours</label> 
+                    <div class="form-group"> 
                      <input id="course_hours" name="course_hours" type="number"  class="form-control" required="required">
                 </div>
-                <div class="form-group col-md-3 ">
-                    <label for="course_related_fields">course relateted fields</label>
-                     <input id="course_related_fields" name="course_related_fields" type="text"  class="form-control" required="required" >
-                    
+                </div>
+
+               <div class="col-md-3">
+            <label> course dependencies </label>
+            <div class="form-group">
+                    <select class="selectpicker" name="course_dependencies" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+                    <optgroup label="courses">
+                        <% courses.forEach(function (course) { %>                                                       
+                            <option value="<%=course._id%>"><%= course.name %></option>
+                        <% }); %>
+                    </optgroup>
+                  
+                    </select>
                 </div>
             </div>
+            </div>
             <div class="row">
-            <div class="form-group col-md-6 " >
+            <div class="form-group col-md-4 " >
              <label for="registartion_closeday">registartion close day</label>
               <input id="course_registartion_closeday" name="course_registartion_closeday" type="text" class="form-control datepicker"  required="required" >
 
@@ -60,34 +99,38 @@
             
             
                 
-                <div class="form-group col-md-6 ">
+                <div class="form-group col-md-4 ">
                     <label for="course_max_students">course max students</label>
                     <input id="course_max_students" name="course_max_students" type="number"  class="form-control" required="required">
                 </div>
+                <div class="form-group col-md-4 " >
+                        <label for="coruse_logo">Course logo</label>
+                             <input id="coruse_logo" class="form-control" name="my_file" type="file"required="required">
+                      </div>
             </div>
+           
+                 
             <div class="row">  
-                <div class="col-md-6" >
-                 <div class="form-group col-md-10 " style="margin-left: -15px" id="helpers">
-                    <label for="course_helper_professor">course helper professor</label>
-                    <input id="course_helper_professor" name="course_helper_professor" type="text"  class="form-control" required="required">
+            
+          <!--   <div class="col-md-2">
+                    <button style="margin-bottom: -60px" type="button" class="btn btn-outline-info"  onclick="addElement2('helpers', 'div')">Add</button>
 
-                </div>
-                
-                <button style="margin-bottom: -60px" type="button" class="btn btn-outline-info"  onclick="addElement2('helpers', 'p')">Add</button>
-            </div>
+            </div> -->
             <div class="col-md-6">
-            <!--    <input id ="add"type="button" value="Add another text input" onClick="repeat('helpers')">-->
-            <div class="form-group col-md-10  " style="margin-left: -15px" id="objectives">
-                        <label for="course_objectives">course objectives</label>
-                        <input id="course_objectives" name="course_objectives" type="text"  class="form-control" required="required">
-                        
-                        
-                    </div>
-                    <button style="margin-bottom: -60px" type="button" class="btn btn-outline-info"  onclick="addElement('objectives', 'p')">Add</button>
+                   <% var objectivesid=0%>
 
-                </div>
-                  <!--  <input id ="add"type="button" value="Add another text input" onClick="repeat2('objectives')">-->
-            </div>
+                    <!--    <input id ="add"type="button" value="Add another text input" onClick="repeat('helpers')">-->
+                    <div class="form-group col-md-10  " style="margin-left: -15px" id="objectives">
+                                <label for="course_objectives">course objectives</label>
+                                <input id="course_objectives" name="course_objectives" type="text"  class="form-control" required="required">
+                                
+                                
+                            </div>
+                            <button style="margin-bottom: -60px" type="button" class="btn btn-outline-info"  onclick="addElement1('objectives', 'p','<%=objectivesid%>')">Add</button>
+        
+                        </div>
+                          <!--  <input id ="add"type="button" value="Add another text input" onClick="repeat2('objectives')">-->
+                    </div>
             <div class="col-md-12">
  <div class=" col-md-6" style="margin-left: -30px" >
       <h4>select  departments</h4>
@@ -108,11 +151,7 @@
                 <input name="course_departments" id="course_departments" type="hidden" value="">
              
                 
-                    <div class="form-group col-md-4 " >
-                       <label for="coruse_logo">Course logo</label>
-                            <input id="coruse_logo" class="form-control" name="my_file" type="file"required="required">
-                     </div>
-                    </div>
+                   
                 
 
                      <div class="row">
@@ -120,7 +159,7 @@
                         <button class="btn btn-info btn-fill pull-left" type="submit">Create Course </button>
                         </div>
             </div>  
-            
+     </div>
         </form>
     </div>
    </div>
@@ -129,12 +168,11 @@
 </div>
 
 <script>
-
-
-$('.datepicker').datepicker();
-$().button('toggle')
-var objectivesid=0;
-var helpersid=0;
+$('.datepicker').datepicker({
+    format: 'mm/dd/yyyy',
+});
+var helpersid=0
+var objectivesid=0
     
 function removeElement(removelement) {
     // Removes an element from the document
@@ -147,35 +185,39 @@ function removeElement(removelement) {
 
 } 
 
-  function addElement(parentId, elementTag) {
+  function addElement1(parentId, elementTag,num) {
+        // Adds an element to the document
+        var html1='</br>'+'<div  style="margin-left: -15px" class="col-md-10" >'+'<input class="form-control" id="course_objectives" name="course_objectives" type="text"  class="validate" required="required">'+'</div>'+'<div>'+
+    '<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_objectives' + objectivesid + '\'); return false;">Remove</a>'+'</div>';
+        var p = document.getElementById(parentId);
+        var newElement = document.createElement(elementTag);
+        newElement.setAttribute('id','course_objectives'+ objectivesid);
+     
+        newElement.innerHTML = html1;
+        p.appendChild(newElement);
+        objectivesid++;
+    }
+
+//<!--function addElement2(parentId, elementTag) {
     // Adds an element to the document
+  //  var html='course_helper_professor'+ helpersid;
+  //  var html1='</br>'+'<div class="col-md-9">'+'<select classname="selectpicker" name="course_helper_professor"  data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true" required="required">'+
+  //                         '<optgroup label="users">'+
+      //                     ' <% users.forEach(function (user) { %>'+                                                       
+    //                            '<option><%= user.username %></option>'+
+    //                      '  <% }); %>'+
+      //                  '</optgroup>'+
+        //              
+          //              '</select>'+'</div>'+
+//'<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_helper_professor' + helpersid + '\'); return false;">Remove</a>';
+ //   var p = document.getElementById(parentId);
+   // var newElement = document.createElement(elementTag);
+   // newElement.setAttribute('id','course_helper_professor'+ helpersid);
 
-    var html='course_objectives'+ objectivesid;
-    var html1='</br>'+'<div class="col-md-9">'+'<input input style="margin-left: -15px" class="form-control " id="course_objectives" name="course_objectives" type="text"   required="required">'+'</div>'+
-'<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_objectives' + objectivesid + '\'); return false;">Remove</a>';
-    var p = document.getElementById(parentId);
-    var newElement = document.createElement(elementTag);
-    newElement.setAttribute('id','course_objectives'+ objectivesid);
-
-    newElement.innerHTML = html1;
-    p.appendChild(newElement);
-    objectivesid++;
-}
-
-
-function addElement2(parentId, elementTag) {
-    // Adds an element to the document
-    var html='course_helper_professor'+ helpersid;
-    var html1='</br>'+'<div class="col-md-9">'+'<input input style="margin-left: -15px" class="form-control col-md-10" id="course_helper_professor" name="course_helper_professor" type="text"   required="required">'+'</div>'+
-'<a style="line-height:40px" href="" onclick="javascript:removeElement(\'course_helper_professor' + helpersid + '\'); return false;">Remove</a>';
-    var p = document.getElementById(parentId);
-    var newElement = document.createElement(elementTag);
-    newElement.setAttribute('id','course_helper_professor'+ helpersid);
-
-    newElement.innerHTML = html1;
-    p.appendChild(newElement);
-    helpersid++;
-}
+   // newElement.innerHTML = html1;
+   // p.appendChild(newElement);
+   // helpersid++;
+//}
 
 function checkboxx(listName,labelName){
 

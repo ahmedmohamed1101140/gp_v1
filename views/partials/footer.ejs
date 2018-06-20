@@ -7,6 +7,11 @@
 
 
 <!-- jQuery CDN -->
+
+ <!-- Bootstrap Js CDN -->
+ <script src="/js/jquery.min.js"></script>
+ <script src="/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
@@ -64,6 +69,28 @@
             height: 200
         });
     });
+
+
+    
+  var searchbar = document.getElementById('search');
+var posts=document.querySelectorAll('#posts');
+searchbar.addEventListener('keyup',function (e) {
+
+    const term=e.target.value.toLowerCase();
+
+    for (var i = 0, len = posts.length; i < len; i++) {
+        if (posts[i].textContent.toLocaleLowerCase().indexOf(term)!=-1)
+        {
+            posts[i].style.display='block';
+
+        }
+        else{
+            posts[i].style.display='none'
+        }
+    }
+
+})
+
   
  </script>
 

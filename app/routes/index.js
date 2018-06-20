@@ -9,6 +9,11 @@ var emails     = require("./email");
 var group      = require("./group");
 var post       = require("./post");
 var comment    = require("./comment");
+var lesson    = require("./lesson");
+var announcement= require("./announcement");
+
+
+
 
 
 app.get("/",function(req,res){
@@ -18,6 +23,11 @@ app.use("/users", user);
 app.use("/departments",department);
 
 app.use("/courses",course);
+app.use("/courses/:course_id/announcement",announcement);
+
+app.use("/courses/:course_id",lesson);
+
+
 
 
 

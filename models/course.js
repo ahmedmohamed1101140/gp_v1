@@ -16,10 +16,10 @@ var courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    related_fields:{
-        type: String,
-        required: true
-    },
+    dependencies :[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "course"
+    }],
   
     logo:{
         type: String,
@@ -41,30 +41,21 @@ var courseSchema = new mongoose.Schema({
     },
     main_professor:
     {
-        /*  id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },*/
-        type:String,
-        required:true
+            ref: "user",
+            required:true
     },
     helper_professor:
     [{
-        type:String
-      /*  id: {
+        
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },*/
-       
-     
+            ref: "user"
+        
     }],
     department:
     [{
-        
-        
             type: mongoose.Schema.Types.ObjectId,
             ref: "department"
-        
     }],
     objectives:
     [
@@ -72,26 +63,15 @@ var courseSchema = new mongoose.Schema({
             type:String
         }
     ],
-    lessons:
-    {
-         type:String,
-          /*  id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User"
-            },*/
-           default:""
-        
-    },
+  
     student_registrated:[{
-    
-        /*  id: {
               type: mongoose.Schema.Types.ObjectId,
-              ref: "User"
-          },*/
-          type:String,
-          default:""
-
-
+              ref: "user"
+    }],
+    yearwork:[{
+        name:{type:String,/*unique: true*/ },
+        totalgradescore:{ type: Number },
+        precentage:{ type: Number  },
     }],
     hours:{
         type:Number,
@@ -102,9 +82,26 @@ var courseSchema = new mongoose.Schema({
         type:Date,
         required:true
 
-    }
+    },
+    lecturestaken:{
+        type:Number,
+        default:1
+    },
+    labstaken:{
+        type:Number,
+        default:1
+    },
+    sectionstaken:{
+        type:Number,
+        default:1
+    },
 
+    upload_date:
+    {
+        type:Date,
+        default: Date.now()
 
+    },
 
 
 });

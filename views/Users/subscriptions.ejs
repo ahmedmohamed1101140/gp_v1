@@ -1,0 +1,60 @@
+<%include ../partials/header%>
+<style>
+hr{
+    border-top: 1px solid #8c8b8b;
+}
+#img{
+  position: relative;
+      width:  200px;
+      height: 10px;
+      background-position: 50% 50%;
+      background-repeat:   no-repeat;
+      background-size:cover;
+}
+</style>
+
+<h3>My Courses</h3>
+
+    <% var season_arr=["Spring","Summer","Winter","Fall"]%>
+        <%var counter=0%>
+        <%var total_gpaXhours=0%>
+        <%var total_hours=0%>        
+    <!-- First Blog Post -->
+   <% for (year =(new Date().getFullYear()).toString() ; year>user.year.toString()-1; year--) { %>
+    <% for (season =0; season<3; season++) { %>
+      <%  var found="false"%>
+       <% user.courses.forEach(function(course){%>
+          <%  if(course.year==year&&course.season==season_arr[season]){%>
+              <% found="true" } %>
+
+          <%  })%>
+           
+       <% if(found=="true"){  %>
+        <hr>
+        <div class="col-sm-12 col-md-12"> 
+        <h3><%=season_arr[season]+" "+year%></h3>
+        <%user.courses.forEach(function(course){%>
+          <%  if(course.year==year&&course.season==season_arr[season]){%>
+            
+              <%courses.forEach(function(course_info){%>
+                  <%if(course_info._id.toString()==course._id.toString()){%>
+   <div class="col-sm-3 col-md-3" slyle="display: inline-block"id="posts" >
+     <div class="thumbnail" >
+      <img style=" height: 150px;
+   "src="/uploads/<%=course_info.logo%>" alt="descrption ">
+      <div class="caption">
+        <h3><%=course_info.name%></h3>
+        <a href="/courses/info/<%=course_info._id%>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
+      </div>
+    </div>
+  </div>
+  <% }%>  
+<%})%>
+<%}%>
+
+<%})%>
+</div>
+<%}%>
+<%}%>
+<%}%>
+<%include ../partials/footer%>

@@ -1,0 +1,65 @@
+<%include ../partials/header%>
+
+<div class="container">
+<div class="form-row">
+        <div class="container" style="margin:auto auto;">
+                <table id="example" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <%var percentage=0%>
+                <th>Collage_ID</th>
+                <th>First name</th>
+                <%course.yearwork.forEach(function(grade){%>
+                    <th>
+                        <%=grade.name%>
+                    </br>
+                        (<%=grade.totalgradescore%> total )
+                    </br>
+                    (<%=grade.precentage%> % )
+                    <%percentage=percentage+grade.precentage%>
+                </th>
+                <%});%>
+                <th>Total</br>(<%=percentage%>%)</br>  </th> 
+            </tr>
+            </thead>
+            <tbody>
+            
+                
+                    <%var totalstudentgrade=0%>
+                            <tr>
+                                    <td><%=user.username.toString()%>  </td>
+                                    <td><%=user.firstname+" "+user.lastname%></td>
+                                    <%user_course.grade.forEach(function(grade){%>
+                                        <%course.yearwork.forEach(function(course_grade){%>
+                                            <%if(grade.name.toString()==course_grade.name.toString()){%>
+                                                <td>
+                                                        <%=grade.gradescore%>
+                                                      
+                                                        <%totalstudentgrade=totalstudentgrade+(grade.gradescore*course_grade.precentage)/course_grade.totalgradescore%>
+                
+                                                        
+                                                    </td>
+                        
+                        
+                                                    
+                                                <%}%>
+                                            
+                                        <%});%>
+                                        <%})%>
+                        <td>
+                            <%=totalstudentgrade%>%
+                        </td>
+                   
+                   
+            </tr>
+    
+            
+            </tbody>
+            </table>
+            
+            </div>
+
+</div>
+</div>
+
+<%include ../partials/footer%>

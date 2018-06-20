@@ -10,7 +10,7 @@ middlewareObj.validate_data = function(req,res,next){
     const schema = joi.object().keys({
         name:          joi.string().required(),
         type:           joi.string().required(),
-        description:   joi.string().max(400).required(),
+        description:   joi.string().required(),
         registartion_closeday : joi.date().required()
    
     });
@@ -57,6 +57,9 @@ middlewareObj.validate_data = function(req,res,next){
         next(error); 
     }
 };
+
+
+
 
 module.exports = middlewareObj;
 
