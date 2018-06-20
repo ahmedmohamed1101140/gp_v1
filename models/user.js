@@ -4,6 +4,12 @@ var passportLocalMongoose = require("passport-local-mongoose");
 
 // create a User schema
 var UserSchema = new mongoose.Schema({
+    groups: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group"
+        }
+    ],
     username :{
         type: String,
         unique: true

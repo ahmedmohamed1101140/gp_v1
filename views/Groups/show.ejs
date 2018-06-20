@@ -4,10 +4,13 @@
             <div class="container">
                 <h1><img width="100px" src="http://muc.edu.om/Research_Centre/img/foundation.png"><%= group.name %></h1>
                 <p>here all you need to know about <strong><%= group.name %> </strong> group </p>
-                <a href="/groups/<%= group._id %>/edit" class="btn btn-success">Edit</a>
-                <form style="display:inline;" action="/groups/<%= group._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
+                <% if (CurrentUSer.id == group.admin.id){%>
+                    <a href="/groups/<%= group._id %>/edit" class="btn btn-success">Edit</a>
+                    <form style="display:inline;" action="/groups/<%= group._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                    <%  } %>
+               
                 <a href="/groups/<%=group._id%>/posts/new" class="btn btn-primary" style="margin-left: 700px">Add new Post</a>                                
             </div>
         </header>

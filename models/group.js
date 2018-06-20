@@ -27,6 +27,9 @@ var groupSchema = new mongoose.Schema({
             ref: "User"
         },
         username: String,
+        userstatus: Number
+        // userstatus to check if allowed to visit or not 
+        // 0 not allow 1 allowed 
     }]
 });
 

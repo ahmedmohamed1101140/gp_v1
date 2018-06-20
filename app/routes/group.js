@@ -8,26 +8,27 @@ var Post       = require("../../models/post");
 //var Comments   = require("../models/comment");
 //var middleware = require("../middleware");
 
-
-router.get("/",
-    groupController.get_all_groups
-);
-router.get("/new",groupController.new_group);
-
-router.post("/groups/new",
-groupMiddleware.validate_data
-,groupController.create_group);
-
-
-router.get("/:id/edit",groupController.group_edit);
-
-router.put("/:id",
-groupMiddleware.validate_data
-,groupController.group_edit_post);
-
-  router.delete("/:id",groupController.group_delete);
-
-
+// Get All Group
+router.get("/", groupController.get_all_groups);
+// Get Specific Group
 router.get("/:id",groupController.get_specific_group);
+// create New Group
+router.get("/new",groupMiddleware.isAdmin,groupController.new_group);
+// Post for create New Group
+router.post("/groups/new",groupMiddleware.validate_data,groupController.create_group);
+
+// Edit Group 
+router.get("/:id/edit",groupController.group_edit);
+// Post for  Edit Group 
+router.put("/:id",groupMiddleware.validate_data,groupController.group_edit_post);
+// Delete  Group
+router.delete("/:id",groupController.group_delete);
+//USER Send Request to Join Group
+router.get("/request/:id",groupMiddleware.checkStatus,groupController.new_request);
+//Display All New Request 
+router.get("/request/:id/Requests",groupMiddleware.isAdmin,groupController.show_all_request);
+// Accept USER Joining Request
+router.get("/:group_id/accept/:user_id",groupMiddleware.isAdmin,groupController.accpet_request);
+
 
 module.exports = router;

@@ -5,26 +5,39 @@
         <div class="container">
         <h1>Welcome To Groups !</h1>
         <p>
-           <a class="btn btn-primary btn-large" href="groups/new"> Add New Group </a>
+            <% if(CurrentUSer.usertype=== 0 ||CurrentUSer.usertype=== 1 ){ %>
+                <a class="btn btn-primary btn-large" href="groups/new"> Add New Group </a>
+                <%   }  %>
+           
         </p>
          </div>
     </header>
     
     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-        <% groups.forEach(function(groups){%>
-                 <div class="col-md-3 col-sm-6">
-                    <div class="thumbnail">
-                      <img src="<%= groups.image %>">
-                      <div class="caption">
-                         <h4><%= groups.name %></h4>
-                      </div>
-                      <p>
-                          <a href="/groups/<%= groups._id %>" class="btn btn-primary"> More Info </a>
-                      </p>
-                    </div>
-                 </div>
-            <% }); %>
+        <%groups.forEach(function (groups) {%>
+        <div class="col-md-3 col-sm-6">
+            <div class="thumbnail">
+                <img src="<%= groups.image%>" class="img-thumbnail" alt="Image" width="304" height="236">
+                <div class="caption">
+                    <h4><%= groups.name%></h4>
+                </div>
+            <p>Admined By <a href="#"><%=groups.admin.username%></a></p>
+                <p>
+                    <a href="/groups/<%= groups._id %>" class="btn btn-lg btn-primary">Visit Group</a>
+                    <br>
+                    <br>
+                    <a href="/groups/request/<%= groups._id %>" type="submit" class="btn btn-lg btn-success">Join Group</a>
+                    <br>
+                  <br>
+                    <% if(  groups.admin.username  === CurrentUSer.username) { %>
+                        <a href="/groups/request/<%= groups._id %>/Requests" type="submit" class="btn btn-lg btn-primary">All Requests</a>
+                        <br>
+                        <% } %>
+                </p>
+            </div>
         </div>
+        <% }); %>
+    </div>
 </div>
 
 

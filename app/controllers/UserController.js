@@ -76,6 +76,8 @@ UserController.redirector = function(req, res){
                 res.render("Users/show" ,{USER:user});
                  }else if(user.usertype==1){
                     res.render("Users/showteacher" ,{USER:user});
+                  }else{
+                    res.render("Users/show" ,{USER:user});
                  }
 
             }else{
@@ -99,6 +101,8 @@ UserController.show_profile = function (req,res) {
                 res.render("Users/show" ,{USER:user});
                  }else if(user.usertype==1){
                     res.render("Users/showteacher" ,{USER:user});
+                 }else{
+                    res.render("Users/show" ,{USER:user});
                  }
         }
     })
