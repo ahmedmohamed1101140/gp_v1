@@ -10,9 +10,10 @@
                     <select class="selectpicker" name="users" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
                     <optgroup label="Users">
                         <option value="" selected>No one</option>
-                        <% course.student_registrated.forEach(function (user) { %>                                                       
-                            <option ><%= user %></option>
-                        <% }); %>
+                        <% Users.forEach(function (User) { %>  
+                            <%if(course.student_registrated.toString().includes(User._id)){%>                                                     
+                            <option value=<%=User._id%>><%= User.firstname+" "+User.lastname+" "+ "("+User.username+")" %></option>
+                        <%} }); %>
                     </optgroup>
                     </select>
                 </div>
@@ -57,7 +58,7 @@
 <thead>
 <tr>
     <th>Collage_ID</th>
-    <th>First name</th>
+    <th>Name</th>
    <% for (i = 1; i < course.lecturestaken; i++) { %> 
     <th>lectur<%=i%></th>
         <%}%>
