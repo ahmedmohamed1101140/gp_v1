@@ -2,7 +2,7 @@ const fs = require('fs');
 var upload_file = require("../../config/file-multer");
 var Announcement       = require("../../models/announcement");
 var Course=       require("../../models/course");
-
+var User=        require("../../models/user");
 var announcementController = {};
 
 announcementController.show = function (req, res){
@@ -60,10 +60,14 @@ announcementController.new_announcement_announcement =function(req,res){
 
         } 
         else{     
+            
+
+            
              var announcement = new Announcement({
                 name: req.body.announcement_name,
                 description:req.body.announcement_description,
                 course_id:course_found._id,
+                upload_user:req.params.course_id
 
             });
             Announcement.create(announcement,function(err,AnnouncementCreated){
@@ -78,7 +82,7 @@ announcementController.new_announcement_announcement =function(req,res){
 
                    
                    req.flash("success" , "announcement Created");
-                   res.redirect("/courses/"+req.params.course_id);
+                   res.redirect("/courses/"+req.params.course_id+"/announcement/showall");
                 }
            });
           } 
@@ -122,7 +126,7 @@ announcementController.announcement_edit_put=function(req,res){
             console.log(req.params.announcement_id);
           
             req.flash("success","announcement Edited");
-            res.redirect("/courses/"+req.params.course_id);
+            res.redirect("/courses/"+req.params.course_id+"/announcement/showall");
         }
     });
 };

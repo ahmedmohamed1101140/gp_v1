@@ -35,7 +35,7 @@ var UserSchema = new mongoose.Schema({
 
     image : {
         type: String,
-        default:"https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
+        default:null
     },
     usertype :{
         type: Number,
@@ -49,6 +49,10 @@ var UserSchema = new mongoose.Schema({
         type: String,
         //default:null
     },
+    department_Id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Department", 
+    },
     year :{
         type: String,
        // default:null
@@ -61,8 +65,11 @@ var UserSchema = new mongoose.Schema({
         {
         id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"course",  }
+        ref:"courses",  }
         ,
+        total:{type:Number,default:0},
+        year:{type:Number,default:2014},
+        season:{type:String,default:"Spring"},
         attendance:[{
             attendancetype:{ type: String},
             number:{ type: Number},

@@ -67,14 +67,8 @@ DepartmentController.create_new_department = function(req,res,next){
         key: req.body.dep_key,
         description: req.body.dep_description,
         since: req.body.dep_date,
-        desc_file: req.files[0].filename,
-        courses_file:req.files[1].filename ,                
-        logo: req.files[2].filename 
-    });
-
-    var objectives = req.body.objectives.split(",");
-    objectives.forEach(element =>{
-        department.objectives.push(element);
+        courses_file:req.files[0].filename ,                
+        logo: req.files[1].filename 
     });
 
     //3- save the department
@@ -83,7 +77,6 @@ DepartmentController.create_new_department = function(req,res,next){
             console.log(err.message);
             delete_file(req.files[0].filename);
             delete_file(req.files[1].filename);
-            delete_file(req.files[2].filename); 
             req.flash("error" , "Faild to Create Invalid Input or Duplicate Key Values please check your inputs");
             res.redirect('/departments/new');
         }
@@ -117,31 +110,21 @@ DepartmentController.update_department = function (req ,res, next) {
             console.log(err.message);
             delete_file(req.files[0].filename);
             delete_file(req.files[1].filename);
-            delete_file(req.files[2].filename);            
             req.flash("error" , "Invalid Input for department id");
             res.redirect("/departments/edit/"+req.patams.department_id);
         }
         else{
             if(found_department){
-                var files = [found_department.desc_file , found_department.courses_file , found_department.logo];
-                var uploaded_files = [req.files[0].filename , req.files[1].filename , req.files[2].filename];
+                var files = [ found_department.courses_file , found_department.logo];
+                var uploaded_files = [req.files[0].filename , req.files[1].filename ];
                 
                 found_department.name = req.body.dep_name;
                 found_department.key = req.body.dep_key;
                 found_department.description = req.body.dep_description;
                 found_department.since = req.body.dep_date;
-                found_department.desc_file =req.files[0].filename;
-                found_department.courses_file = req.files[1].filename;
-                found_department.logo = req.files[2].filename;
+                found_department.courses_file = req.files[0].filename;
+                found_department.logo = req.files[1].filename;
                 
-                for(var i=0;i<found_department.objectives.length;i++){
-                    found_department.objectives.pop();
-                };
-                var objectives = req.body.objectives.split(",");
-                objectives.forEach(element =>{
-                    found_department.objectives.push(element);
-                });
-
                 
 
                 found_department.save(function(err){

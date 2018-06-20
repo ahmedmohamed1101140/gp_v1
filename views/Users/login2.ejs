@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FCIS learing Management system</title>
+ 
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<body>
+ <h1> Welcome to LMS credit-hours program </h1>
+ <div id="container">
+  <% if(error && error.length > 0 ){%>
+      <div class="alert alert-danger" role="alert">
+          <strong>Error : </strong> <%= error %>
+      </div>
+  <% } %>
+  <% if(success && success.length > 0 ) {%>
+      <div class="alert alert-success" role="alert">
+          <strong>Success: </strong><%= success %>
+      </div>
+  <%}%>
+</div>
+
+<div class="login-page">
+  <div class="form">
+    <form class="login-form" action="/Users/login" method="POST">
+      <input type="text" name="username" placeholder="username" required>
+      <input type="password"name="password" placeholder="password" required>
+      <button type="submit"> login</button>
+      <p class="message">Not registered? <a href="#">Create an account</a></p>
+    </form>
+  </div>
+</div>
+
+
+</body>
+</html>
+

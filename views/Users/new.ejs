@@ -8,7 +8,7 @@
                 <div class="card">
 
                     <div class="header">
-                        <h4 class="title">Add new Users</h4>
+                        <h4 class="title">Add students</h4>
                         <br>
                     </div>
 
@@ -39,10 +39,10 @@
                                     <div class="form-group">
                                         <label class=" control-label">Choose department</label>
                                         <div class="">
-                                            <select  name="departemnt_name" id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                                            <select  name="department_data" id="basic" class="selectpicker show-tick form-control" data-live-search="true">
                                                 <% departments.forEach(function (department){ %>
 
-                                                <option value="sw"> <%=department.name+" "+department.key%> </option>
+                                                <option value="<%= department.key+" "+department._id %>"> <%=department.name+" "+department.key%> </option>
 
                                                <% })%>
 

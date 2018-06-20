@@ -1,29 +1,55 @@
 <% include ../partials/header %>
-
+<script>
+        function ConfirmDelete()
+       {
+         var x = confirm("Are you sure you want to delete?");
+         if (x){
+             return true;
+         }else{
+           return false;
+        }
+   
+       }
+   
+      </script>
 <div class="container">
-        
+    <% if(CurrentUSer.usertype===0){ %>
         <header class="jumbotron">
+           
             <div class="container">
             <h1>courses</h1>
             <p>here you can find all the system course and create new one</p>
             <p>
-                <a class="btn btn-primary btn-large" href="courses/new"> Add New course </a>
+                <a class="btn btn-primary btn-large "  href="courses/new"> Add New course </a>
             </p>
                 </div>
+               
         </header>
+        <%}%>
 
         <div class="row">
                 <% courses.forEach(function (course) { %>
-                <div class="col-sm-6">
-                  <div class="thumbnail">
-                    <div class="card-body">
+                <div class="col-sm-3 col-md-3" id="posts" >
+                  <div class="thumbnail" >
+                      <img src="/uploads/<%=course.logo%>"style="height:200px" alt="descrption">
+                    <div class="card-body"  >
                       <h5 class="card-title"><%= course.name %></h5>
-                      <p class="card-text"><%= course.description %>.</p>
-                      <a href="/courses/<%= course._id%>" class="btn btn-primary">View</a>
-                      <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
-                        <form style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE" method="POST">
+                      <%users.forEach(function(user){%>
+                        <% if(user._id.toString()==course.main_professor.toString()){%>
+                         <p class="lead">
+                            <p class="card-text">Professor : <%=user.firstname+" "+user.lastname%></p>
+                             </p>
+                             <%}%>
+                    <% })%>
+                    <% if(CurrentUSer.usertype===0){ %>
+                    <a href="/courses/info/<%= course._id%>" class="btn btn-info ">control</a>
+                    <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
+                        <form  onsubmit="return ConfirmDelete()"  style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE"  method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
+                    <%}else{%>
+                      <a href="/courses/<%= course._id%>" class="btn btn-primary">View</a>
+                      <%}%>
                     </div>
                   </div>
                 </div>
@@ -31,6 +57,7 @@
               </div>
 
 </div>
+
 
 
 

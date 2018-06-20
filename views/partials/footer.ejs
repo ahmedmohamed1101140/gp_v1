@@ -11,7 +11,6 @@
  <!-- Bootstrap Js CDN -->
  <script src="/js/jquery.min.js"></script>
  <script src="/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
@@ -25,15 +24,31 @@
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
 
+
+
 <!-- Bootstrap Js CDN -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>    
+<script src="/js/bootstrap-confirmation.min.js"></script>
 
 
 <script src="/js/main.js"></script>
 
  <script type="text/javascript">
-    
+  $(document).ready(function() {
+        $('body').confirmation({
+            selector: '[data-toggle="confirmation"]',
+            onConfirm: function(event, element) {document.getElementById("delete_form").submit() },
+
+        });
+
+        $('.confirmation-callback').confirmation({
+            onConfirm: function(event, element) {document.getElementById("form").submit() },
+            onCancel: function(event, element) { },
+            btnOkLabel:"yes",
+            btnOkClass:"btn btn-sm btn-primary"
+        });
+    });
     $(document).ready(function() {
         var table = $('.example').DataTable( {
                 select: {
@@ -69,6 +84,28 @@
             height: 200
         });
     });
+
+
+    
+  var searchbar = document.getElementById('search');
+var posts=document.querySelectorAll('#posts');
+searchbar.addEventListener('keyup',function (e) {
+
+    const term=e.target.value.toLowerCase();
+
+    for (var i = 0, len = posts.length; i < len; i++) {
+        if (posts[i].textContent.toLocaleLowerCase().indexOf(term)!=-1)
+        {
+            posts[i].style.display='block';
+
+        }
+        else{
+            posts[i].style.display='none'
+        }
+    }
+
+})
+
   
  </script>
 

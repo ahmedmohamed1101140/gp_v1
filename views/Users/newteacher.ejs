@@ -8,7 +8,7 @@
                 <div class="card">
 
                     <div class="header">
-                        <h4 class="title">Add teacher</h4>
+                        <h4 class="title">Add User</h4>
                         <br>
                     </div>
 
@@ -18,16 +18,23 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="email">email</label>
-                                        <input placeholder="email of teacher" name="email" type="email" class="form-control" required="required">
+                                        <input placeholder="User email" name="email" type="email" class="form-control" required="required">
                                     </div>
                                 </div>
                             </div>
                             <br><br>
                             <div class="row">
-                                <div class="col-md-8">
-                                    <button class="btn btn-info btn-fill pull-left" type="submit">Add teacher
-                                    </button>
+                                <div class="col-md-2">
+                                    <button class="btn btn-info btn-fill pull-left" type="submit">Add User </button>
                                 </div>
+                                <div class="col-md-6">
+                                    <input type="radio" name="usertype" value="1" checked> instructor<br>
+                                    <input type="radio" name="usertype" value="2"> TA <br>
+                                    <input type="radio" name="usertype" value="3"> staff<br> 
+                                    <input type="radio" name="usertype" value="0"> admin <br>
+                                    
+                                </div>
+
                             </div>
                         </form>
                     </div>

@@ -3,7 +3,9 @@ var passport       =require('passport');
 var Department = require("../../models/department");
 var upload_image = require("../../config/image-multer");
 var Course= require("../../models/course");
+var Group = require("../../models/group");
 const fs = require('fs');
+var async =require('async');
 var UserController = {};
 
 
@@ -38,7 +40,8 @@ UserController.display_all_users= function (req,res,next) {
 }
 
 UserController.login_view =function(req, res) {
-    res.render("Users/login");
+   // res.render("Users/login");
+   res.render("Users/login2");
 
 }
 
@@ -49,9 +52,91 @@ UserController.logout = function(req, res){
     res.redirect("/Users/login");
 }
 
+UserController.GPA_view=function(req,res)
+{
 
+  User.findById(req.params.UserId,function (err,user) {
+            if(err){
+                console.log(err);
+                req.flash("failed","User not found");
+            }
+         else{
+             Course.find(function(err,courses){
+                 if(err)
+                 {
+                    req.flash("failed","No Courses Found");
+                 }
+                 else
+                 {
+
+                    res.render("Users/GPA",{user:user,courses:courses});
+
+                 }
+             })           
+         }
+    });
+}
+UserController.My_Attendance=function(req,res)
+{
+
+  User.findById(req.params.UserId,function (err,user) {
+            if(err){
+                console.log(err);
+                req.flash("failed","User not found");
+            }
+         else{
+            Course.findById(req.params.CourseId,function(err,course){
+                if(err)
+                {
+                   req.flash("failed","No Courses Found");
+                }
+                else
+                {
+                     
+                       
+                           res.render("Users/myattendance",{course:course,user:user});
+                       
+                   
+
+
+                }
+            })   
+        }        
+    });
+}
+UserController.My_grade=function(req,res)
+{
+  User.findById(req.params.UserId,function (err,user) {
+            if(err){
+                console.log(err);
+                req.flash("failed","User not found");
+            }
+         else{
+
+             Course.findById(req.params.CourseId,function(err,course){
+                 if(err)
+                 {
+                    req.flash("failed","No Courses Found");
+                 }
+                 else
+                 {
+                     user.courses.forEach(function(user_course)     
+                    {     
+                        if(user_course._id.toString()==course._id.toString())
+                        { 
+                            res.render("Users/mygrade",{user_course:user_course,course:course,user:user});
+                        }
+                    })
+
+
+                 }
+             })           
+         }
+    });
+}
 UserController.delete_user = function (req,res) {
-
+   
+    
         User.findByIdAndRemove({_id:req.params.UserId},function (err,user) {
             if(err){console.log(err);}
          else{
@@ -63,9 +148,9 @@ UserController.delete_user = function (req,res) {
 }
 
 // Redirecting user after changing his profile
-UserController.redirector = function(req, res){
+UserController.redirector = function(req,res){
 
-    console.log(req.user._id);
+
     User.findById({_id:req.user._id},function (err,user) {
         if (err) {
             console.log(err);
@@ -73,8 +158,9 @@ UserController.redirector = function(req, res){
         else {
             if(user.changed==0){
                  if(user.usertype==4){ //student
+
                 res.render("Users/show" ,{USER:user});
-                 }else if(user.usertype==1){
+                 }else {
                     res.render("Users/showteacher" ,{USER:user});
                   }else{
                     res.render("Users/show" ,{USER:user});
@@ -97,9 +183,9 @@ UserController.show_profile = function (req,res) {
             console.log(err);
         }
         else {
-                if(user.usertype==4){ //student
+                if(user.usertype==4){ 
                 res.render("Users/show" ,{USER:user});
-                 }else if(user.usertype==1){
+                 }else{
                     res.render("Users/showteacher" ,{USER:user});
                  }else{
                     res.render("Users/show" ,{USER:user});
@@ -122,18 +208,20 @@ UserController.edit_user=function (req,res,next) {  //done
     }
    
     User.findOne({username:req.body.username},function(err,user1){
-
+           
+         
          if(err){
              console.log("this an error"); 
             
-         }
-        else if(user1){
-
+         } 
+        else if(user1 && (req.user.username != req.body.username)){
+            console.log("here");
+           //  console.log(user1);
            const error= new Error ("this user name already exits");
             next(error);
 
         }else{
-           
+          
             User.findByIdAndUpdate({_id:req.params.UserId},updates_user,function (err,user) {
 
                 if(err){
@@ -142,9 +230,12 @@ UserController.edit_user=function (req,res,next) {  //done
                 }
                 else{
                     delete_file(user.image);
+                    req.flash("success","profile is edited successfully")
                     res.redirect("/Users");
                 }
-            });
+            });/*
+          req.flash("success","what ??????????????");
+                    res.redirect("/Users");*/
         }
 
     });
@@ -225,57 +316,75 @@ UserController.addstudents_view=function (req,res,next) {
 // creating new  students
 UserController.Seed_all_users=function (req ,res,next) {
 
-
-    //var course ="5adc96a7fd49b762b840cc02";
-    var departemnt_name= req.body.departemnt_name; //"sw";
+     var departemnt_data =req.body.department_data.split(" ");
+    var departemnt_name= departemnt_data[0]; //"sw";
     var studentsCount =req.body.studentscount;
     var year=req.body.year;
     var collage_serial =  req.body.collage_serial.toString(); //1709
     var student_colleage_id;
+    var departemnt_id=departemnt_data[1] //id:5ca46dada
+    
 
 
-    for(var i=1;i<= studentsCount;i++) {
+    var Users_to_be_add =[];  
+   
+    for(var i=1;i<=studentsCount;i++) {
         student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
+        Users_to_be_add.push(student_colleage_id);
+    }
+   
+    var filtered_usercollage_ids=[];
 
-        console.log(student_colleage_id);
+       async.each(Users_to_be_add, function(usercollage_id, done){
+        User.findOne({collage_id:usercollage_id },function(err,user){
+            if(err){
+                console.log(err);
+            }
+            else if(user){
+               console.log("the repteaed ids " + user.collage_id);  
 
-      User.findOne({collage_id:student_colleage_id},function(err,user){
+            }else if(!user){
 
+                filtered_usercollage_ids.push(usercollage_id);
+            }
+            done();
+        })
+    },function(err){
 
-               if(err){console.log(err);}
-               else if(user){
+        if(err){console.log(err);}
+ 
+           if(filtered_usercollage_ids.length>=1){
 
-                  console.log("user exits");
-               }else{
+            console.log(filtered_usercollage_ids);
 
-                User.register(new User({
-                    username: student_colleage_id,
-                    collage_id: student_colleage_id,
-                    department_name:departemnt_name,
-                    year:year
-                    
-                }), "password", function (err,user) {
-                    if (err) {
-                        console.log(err);
-                        return res.render('Users/register');
-                    }
-                    else {
-                        /*
-                        Course.findOne(function(err,found_course){
-                            user.courses.push(found_course) ;
-                            user.save();
-                            found_course.student_registrated.push(user);
-                            found_course.save();
-                        });
-                         */
-                    }
-                   });
-               }
-      });   
-           
-    } 
-       req.flash("success" , "Users Created");
-       res.redirect("/Users");
+        filtered_usercollage_ids.forEach(function(usercid){
+
+            User.register(new User({
+                username: usercid,
+                collage_id: usercid,
+                department_name:departemnt_name,
+                year:year,
+                department_Id:departemnt_id
+                
+            }), "password", function (err,user) {
+                if (err) {
+                    console.log(err);
+                    return res.render('Users/register');
+                }
+                else {
+               //
+                }
+            });
+
+        });
+
+    }
+     
+    req.flash("success" , "Users Created");
+   return res.redirect("/Users");
+ 
+    });
+
  }
 
 
@@ -287,6 +396,63 @@ function leftPad(number, targetLength) {
     return output;
 }
 
+ function check_already_exiting_users(studentsCount,departemnt_name,year,collage_serial){
+    var Users_to_be_add =[];  
+   
+    for(var i=1;i<=studentsCount;i++) {
+        student_colleage_id = departemnt_name + year + collage_serial + leftPad(i, studentsCount.toString().length);
+        Users_to_be_add.push(student_colleage_id);
+    }
+   
+    var filtered_usercollage_ids=[];
+
+       async.each(Users_to_be_add, function(usercollage_id, done){
+        User.findOne({collage_id:usercollage_id },function(err,user){
+            if(err){
+                console.log(err);
+            }
+            else if(user){
+               console.log("the repteaed ids "+user.collage_id);  
+            }else if(!user){
+                filtered_usercollage_ids.push(usercollage_id);
+            }
+            done();
+        })
+    },function(err){
+
+        
+        filtered_usercollage_ids.forEach(function(usercid){
+
+            User.register(new User({
+                username: usercid,
+                collage_id: usercid,
+                department_name:departemnt_name,
+                year:year
+                
+            }), "password", function (err,user) {
+                if (err) {
+                    console.log(err);
+                    return res.render('Users/register');
+                }
+                else {
+                   
+                    user.save();
+    
+                }
+            });
+
+        });
+
+     
+    req.flash("success" , "Users Created");
+   return res.redirect("/Users");
+
+
+    } );
+
+ }
+
+ 
 UserController.addteacher_view=function (req,res,next) {
       
     res.render("Users/newteacher");
@@ -295,7 +461,9 @@ UserController.addteacher_view=function (req,res,next) {
 UserController.createteachers=function(req,res,next){
 
     var useremail=req.body.email;
-     console.log(req.body.email);
+    var type = req.body.usertype;
+    
+     console.log(req.body.usertype);
     User.findOne({email:useremail},function(err,user){
         if(err){
             console.log(err);
@@ -310,13 +478,13 @@ UserController.createteachers=function(req,res,next){
                 User.register(new User({
                     username: useremail,
                     email:useremail,
-                    usertype:1
+                    usertype:type
                 }), "password", function (err, user) {
                     if (err) {
                         console.log(err);
                         next(err);
                     }else{
-                          req.flash("success","A Teacher is created");
+                          req.flash("success","A User is created");
                           res.redirect("/Users");
                     }
             
@@ -349,7 +517,28 @@ UserController.upload_user_image = function(req,res,next){
     });
 };
 
-
+UserController.subscriptions = function(req,res,next){
+        
+        Course.find({student_registrated:{$in:[req.params.UserId]}},function(err,courses){
+            if(err){console.log(err);
+            }
+            else{
+            User.findById({_id:req.params.UserId},function (err,user) {
+                if (err) {
+                    console.log(err);
+                }
+                else {         // console.log(mycoures);
+            if(err){console.log(err);
+            }
+            else if(courses.length>=1){
+                console.log(user);
+                res.render("Users/subscriptions",{courses:courses,user:user});
+            }
+        }
+        });
+    }
+    });
+ }
 module.exports = UserController;
 
 delete_file = function (file) {

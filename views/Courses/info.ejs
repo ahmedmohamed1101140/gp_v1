@@ -7,35 +7,76 @@
 
             <!-- Blog Entries Column -->
             <div class="col-md-8">
-
-                
+                    <form  id="form" action="/courses/<%=course._id%>/register/<%=CurrentUSer._id%>?_method=PUT" method="POST" >
+                <%var Professor%>
+                <%var helper=[]%>
                 <!-- First Blog Post -->
+                <% if(CurrentUSer.usertype===4){ %>
+                    <button class="btn btn-info btn-fill  confirmation-callback "  type ="submit" style="float:right">Registarter <span class="glyphicon glyphicon-chevron-right"></span></button>
+                    </form>
+                    <%}%>
                 <h2>
                     <a href="#"><%=course.name%></a>
                 </h2>
-                <p class="lead">
-                    by <a href=""><%=course.main_professor%></a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
+                <%users.forEach(function(user){%>
+                   <% if(user._id.toString()==course.main_professor.toString()){%>
+                    <p class="lead"style="margin-top:-10px">
+                            Professor :<a href=""> <%=user.firstname+" "+user.lastname%></a>
+                        </p>
+                        <%}%>
+               <% })%>
+               <p style="margin-top:-15px">
+                    TAs:
+                
+               <% course.helper_professor.forEach(function(helper_user){%>
+                    <%users.forEach(function(user){%>
+                       <% if(user._id.toString()==helper_user.toString()){%>
+                        
+                                <a href=""><%=user.firstname+" "+user.lastname%></a>
+                       </br>
+                            
+                            <%}%>
+                   <% })%>  
+               <% })%>
+            </p>
                 <hr>
-                <img class="img-responsive" src="https://cheggexperts.com/wp-content/uploads/2017/09/ORFF360-900x300.jpg" alt="">
+          <!--      <div class="image">
+                        <%if(course.logo){%>
+                            <img src="/uploads/<%=course.logo%>" style="display: block; margin-left: auto; margin-right: auto; width: 100%; height:250px" alt="..."/>
+                            <%}else if(course.logo==null){ %>
+                            <img src="/userimage/user_male2-512.png" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="..."/>
+                            <%}%>
+                </div>
                 <hr>
-                <p><%=course.description%></p>
-                <a class="btn btn-primary" href="#">Registarter <span class="glyphicon glyphicon-chevron-right"></span></a>
+            -->
+            <div class="panel panel-info ">
+                    <div class="panel-heading">
+                            <h3 class="panel-title"> Description</h3>
+                          </div>
+                <div  class="panel-body" style="margin-left:10px">
+                        <input type="hidden" value="<%=course.description%>"id="course description">
+                        <script>
+                                document.write(document.getElementById("course description").value); 
+                            </script>
+                  </div> 
+                </div>
+                
 
                 <hr>
                <div class="panel panel-primary">
                     <div class="panel-heading">
-                            <h3 class="panel-title">Course objectives</h3>
+                            <h3 class="panel-title"> objectives</h3>
                           </div>
-                          <%course.objectives.forEach(function (Course) { %> 
-
-                 <div class="panel-body"><%=Course%></div>
+                          <%course.objectives.forEach(function (objective) { %> 
+                 <div class="panel-body"><%=objective%></div>
                  <%});%>
                </div>
+               <hr>
+               <p><span class="glyphicon glyphicon-time"></span> Updated on <%=course.upload_date.toString().substr(0,15)%> </p>
+<!--
                <div class="card card-outline-secondary my-4">
                     <div class="card-header">
-                       course feedbacks
+                        Feedbacks
                     </div>
                     <div class="card-body">
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
@@ -49,6 +90,7 @@
                       <hr>
                     </div>
                   </div>
+                  -->
                   <!-- /.card -->
              
 
@@ -60,7 +102,7 @@
 
                 <!-- Blog Search Well -->
                 <div class="well">
-                    <h4>coures information</h4>
+                    <h4>information</h4>
                  <span class="glyphicon glyphicon-list-alt" aria-hidden="true"> </span>
                     <%=course.type%>  
                 </br>
@@ -71,7 +113,7 @@
                     <%=course.maxstudent_num%> student max
                 </br>
                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"> </span>
-                 <%=course.registartion_closeday%> registartion closeday
+                 <%=course.registartion_closeday.toString().substr(0,15)%> </br> (Registartion Closeday)
             </div>
 
 
@@ -88,11 +130,15 @@
                     <h4>Course Dependencies </h4>
                     <div class="row">
                         <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                         <%course.dependencies.forEach(function (Course) { %> 
-                                <li><a href="#"><%=Course%></a>
-                                </li>
-                                <%});%> 
+                            <ul class="list-unstyled"> 
+                                    <%course.dependencies.forEach(function (Course) { %>  
+                                    <% courses.forEach(function(courselist){%>
+                                           <% if(courselist._id.toString()==Course.toString()){%>
+                                            <li><a href="/courses/<%=courselist._id%>"><%=courselist.name%></a>
+                                                </li
+                                                <%}%>
+                                       <% })%>  
+                                 <%});%> 
                             </ul>
                         </div>
                         <!-- /.col-lg-6 -->
@@ -103,10 +149,10 @@
                 </div>
 
                 <!-- Side Widget Well -->
-                <div class="well">
+              <!--  <div class="well">
                     <h4>feedbacks</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-                </div>
+                </div>-->
             </div>
         </div>
 

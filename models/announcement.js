@@ -16,7 +16,6 @@ var announcementSchema = new mongoose.Schema({
     upload_user:
     { type: String,
         required: true,
-        default:"mr.ramy"
 
 
  
