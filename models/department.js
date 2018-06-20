@@ -32,10 +32,6 @@ var departmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    desc_file:{
-        type: String,
-        required: true,
-    },
     courses_file:{
         type: String,
         required: true,

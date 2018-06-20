@@ -24,17 +24,37 @@
             <div class="card-header">
                Recent announcements
             </div>
-            <div class="card-body">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-              <hr>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-              <hr>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-              <hr>
+            <%var counter =0%>
+            <script>
+                var x =0;
+            </script>
+            <%announcement.reverse()%>
+            <%announcement=announcement.slice(0,4)%>
+
+
+                <%announcement.forEach(function (announcement){%> 
+            <div class="card-body clearfix "style="margin-top:30px;"id="posts">
+               <div>
+                    <h3 style="margin-left:5px;display:inline-block;width:450px">   
+                        <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"> </span>
+                       <%=announcement.name%> 
+                   </h3>
+               </div>
+             
+              <div style="margin-left:10px">
+                    <input type="hidden" value="<%=announcement.description%>"id=announcementdescription<%=counter%>>
+                    <script>
+                            document.write(document.getElementById("announcementdescription"+x).value); 
+                            x++; 
+                        </script>
+              </div>
+              <div>
+                    <hr>
+                    <small class="text-muted"style="margin-left:5px">Posted by <%=announcement.upload_user%> on  <%=announcement.upload_date%></small>
+        
+                 </div> 
             </div>
+            <%})%>
           </div>
           <!-- /.card -->
 

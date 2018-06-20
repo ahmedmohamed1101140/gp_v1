@@ -23,7 +23,7 @@ router.get("/lesson/new"
 ,lessonController.new_lesson);
 
 
-router.post("/lesson"
+router.post("/lesson/:name"
 ,authorizationmiddleware.isCoursecontoller
 ,lessonController.upload_files,lessonMiddleware.validate_data,lessonController.new_lesson_lesson);
 

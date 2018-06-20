@@ -1,5 +1,17 @@
 <% include ../partials/header %>
-
+<script>
+        function ConfirmDelete()
+       {
+         var x = confirm("Are you sure you want to delete?");
+         if (x){
+             return true;
+         }else{
+           return false;
+        }
+   
+       }
+   
+      </script>
 <div class="container">
     <% if(CurrentUSer.usertype===0){ %>
         <header class="jumbotron">
@@ -8,7 +20,7 @@
             <h1>courses</h1>
             <p>here you can find all the system course and create new one</p>
             <p>
-                <a class="btn btn-primary btn-large" href="courses/new"> Add New course </a>
+                <a class="btn btn-primary btn-large "  href="courses/new"> Add New course </a>
             </p>
                 </div>
                
@@ -30,9 +42,9 @@
                              <%}%>
                     <% })%>
                     <% if(CurrentUSer.usertype===0){ %>
-                    <a href="/courses/info/<%= course._id%>" class="btn btn-info">control</a>
+                    <a href="/courses/info/<%= course._id%>" class="btn btn-info ">control</a>
                     <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
-                        <form style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE" method="POST">
+                        <form  onsubmit="return ConfirmDelete()"  style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE"  method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
                     <%}else{%>
@@ -45,6 +57,7 @@
               </div>
 
 </div>
+
 
 
 
