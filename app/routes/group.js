@@ -10,10 +10,11 @@ var Post       = require("../../models/post");
 
 // Get All Group
 router.get("/", groupController.get_all_groups);
-// Get Specific Group
-router.get("/:id",groupController.get_specific_group);
 // create New Group
 router.get("/new",groupMiddleware.isAdmin,groupController.new_group);
+// Get Specific Group
+router.get("/:id",groupController.get_specific_group);
+
 // Post for create New Group
 router.post("/groups/new",groupMiddleware.validate_data,groupController.create_group);
 

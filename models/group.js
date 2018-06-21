@@ -2,7 +2,8 @@ var mongoose = require("mongoose");
 // schema set up
 var groupSchema = new mongoose.Schema({
     name: {type: String, unique: true},
-    image: {type: String , default: "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"},
+    image: {type: String ,default:"https://d30zbujsp7ao6j.cloudfront.net/wp-content/uploads/2017/07/unnamed.png"},
+    
     description:{type : String },
     members_num: {type: Number, default: 1},
     post_num: {type: Number, default: 0},
