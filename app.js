@@ -76,21 +76,21 @@ app.use('/',applicaition);
 
 
 
-//custom app error handling
-app.use(function (error,req,res,next) {
-    res.status(error.status || 500);
-    if(api_check(req)){
+// //custom app error handling
+// app.use(function (error,req,res,next) {
+//     res.status(error.status || 500);
+//     if(api_check(req)){
 
-        res.json({
-            error:{
-                message: error.message
-            }
-        });
-    }else {
-        req.flash("error", error.message);
-        res.redirect("back");
-    }
-});
+//         res.json({
+//             error:{
+//                 message: error.message
+//             }
+//         });
+//     }else {
+//         req.flash("error", error.message);
+//         res.redirect("back");
+//     }
+// });
 
 var server = app.listen(process.env.PORT || "8080   ",function (err) {
     console.log("App Running At PORT: "+ server.address().port);

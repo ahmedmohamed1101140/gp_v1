@@ -145,10 +145,9 @@ UserController.redirector = function(req,res){
                  if(user.usertype==4){ //student
 
                 res.render("Users/show" ,{USER:user});
-                 }else {
+                 }else{
                     res.render("Users/showteacher" ,{USER:user});
-                 }
-
+                  }
             }else{
                 res.redirect("/Users");
             }
