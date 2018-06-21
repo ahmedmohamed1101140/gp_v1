@@ -9,21 +9,6 @@ var async =require('async');
 var UserController = {};
 
 
-UserController.register_view = function(req, res,next){
-    res.render("Users/register");
-}
-
-UserController.register_user = function(req, res, next ) {
-    User.register(new User({username: req.body.username}), req.body.password, function (err, user) {
-        if (err) {
-            console.log(err);
-            return res.render('Users/register');
-        }
-        passport.authenticate("local")(req, res, function () {
-            res.redirect("/Users/secret");
-        });
-    });
-}
 
 UserController.display_all_users= function (req,res,next) {
 

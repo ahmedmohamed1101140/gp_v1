@@ -11,11 +11,6 @@
 
 router.get("/",usercontroller.display_all_users);
 
-
-//Register
-router.get("/register",usercontroller.register_view);
-router.post("/register",userware.user_acc_validation,usercontroller.register_user);
-
  //LOGIN
 router.get("/login",usercontroller.login_view);
 router.post("/login",userware.user_acc_validation
@@ -43,7 +38,7 @@ router.get("/createstudents",usercontroller.addstudents_view);
  );
 
 //Deleting USERS
- router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); // just for testing tested
+ router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); 
  router.delete("/:UserId",usercontroller.delete_user);
  //Show Profile
  router.get("/profile",usercontroller.show_profile);
