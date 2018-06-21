@@ -514,6 +514,7 @@ UserController.subscriptions = function(req,res,next){
             else if(courses.length>=1){
                 console.log(user);
                 res.render("Users/subscriptions",{courses:courses,user:user});
+              // res.render("Users/mysubs2",{Mycourses:courses});
             }
         }
         });
