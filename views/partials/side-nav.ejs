@@ -5,12 +5,27 @@
     </div>
 
     <ul class="list-unstyled components">
-        <li class="active">
+   <!--     <li>
             <a href="/">
                 <i class="glyphicon glyphicon-home"></i>
                 Home
             </a>
-        </li>
+         </li> -->
+
+         <%if(!CurrentUSer) { %>
+            <% }else {%>
+                <% if(CurrentUSer.usertype==4){ %>
+                <li class="active">
+                    <a href="/users/<%=CurrentUSer._id%>/subscriptions">
+                        <i class="glyphicon glyphicon-home"></i>
+                       Home
+                    </a>
+                </li>
+                <%}%> 
+                <%}%>
+
+
+
         <li>
             <a href="/departments">
                 <i class="glyphicon glyphicon-briefcase"></i>
@@ -56,17 +71,14 @@
         <%}%>
         <%}%>
 
-        <%if(!CurrentUSer) { %>
-        <% }else {%>
-            <% if(CurrentUSer.usertype==4){ %>
+       
             <li>
-                <a href="/users/<%=CurrentUSer._id%>/subscriptions">
-                    <i class="glyphicon glyphicon-user"></i>
-                    My subscriptions
+                <a href="/AboutUs">
+                    <i class="glyphicon glyphicon-home"></i>
+                    AboutUs
                 </a>
             </li>
-            <%}%> 
-            <%}%>
+            <li>
     </ul>
 
 </nav>

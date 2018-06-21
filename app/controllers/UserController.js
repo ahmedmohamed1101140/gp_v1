@@ -142,14 +142,16 @@ UserController.redirector = function(req,res){
         }
         else {
             if(user.changed==0){
-                 if(user.usertype==4){ //student
-
-                res.render("Users/show" ,{USER:user});
-                 }else{
+                if(user.usertype==4)
+                {
+                     //student
+                    res.render("Users/show" ,{USER:user});
+                 }
+                 else{
                     res.render("Users/showteacher" ,{USER:user});
                   }
             }else{
-                res.redirect("/Users");
+                res.redirect("/");
             }
         }
     })
@@ -211,7 +213,7 @@ UserController.edit_user=function (req,res,next) {  //done
                 else{
                     delete_file(user.image);
                     req.flash("success","profile is edited successfully")
-                    res.redirect("/Users");
+                    res.redirect("/");
                 }
             });/*
           req.flash("success","what ??????????????");
@@ -499,25 +501,23 @@ UserController.upload_user_image = function(req,res,next){
 
 UserController.subscriptions = function(req,res,next){
         
-        Course.find({student_registrated:{$in:[req.params.UserId]}},function(err,courses){
+        Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
             if(err){console.log(err);
-            }
-            else{
-            User.findById({_id:req.params.UserId},function (err,user) {
-                if (err) {
-                    console.log(err);
-                }
-                else {         // console.log(mycoures);
-            if(err){console.log(err);
-            }
-            else if(courses.length>=1){
-                console.log(user);
-                res.render("Users/subscriptions",{courses:courses,user:user});
-              // res.render("Users/mysubs2",{Mycourses:courses});
-            }
+            }        
+                else {    
+                User.findById(req.user._id).populate("groups").exec(function(err,founduser){
+                           
+                    if(err){console.log(err);
+                    }
+                        if(founduser.usertype==0){res.redirect("/Users");}
+                        else{
+                            // res.render("Users/subscriptions",{courses:courses,user:founduser});
+                         res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
+
+                        }
+                 })  
         }
-        });
-    }
+        
     });
  }
 module.exports = UserController;
