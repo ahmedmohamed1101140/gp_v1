@@ -13,7 +13,7 @@ router.get("/",usercontroller.display_all_users);
 
  //LOGIN
 router.get("/login",usercontroller.login_view);
-router.post("/login"//,userware.user_acc_validation
+router.post("/login",userware.user_acc_validation
  , userware.Pasport_auth,usercontroller.subscriptions);
 
 //LOGOUT

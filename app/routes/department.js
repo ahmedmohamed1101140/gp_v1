@@ -5,7 +5,7 @@ var departmentmiddleware = require("../../middleware/DepartmentMiddleware");
 
 //get the home page contain all departments
 router.get("/" 
-    , departmentcontroller.get_all_departments
+   ,departmentmiddleware.isLoggedIn , departmentcontroller.get_all_departments
 );
 
 //get form to add new department and adding the new department basic data

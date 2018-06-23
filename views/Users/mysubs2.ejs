@@ -63,4 +63,14 @@ hr{
                     <h4 style="text-align:center "> You don`t have any groups yet </h4>
                    <% }%>
 
+  <script>
+    
+    window.onload = function() {
+    if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+}
+
+  </script>
 <%include ../partials/footer%>

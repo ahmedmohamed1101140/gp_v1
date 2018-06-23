@@ -8,7 +8,7 @@
       
        <div class="col-md-9">
            <div class="thumbnail">
-                   <img class="img-responsive" src="<%=  post.image %>" alt="">
+                   <img class="img-responsive" src="/uploads/<%=post.image%>" alt="">
                    <div class="caption-full">
                        <h4> <a><%= post.content %></a></h4>
                        <p> <em> Created By <strong><%=post.author.username%>  </strong> </em> </p>
@@ -21,7 +21,7 @@
              <%  post.comments.forEach(function(comment){ %>
                   <div class="row">
                       <div class="col-md-1">
-                            <img src="<%= comment.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
+                            <img src="<%=comment.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
                       </div>
                       <div class="col-md-11">
         

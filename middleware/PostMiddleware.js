@@ -8,13 +8,11 @@ var middlewareObj = {};
         var error_message;
         // Validation Schema
         const schema = joi.object().keys({
-            image:     joi.string().required(),
             content:   joi.string().required(), 
         });
     
         // Data to be validated
         const data = {
-            image:         req.body.image,
             content:       req.body.content,
         };        
         //joi validate function

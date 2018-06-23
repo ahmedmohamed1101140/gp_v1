@@ -1,5 +1,5 @@
 const fs = require('fs');
-var upload_file = require("../../config/file-multer");
+var upload_image = require("../../config/image-multer");
 var Group      = require("../../models/group");
 var Post       = require("../../models/post");
 var Comments  = require("../../models/comment");
@@ -34,8 +34,9 @@ PostController.new_post = function(req,res){
     });
 };
 //  Post for Create New Post 
-PostController.new_post_post =function(req,res){
-    Group.findById(req.params.group_id,function(err , groupfind){
+PostController.new_post_post =function(req,res,next){
+    console.log(req.file.filename);
+   Group.findById(req.params.group_id,function(err , groupfind){
         if(err)
         {
             
@@ -46,11 +47,11 @@ PostController.new_post_post =function(req,res){
         else{     
              var post = new Post({
                 content: req.body.content,
-                image:req.body.image,
+                image:req.file.filename,
                 author:{
                     id:req.user.id,
                     username:req.user.username,
-                    userimage:req.user.userimage
+                    userimage:req.user.image
                 }
             });
             Post.create(post,function(err,postCreated){
@@ -137,7 +138,39 @@ PostController.post_delete=function(req,res){
         }
      });
 };
+// upload file 
+PostController.upload_image = function(req,res,next){
+    console.log('into upload function');
 
+upload_image(req,res,function(err){
+    if(err){
+        console.log(err.message);
+        req.flash("error" , "Can't Upload Files");
+        res.redirect("back");
+    }
+    else{
+
+        console.log("upload done");
+        next();
+    }
+});
+};
+//static function for deleting file
+delete_file = function (file) {
+    var file = file;
+    fs.stat('./public/uploads/'+file, function (err, stats) {
+        //console.log(stats);//here we got all information of file in stats variable
+
+        if (err) {
+            return console.error(err.message);
+        }
+
+        fs.unlink('./public/uploads/'+file,function(err){
+            if(err) return console.log(err.message);
+            console.log('file deleted successfully');
+        });
+    });
+};
 module.exports = PostController;
 
 

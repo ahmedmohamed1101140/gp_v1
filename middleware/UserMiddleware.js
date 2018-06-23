@@ -52,8 +52,6 @@ middlewareObj.isAdmin =function (req,res,next) {
 }
 
 
-
-
 //validation for register-and- log in
 middlewareObj.user_acc_validation=function(req,res,next) {
     const schema = joi.object().keys({
@@ -67,8 +65,8 @@ middlewareObj.user_acc_validation=function(req,res,next) {
     };
     joi.validate(data , schema , function(err,result){
         if(err){
-            console.log(err.message);
-            next(err);
+            req.flash("error",err.message);
+            res.redirect('/Users/login');
         }
         else{
            // console.log(result);

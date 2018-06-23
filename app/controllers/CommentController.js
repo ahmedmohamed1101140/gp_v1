@@ -52,7 +52,7 @@ CommentController.new_comment_post = function(req,res){
                         author:{
                             id:req.user.id,
                             username:req.user.username,
-                            userimage:req.user.userimage
+                            userimage:req.user.image
                         }
                        });
                          

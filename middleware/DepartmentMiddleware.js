@@ -53,6 +53,14 @@ middlewareObj.validate_data = function(req,res,next){
         next(error); 
     }
 };
+
+middlewareObj.isLoggedIn =function(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    req.flash("error","you should loggin first");
+    res.redirect("/Users/login");
+}
     
 module.exports = middlewareObj;
 

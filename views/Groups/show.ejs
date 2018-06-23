@@ -2,20 +2,32 @@
 
 <div class="container">
         <header class="jumbotron">
-                <div class="container">
-                    <h1><img width="1000px" src="<%=group.image%>"> </h1>
-                    <h2> <%= group.name %> </h2>
-                    <p>Forget About FaceBook and let's Talk here with your Instructors</p>
-                    <% if (CurrentUSer.id == group.admin.id){%>
-                        <a href="/groups/<%= group._id %>/edit" class="btn btn-lg btn-warning">Edit Group</a>
-                        <form style="display:inline;" action="/groups/<%= group._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-lg btn-danger">Delete</button>
-                        </form>
-                        <a href="/groups/request/<%= group._id %>/Requests" type="submit" class="btn btn-lg btn-primary">All Requests</a>
-                        <%  } %>
-                   
-                    <a href="/groups/<%=group._id%>/posts/new" class="btn btn-primary btn-lg" >Add new Post</a>                                
-                </div>
+                  
+                            <div class="row">
+                                    <div class="col-md-4">
+                                        <figure class="figure">
+                                            <img src="<%=group.image%>" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                                        </figure>
+                                    </div>
+                                    
+                                    <div class="col md 8">
+                                        <h1><%=group.name%></h1>
+                                        <p>Forget About FaceBook and let's Talk here with your Instructors</p>
+                                          <a class="btn btn-primary " href="/groups/<%= group._id%>/posts/new">Add New Post</a>
+                                          <% if(group.admin.id == CurrentUSer.id){ %>
+                                            <a href="/groups/<%= group._id %>/edit" class="btn btn-warning">Edit Group</a>
+                                            <a href="/groups/request/<%= group._id %>/Requests" type="submit" class="btn  btn-primary">All Requests</a>
+                                          <br><br>
+                                            <form id="delete-form" action="/groups/<%= group._id %>?_method=DELETE" method="POST">
+                                                <button class="btn  btn-danger">Delete</button>
+                                            </form>
+                                          
+                                        <% } %>
+                                    </div>
+                                  
+                                  
+                                </div>
+                                    
             </header>
 
     </div>
