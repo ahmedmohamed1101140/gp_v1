@@ -32,8 +32,8 @@ middlewareObj.isLoggedIn =function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    //res.redirect("/Users/login");
-    res.redirect("/login");
+    req.flash("error","you should loggin first");
+    res.redirect("/Users/login");
 }
 
 middlewareObj.isAdmin =function (req,res,next) {
@@ -41,10 +41,14 @@ middlewareObj.isAdmin =function (req,res,next) {
     if(req.isAuthenticated()){
         if(req.user.usertype === 0){
             return next();
+        }else{
+            req.flash("error","only admins are allowed");
+            res.redirect('back');
         }
+    }else{
+        res.redirect("/Users/login");
     }
-   // res.redirect("/Users/login");
-    res.status(200).send("only admins can do this ");
+  
 }
 
 
