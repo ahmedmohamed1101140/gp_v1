@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 var upload_file = require("../../config/file-multer");
+
 var Group      = require("../../models/group");
 var Post       = require("../../models/post");
 var User       = require("../../models/user");
@@ -41,14 +42,13 @@ GroupController.new_group = function(req,res){
 // Post For Create New Group
 GroupController.create_group =function (req,res) {
     var name = req.body.name;
-    var imagee = req.body.image;
     var description= req.body.description;
     var admin = {
         id: req.user._id,
         username: req.user.username,
         userimage: req.user.image
     };
-    var newGroup = {name:name,image:imagee ,description:description ,admin:admin};
+    var newGroup = {name:name,description:description ,admin:admin};
     Group.create(newGroup,function(err, group) {
       
       if(err)

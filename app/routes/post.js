@@ -16,7 +16,9 @@ router.get("/:post_id/comments/show",postController.show);
 router.get("/posts/new",postController.new_post);
 
 // Post  for Create New Post 
-router.post("/posts",postMiddleware.validate_data,postController.new_post_post);
+router.post("/posts",postController.upload_image
+//,postMiddleware.validate_data
+,postController.new_post_post);
 
 //Edit  Post 
 router.get("/:id/edit",postMiddleware.validate_user,postController.post_edit);
