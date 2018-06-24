@@ -24,6 +24,20 @@ UserController.display_all_users= function (req,res,next) {
 
 }
 
+UserController.show_staff= function(req,res,next){
+     console.log("reach it");
+    User.find({usertype:{ $ne:"4"}}).select('firstname lastname collage_id usertype department_name username year email').exec(function (err, foundUser) {
+        if (err) {
+            console.log(err);
+            next(err);
+        }
+        else {
+            res.render('Users/staff', {Users:foundUser });
+        }
+    });
+
+}
+
 UserController.login_view =function(req, res) {
    // res.render("Users/login");
    res.render("Users/login2");
@@ -542,29 +556,6 @@ UserController.subscriptions = function(req,res,next){
 
      })  
 
-
-
-/*
-
-        Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
-            if(err){console.log(err);
-            }        
-                else {    
-                User.findById(req.user._id).populate("groups").exec(function(err,founduser){
-                           
-                    if(err){console.log(err);
-                    }
-                        if(founduser.usertype==0){res.redirect("/Users");}
-                        else{
-                            // res.render("Users/subscriptions",{courses:courses,user:founduser});
-                         res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
-
-                        }
-                 })  
-        }
-        
-    });
-*/
 
  }
  UserController.mycourses = function(req,res,next){

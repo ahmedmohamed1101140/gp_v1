@@ -11,6 +11,8 @@
 
 router.get("/",usercontroller.display_all_users);
 
+router.get("/staff",usercontroller.show_staff);
+
  //LOGIN
 router.get("/login",usercontroller.login_view);
 router.post("/login",userware.user_acc_validation
@@ -20,25 +22,29 @@ router.post("/login",userware.user_acc_validation
 router.get("/logout",usercontroller.logout);
 
 //ADD students
-router.get("/createstudents",userware.isAdmin,usercontroller.addstudents_view);
+router.get("/createstudents"
+//,userware.isAdmin
+,usercontroller.addstudents_view);
 
  router.post("/createstudents"
-         ,userware.isAdmin
+      //   ,userware.isAdmin
      ,userware.student_info_validation
      ,usercontroller.Seed_all_users
  );
 
 // ADD teachers
- router.get("/createteachers",userware.isAdmin,usercontroller.addteacher_view);
+ router.get("/createteachers"
+ //,userware.isAdmin
+ ,usercontroller.addteacher_view);
 
  router.post("/createteachers"
-     ,userware.isAdmin
+   //  ,userware.isAdmin
      ,usercontroller.createteachers
  );
 
 //Deleting USERS
- router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); 
- router.delete("/:UserId",usercontroller.delete_user);
+ //router.get("/deleteusers",userware.isAdmin,usercontroller.delete_all_Users); 
+ router.delete("/:UserId",userware.isAdmin,usercontroller.delete_user);
  //Show Profile
  router.get("/profile",userware.isLoggedIn,usercontroller.show_profile);
  // show GPA
