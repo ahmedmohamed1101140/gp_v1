@@ -33,7 +33,7 @@ router.get("/createstudents",userware.isAdmin,usercontroller.addstudents_view);
 
  router.post("/createteachers"
         ,userware.isAdmin
-     ,userware.student_info_validation
+     //,userware.student_info_validation
      ,usercontroller.createteachers
  );
 
