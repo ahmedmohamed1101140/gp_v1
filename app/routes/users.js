@@ -60,6 +60,8 @@ router.put("/:UserId/password",userware.isLoggedIn,usercontroller.change_old_pas
 
 //subscriptions 
 router.get("/:UserId/subscriptions",usercontroller.subscriptions);
+router.get("/:UserId/mycourses",usercontroller.mycourses);
+
 
 
 

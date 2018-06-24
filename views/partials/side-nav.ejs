@@ -15,10 +15,16 @@
          <%if(!CurrentUSer) { %>
             <% }else {%>
                 <% if(CurrentUSer.usertype==4){ %>
-                <li class="active">
+                <li >
                     <a href="/users/<%=CurrentUSer._id%>/subscriptions">
                         <i class="glyphicon glyphicon-book"></i>
                         subscription
+                    </a>
+                    </li>
+                    <li>
+                    <a href="/users/<%=CurrentUSer._id%>/mycourses">
+                        <i class="glyphicon glyphicon-th"></i>
+                        My Courses
                     </a>
                 </li>
                 <%}%> 

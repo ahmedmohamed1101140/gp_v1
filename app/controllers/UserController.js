@@ -520,6 +520,26 @@ UserController.subscriptions = function(req,res,next){
         
     });
  }
+ UserController.mycourses = function(req,res,next){
+        
+    Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
+        if(err){console.log(err);
+        }        
+            else {    
+            User.findById(req.user._id).populate("groups").exec(function(err,founduser){
+                       
+                if(err){console.log(err);
+                }
+                    if(founduser.usertype==0){res.redirect("/Users");}
+                    else{
+                         res.render("Users/subscriptions",{courses:courses,user:founduser});
+
+                    }
+             })  
+    }
+    
+});
+}
 module.exports = UserController;
 
 delete_file = function (file) {
