@@ -80,14 +80,14 @@ middlewareObj.student_info_validation= function (req,res,next) {
 
 
     const schema = joi.object().keys({
-        departemnt_name :joi.string().max(20).required(),
+       // departemnt_name :joi.string().max(2000).required(),
         studentscount: joi.number().min(1).max(1000).required(),
         collage_serial :joi.number().min(1).required(),
         year:joi.string().max(4).required()
     });
 
     const data = {
-        departemnt_name: req.body.departemnt_name,
+       // departemnt_name: req.body.department_data,
         studentscount: req.body.studentscount,
         collage_serial : req.body.collage_serial,
         year: req.body.year

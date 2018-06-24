@@ -14,11 +14,24 @@
 
          <%if(!CurrentUSer) { %>
             <% }else {%>
-                <% if(CurrentUSer.usertype==4){ %>
-                <li class="active">
+                <% if(CurrentUSer.usertype!=0){ %>
+                <li >
                     <a href="/users/<%=CurrentUSer._id%>/subscriptions">
                         <i class="glyphicon glyphicon-book"></i>
                         subscription
+                    </a>
+                    </li>
+
+                    <%}%> 
+                    <%}%>
+
+                    <%if(!CurrentUSer) { %>
+                        <% }else {%>
+                            <% if(CurrentUSer.usertype==4){ %>
+                    <li>
+                    <a href="/users/<%=CurrentUSer._id%>/mycourses">
+                        <i class="glyphicon glyphicon-th"></i>
+                        My Courses
                     </a>
                 </li>
                 <%}%> 

@@ -73,7 +73,7 @@
                   <%}%>
                   <a href="/courses/<%=course._id%>/announcement/showall" class="list-group-item">Announcements</a>
                   <a href="/courses/<%=course._id%>" class="list-group-item">Information</a>
-                  <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>
+                  <% if(CurrentUSer.usertype===0){ %>
                   <a href="/courses/<%= course._id %>/addstudent" class="list-group-item">Add student </a>
                   <%}%>
                   <% if(CurrentUSer.usertype===4){ %>

@@ -501,6 +501,51 @@ UserController.upload_user_image = function(req,res,next){
 
 UserController.subscriptions = function(req,res,next){
         
+
+    User.findById(req.user._id).populate("groups").exec(function(err,founduser){
+                           
+        if(err){console.log(err);}
+
+            if(founduser.usertype==0||founduser.usertype==3 ){res.redirect("/Users");} //admins or staff
+            else  if(founduser.usertype==1){ //instructor
+             
+                Course.find({main_professor:req.user._id},function(err,courses){
+                    if(err){console.log(err);}  
+                    else{
+                        res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
+                        }         
+                   });
+
+            }
+            else  if(founduser.usertype==2){ //TA
+                  
+                Course.find({helper_professor:{$in:[req.user._id]}},function(err,courses){
+                    if(err){console.log(err);}  
+                    else{
+                        res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
+                        }         
+                               });
+
+            }
+           
+            else  if(founduser.usertype==4){  //student 
+
+                 Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
+                      if(err){console.log(err);}  
+                      else{
+                      res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
+                      }         
+                             });
+
+            }     
+            
+
+     })  
+
+
+
+/*
+
         Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
             if(err){console.log(err);
             }        
@@ -519,7 +564,29 @@ UserController.subscriptions = function(req,res,next){
         }
         
     });
+*/
+
  }
+ UserController.mycourses = function(req,res,next){
+        
+    Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
+        if(err){console.log(err);
+        }        
+            else {    
+            User.findById(req.user._id).populate("groups").exec(function(err,founduser){
+                       
+                if(err){console.log(err);
+                }
+                    if(founduser.usertype==0){res.redirect("/Users");}
+                    else{
+                         res.render("Users/subscriptions",{courses:courses,user:founduser});
+
+                    }
+             })  
+    }
+    
+});
+}
 module.exports = UserController;
 
 delete_file = function (file) {

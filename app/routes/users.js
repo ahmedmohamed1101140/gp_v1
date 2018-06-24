@@ -32,8 +32,7 @@ router.get("/createstudents",userware.isAdmin,usercontroller.addstudents_view);
  router.get("/createteachers",userware.isAdmin,usercontroller.addteacher_view);
 
  router.post("/createteachers"
-        ,userware.isAdmin
-     //,userware.student_info_validation
+     ,userware.isAdmin
      ,usercontroller.createteachers
  );
 
@@ -60,6 +59,8 @@ router.put("/:UserId/password",userware.isLoggedIn,usercontroller.change_old_pas
 
 //subscriptions 
 router.get("/:UserId/subscriptions",usercontroller.subscriptions);
+router.get("/:UserId/mycourses",usercontroller.mycourses);
+
 
 
 
