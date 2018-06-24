@@ -3,6 +3,7 @@ const fs = require('fs');
 var upload_file = require("../../config/file-multer");
 var Department = require("../../models/department");
 var User       = require("../../models/user");
+var Course     =require("../../models/course");
 
 var DepartmentController = {};
 
@@ -31,8 +32,16 @@ DepartmentController.get_department = function (req ,res ,next) {
         else {
             if(found_department){
                 console.log(found_department);
-                // rednder the 
-                res.render("Departments/show",{department:found_department});
+
+                Course.find({department:{$in:[req.params.department_id]}},function(err,courses){
+              
+                    if(err){console.log(err);}
+                    else{
+                        res.render("Departments/show",{department:found_department ,Courses:courses});
+                    }
+                });
+               
+                //res.render("Departments/show",{department:found_department});
             }
             else {
                 console.log("invalid department _id input "+ req.params.department_id);

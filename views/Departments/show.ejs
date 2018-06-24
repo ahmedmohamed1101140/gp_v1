@@ -1,5 +1,19 @@
 <% include ../partials/header %>
 
+<style>
+                hr{
+                    border-top: 1px solid #8c8b8b;
+                }
+                #img{
+                  position: relative;
+                      width:  200px;
+                      height: 10px;
+                      background-position: 50% 50%;
+                      background-repeat:   no-repeat;
+                      background-size:cover;
+                }
+                </style>
+
 <div class="content">     
         <div class="container">
             <h2><%= department.name %> Department</h2>
@@ -20,7 +34,7 @@
                             </script>
                   </div> 
                 </div>
-                <div class='embed-responsive' style='padding-bottom:150%'>
+                <div class='embed-responsive' style='padding-bottom:25%'>
                             
                         <p>Department Courses Description<p>
                                 <a href="/uploads/<%= department.courses_file%>"  class="btn btn-success  "style="display : inline-block;float:left;" download >download</a>
@@ -30,6 +44,27 @@
                    
             </div>
             </div>
+
+            <h3>All Department Courses</h3>
+<hr>
+<%if(Courses.length>=1){ %>
+<% Courses.forEach(function(course){ %>
+       <div style="display:inline-block; width:20%; margin:2.5%;" >
+        <div class="thumbnail" >
+           <img src="/uploads/<%=course.logo%>" style=" height: 150px;" alt="descrption ">
+           <div class="caption">
+
+                <h3><%=course.name%></h3>
+                        <a href="/courses/info/<%= course._id%>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
+                      </div>
+                     </div>
+                   </div>
+                <%})%>
+
+                <%}else{ %>
+                  <h4 style="text-align:center "> NO Courses are added yet </h4>
+                 <% }%>
+
             
 </div>
 </div>
