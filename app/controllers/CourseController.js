@@ -253,17 +253,9 @@ CourseController.put_course_grades=function(req,res,next){
                                 "gradescore":req.body[student_found._id]
                                 
                             }
-                            console.log( "++++++++++++++++++++++++");
-                            console.log( student_course.grade.total);
-                            console.log( "++++++++++++++++++++++++");
-                            console.log(req.body[student_found._id] );
-                            console.log( "++++++++++++++++++++++++");
-                            console.log(req.body.grade_precentage);
-                            console.log( "++++++++++++++++++++++++");
+                         
                             student_course.total=student_course.total+(req.body[student_found._id]*req.body.grade_precentage/req.body.grade_totalgradescore)
-                            console.log( "***********************");
-                            console.log( student_course.grade.total);
-                            console.log( "***********************");
+                            
                             student_course.grade.push(Grade);
                             student_found.save();
 

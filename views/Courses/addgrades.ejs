@@ -23,17 +23,19 @@
                     <thead>
                     <tr>
                         <th>Collage_ID</th>
+                        <th>Name</th>
                         <th>Student score</th>
                      
                     </tr>
                     </thead>
                     <tbody>
             
-           <% course.student_registrated.forEach(function(student){ %>
+           <% Users.forEach(function(student){ %>
             <tr>
-                    <td><%=student%></td>
+                    <td><%=student.username%></td>
+                    <td><%=student.firstname+" "+student.lastname%></td>
                     <td>
-                     <input  name="<%=student%>" type="number" class="form-control" required="required">
+                     <input  name="<%=student._id%>" type="number" class="form-control" required="required">
                     </td>
              
                 </tr>

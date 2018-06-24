@@ -29,7 +29,6 @@
 
         <div class="row">
                 <% courses.forEach(function (course) { %>
-                    <%if (CurrentUSer.usertype===0||course.helper_professor.toString().includes(CurrentUSer._id)||course.main_professor.toString()==CurrentUSer._id){%>
                 <div class="col-sm-3 col-md-3" id="posts" >
                   <div class="thumbnail" >
                       <img src="/uploads/<%=course.logo%>"style="height:200px" alt="descrption">
@@ -42,7 +41,7 @@
                              </p>
                              <%}%>
                     <% })%>
-                    <% if(CurrentUSer.usertype===0||CurrentUSer.usertype===1||CurrentUSer.usertype===2){ %>
+                    <% if(CurrentUSer.usertype===0){ %>
                     <a href="/courses/info/<%= course._id%>" class="btn btn-info ">control</a>
                     <%}%>
                     <% if(CurrentUSer.usertype===0){ %>
@@ -56,7 +55,6 @@
                     </div>
                   </div>
                 </div>
-                <%}%>
                 <% }); %>
               </div>
 
