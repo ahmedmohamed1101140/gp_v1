@@ -67,7 +67,7 @@ announcementController.new_announcement_announcement =function(req,res){
                 name: req.body.announcement_name,
                 description:req.body.announcement_description,
                 course_id:course_found._id,
-                upload_user:req.params.course_id
+                upload_user:req.body.uploader
 
             });
             Announcement.create(announcement,function(err,AnnouncementCreated){
@@ -122,6 +122,7 @@ announcementController.announcement_edit_put=function(req,res){
 
             announcement_found.name= req.body.announcement_name,
             announcement_found.description=req.body.announcement_description,
+            announcement_found.upload_user=req.body.uploader,
             announcement_found.save();   
             console.log(req.params.announcement_id);
           
