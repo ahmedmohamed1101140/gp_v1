@@ -1,48 +1,62 @@
 <% include ../partials/header %>
 
 <style>
-                hr{
-                    border-top: 1px solid #8c8b8b;
-                }
-                #img{
-                  position: relative;
-                      width:  200px;
-                      height: 10px;
-                      background-position: 50% 50%;
-                      background-repeat:   no-repeat;
-                      background-size:cover;
-                }
-                </style>
+        hr{
+                border-top: 1px solid #8c8b8b;
+        }
+        #img{
+                position: relative;
+                width:  200px;
+                height: 10px;
+                background-position: 50% 50%;
+                background-repeat:   no-repeat;
+                background-size:cover;
+        }
+</style>
 
-<div class="content">     
+<div class="content">   
+        <header class="jumbotron">
+                <div class="container">
+                        <figure class="figure">
+                                <img src="/uploads/<%= department.logo%>" class="figure-img img-fluid rounded" alt="">
+                        </figure>
+                        <h1><%= department.name %> Department</h1>
+                        <p style="margin-top:-10px">
+                                Since :<a> <%=department.since%></a>
+                        </p>
+                </div>
+        </header>  
         <div class="container">
-            <h2><%= department.name %> Department</h2>
-            <p style="margin-top:-10px">
-                    Since :<a> <%=department.since%></a>
-                </p>
+        
+            
             <hr> 
             <div class="container">             
-<div class="col-lg-9">
-            <div class="panel panel-info ">
-                    <div class="panel-heading">
-                            <h3 class="panel-title"> Description</h3>
-                          </div>
-                <div  class="panel-body" style="margin-left:10px">
-                        <input type="hidden" value="<%=department.description%>"id="course description">
-                        <script>
-                                document.write(document.getElementById("course description").value); 
-                            </script>
-                  </div> 
-                </div>
-                <div class='embed-responsive' style='padding-bottom:25%'>
-                            
-                        <p>Department Courses Description<p>
+                <div class="col-lg-9">
+                        <div class="panel panel-info ">
+                                <div class="panel-heading">
+                                        <h3 class="panel-title"> Description</h3>
+                                </div>
+                                <div  class="panel-body" style="margin-left:10px">
+                                        <input type="hidden" value="<%=department.description%>"id="course description">
+                                        <script>
+                                                document.write(document.getElementById("course description").value); 
+                                        </script>
+                                </div> 
+                        </div>
+                        <div class='embed-responsive' style='padding-bottom:25%'>
+                                <p>Department Detaild Description<p>
+                                <a href="/uploads/<%= department.description_file%>"  class="btn btn-success  "style="display : inline-block;float:left;" download >download</a>
+                        </div>
+                        <div class='embed-responsive' style='padding-bottom:25%'>
+                                <p>Department Courses Description<p>
                                 <a href="/uploads/<%= department.courses_file%>"  class="btn btn-success  "style="display : inline-block;float:left;" download >download</a>
+                        </div>
+                        <div class='embed-responsive' style='padding-bottom:25%'>
+                                <p>Department Courses Tree<p>
+                                <a href="/uploads/<%= department.courses_tree%>"  class="btn btn-success  "style="display : inline-block;float:left;" download >download</a>
+                        </div>
                 </div>
-            </div>
-            <div class="col-lg-3">
-                   
-            </div>
+                <div class="col-lg-3">  </div>
             </div>
 
             <h3>All Department Courses</h3>

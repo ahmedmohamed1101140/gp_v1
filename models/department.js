@@ -36,6 +36,14 @@ var departmentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    courses_tree:{
+        type: String,
+        required: true,
+    },
+    description_file:{
+        type: String,
+        required: true,
+    },
     logo:{
         type: String,
         required: true,

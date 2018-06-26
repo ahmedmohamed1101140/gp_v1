@@ -14,27 +14,18 @@ var announcement= require("./announcement");
 
 
 
+app.get("/",function(req,res){ res.render("index"); });
+app.get("/AboutUs",function(req,res){ res.render("AboutUs"); });
 
-
-app.get("/",function(req,res){
-        res.render("index");
-})
-app.get("/AboutUs",function(req,res){
-        res.render("AboutUs");
-})
 app.use("/users", user);
 app.use("/departments",department);
 
 app.use("/courses",course);
 app.use("/courses/:course_id/announcement",announcement);
-
 app.use("/courses/:course_id",lesson);
 
-
-
-
-
 app.use("/mails",emails);
+
 app.use("/groups",group);
 app.use("/groups/:group_id",post);
 app.use("/groups/:group_id/:post_id/comments",comment);
