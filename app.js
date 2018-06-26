@@ -71,36 +71,26 @@ app.use(function (req,res,next) {
 });
 
 
-app.get("/7mada",function(req,res){
-    console.log(req.isAuthenticated());
-    console.log(req.session);
-})
-
 //app.use('/api',api);
 app.use('/',applicaition);
 
-app.use("*",function(req,res,next){
-    var error = new Error('Not Found!');
-    error.status = 404;
-    next(error);
-});
 
 
 //custom app error handling
-app.use(function (error,req,res,next) {
-    res.status(error.status || 500);
-    if(api_check(req)){
+ app.use(function (error,req,res,next) {
+     res.status(error.status || 500);
+     if(api_check(req)){
 
-        res.json({
-            error:{
-                message: error.message
-            }
-        });
-    }else {
-        req.flash("error", error.message);
-        res.redirect("back");
+         res.json({
+             error:{
+                 message: error.message
+             }
+         });
+     }else {
+         req.flash("error", error.message);
+         res.redirect("back");
     }
-});
+ });
 
 var server = app.listen(process.env.PORT || "8080   ",function (err) {
     console.log("App Running At PORT: "+ server.address().port);

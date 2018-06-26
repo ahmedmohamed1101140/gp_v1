@@ -4,6 +4,12 @@ var passportLocalMongoose = require("passport-local-mongoose");
 
 // create a User schema
 var UserSchema = new mongoose.Schema({
+    groups: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group"
+        }
+    ],
     username :{
         type: String,
         unique: true
@@ -29,7 +35,7 @@ var UserSchema = new mongoose.Schema({
 
     image : {
         type: String,
-        default:null
+        default:"https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
     },
     usertype :{
         type: Number,
@@ -40,7 +46,7 @@ var UserSchema = new mongoose.Schema({
         default: Date.now()
     },
     department_name :{
-        type: String,
+        type: String
         //default:null
     },
     department_Id:{

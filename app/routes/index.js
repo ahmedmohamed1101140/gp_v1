@@ -19,6 +19,9 @@ var announcement= require("./announcement");
 app.get("/",function(req,res){
         res.render("index");
 })
+app.get("/AboutUs",function(req,res){
+        res.render("AboutUs");
+})
 app.use("/users", user);
 app.use("/departments",department);
 

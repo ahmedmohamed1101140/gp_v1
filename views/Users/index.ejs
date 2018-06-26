@@ -21,7 +21,7 @@
             <p>here add all users </p>
             <p>
                 <a class="btn btn-primary btn-large" href="/Users/createstudents"> Add students </a> 
-                <a class="btn btn-primary btn-large" href="/Users/createteachers"> Add teaching staff </a> 
+                <a class="btn btn-primary btn-large" href="/Users/createteachers"> Add staff member</a> 
 
             </p>
         </div>
@@ -47,7 +47,7 @@
         <tbody>
 
     <% Users.forEach(function (user) {  %>
-        <tr>
+        <tr >
             <td><%=user.collage_id%></td>
             <td><%=user.firstname%></td>
             <td><%=user.lastname%></td>
@@ -69,7 +69,7 @@
             </td>
             <td><%=user.email%></td>
             <td>
-                   <form action="/Users/<%= user._id %>?_method=DELETE" on onsubmit="return ConfirmDelete()" method="POST">
+                   <form action="/Users/<%= user._id %>?_method=DELETE"  onsubmit="return ConfirmDelete()" method="POST">
                 <button style="display: inline-block" href="" type="submit" ><i class="glyphicon glyphicon-remove"></i></button>
                <!-- <button style=" display: inline-block" href="" type="submit" ><i class="glyphicon glyphicon-wrench"></i></button>-->
             

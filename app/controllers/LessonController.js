@@ -47,8 +47,6 @@ lessonController.new_lesson = function(req,res){
 };
 
 lessonController.new_lesson_lesson =function(req,res){
-    console.log("S!");
-
     Course.findById(req.params.course_id,function(err , course_found){
         if(err)
         {
@@ -66,6 +64,7 @@ lessonController.new_lesson_lesson =function(req,res){
                 type:req.body.lesson_type,
                 file:req.files[0].filename,
                 course_id:course_found._id,
+                upload_user:req.params.name
 
             });
             Lesson.create(lesson,function(err,lessonCreated){
@@ -80,7 +79,7 @@ lessonController.new_lesson_lesson =function(req,res){
 
                    
                    req.flash("success" , "lesson Created");
-                   res.redirect("/courses/"+req.params.course_id);
+                   res.redirect("/courses/"+req.params.course_id+"/lessons");
                 }
            });
           } 

@@ -18,7 +18,8 @@ hr{
     <% var season_arr=["Spring","Summer","Winter","Fall"]%>
         <%var counter=0%>
         <%var total_gpaXhours=0%>
-        <%var total_hours=0%>        
+        <%var total_hours=0%> 
+        <%var no_course=true%>       
     <!-- First Blog Post -->
    <% for (year =(new Date().getFullYear()).toString() ; year>user.year.toString()-1; year--) { %>
     <% for (season =0; season<3; season++) { %>
@@ -30,6 +31,7 @@ hr{
           <%  })%>
            
        <% if(found=="true"){  %>
+        <%no_course=false%>
         <hr>
         <div class="col-sm-12 col-md-12"> 
         <h3><%=season_arr[season]+" "+year%></h3>
@@ -53,8 +55,15 @@ hr{
 <%}%>
 
 <%})%>
+
 </div>
 <%}%>
+
 <%}%>
 <%}%>
+<%if(no_course==true){%>
+    <hr>
+   <h4 style="text-align:center "> You don`t have any course yet </h4>
+<%}%>
+
 <%include ../partials/footer%>

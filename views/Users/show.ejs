@@ -125,20 +125,24 @@
                         <div class="author">
                             <a href="#">
                                 <h4 class="title"  style="text-align:center"><%= USER.firstname+" "+USER.lastname%><br />
-                                    <% if(USER.usertype==2){ %>
-                                    <small>Student</small>
-                                    <%}else if(USER.usertype==1){ %>
-                                    <small>instructor</small>
-                                    <%}else {%>
-                                    <small>Admin</small>
-                                    <%}%>
+                                    <% if(USER.usertype==1){ %>
+                                        <small> instructor </small>
+                                        <%}else if(USER.usertype==2){ %>
+                                        <small>Teacher Assistant</small>
+                                        <%}else if(USER.usertype==3){ %>
+                                            <small>Staff</small>
+                                         <%}else if(USER.usertype==4){ %>
+                                                <small>Student</small>
+                                            <%}else {%>
+                                        <small>Admin</small>
+                                        <%}%>
 
                                 </h4>
                             </a>
                         </div>
-                            <p class="description text-center"> "Lamborghini Mercy <br>
-                            Your chick she so thirsty <br>
-                            I'm in that two seat Lambo"
+                            <p class="description text-center"> "Computer science <br>
+                                Credit-hours program <br>
+                            Ain-Shams University "
                         </p>
                     </div>
                     <hr>

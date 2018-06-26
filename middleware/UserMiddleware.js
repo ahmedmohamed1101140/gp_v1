@@ -32,8 +32,8 @@ middlewareObj.isLoggedIn =function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    //res.redirect("/Users/login");
-    res.redirect("/login");
+    req.flash("error","you should loggin first");
+    res.redirect("/Users/login");
 }
 
 middlewareObj.isAdmin =function (req,res,next) {
@@ -41,13 +41,15 @@ middlewareObj.isAdmin =function (req,res,next) {
     if(req.isAuthenticated()){
         if(req.user.usertype === 0){
             return next();
+        }else{
+            req.flash("error","only admins are allowed");
+            res.redirect('back');
         }
+    }else{
+        res.redirect("/Users/login");
     }
-   // res.redirect("/Users/login");
-    res.status(200).send("only admins can do this ");
+  
 }
-
-
 
 
 //validation for register-and- log in
@@ -63,11 +65,11 @@ middlewareObj.user_acc_validation=function(req,res,next) {
     };
     joi.validate(data , schema , function(err,result){
         if(err){
-            console.log(err.message);
-            next(err);
+            req.flash("error",err.message);
+            res.redirect('/Users/login');
         }
         else{
-            console.log(result);
+           // console.log(result);
             next();
         }
     });
@@ -78,14 +80,14 @@ middlewareObj.student_info_validation= function (req,res,next) {
 
 
     const schema = joi.object().keys({
-        departemnt_name :joi.string().max(20).required(),
+       // departemnt_name :joi.string().max(2000).required(),
         studentscount: joi.number().min(1).max(1000).required(),
         collage_serial :joi.number().min(1).required(),
         year:joi.string().max(4).required()
     });
 
     const data = {
-        departemnt_name: req.body.departemnt_name,
+       // departemnt_name: req.body.department_data,
         studentscount: req.body.studentscount,
         collage_serial : req.body.collage_serial,
         year: req.body.year
@@ -138,50 +140,5 @@ middlewareObj.profile_data_valation=function (req,res, next) {
         }
     });
 }
-
-
-/*
-  username :{
-        type: String,
-        unique: true
-    },
-    password :String ,
-    firstname :{
-        type: String,
-        default: null
-    },
-
-    collage_id:{
-        type:String
-    },
-
-    lastname :{
-        type: String,
-        default: null
-    },
-    email :{
-        type: String,
-        default:null
-    },
-    image : {
-        type: String,
-        default:"https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
-    },
-    usertype :{
-        type: Number,
-        default:2
-    }, //0 is admin 1 is instructor 2 is student
-    created :{
-        type: Date,
-        default: Date.now()
-    }
-});
-
-
-*/
-
-
-
-
 
     module.exports = middlewareObj;

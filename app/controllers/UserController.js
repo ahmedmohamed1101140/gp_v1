@@ -9,21 +9,6 @@ var async =require('async');
 var UserController = {};
 
 
-UserController.register_view = function(req, res,next){
-    res.render("Users/register");
-}
-
-UserController.register_user = function(req, res, next ) {
-    User.register(new User({username: req.body.username}), req.body.password, function (err, user) {
-        if (err) {
-            console.log(err);
-            return res.render('Users/register');
-        }
-        passport.authenticate("local")(req, res, function () {
-            res.redirect("/Users/secret");
-        });
-    });
-}
 
 UserController.display_all_users= function (req,res,next) {
 
@@ -34,6 +19,20 @@ UserController.display_all_users= function (req,res,next) {
         }
         else {
             res.render('Users', {Users:foundUser });
+        }
+    });
+
+}
+
+UserController.show_staff= function(req,res,next){
+     console.log("reach it");
+    User.find({usertype:{ $ne:"4"}}).select('firstname lastname collage_id usertype department_name username year email').exec(function (err, foundUser) {
+        if (err) {
+            console.log(err);
+            next(err);
+        }
+        else {
+            res.render('Users/staff', {Users:foundUser });
         }
     });
 
@@ -148,24 +147,25 @@ UserController.delete_user = function (req,res) {
 }
 
 // Redirecting user after changing his profile
-UserController.redirector = function(req, res){
+UserController.redirector = function(req,res){
 
-    console.log(req.user._id);
+
     User.findById({_id:req.user._id},function (err,user) {
         if (err) {
             console.log(err);
         }
         else {
             if(user.changed==0){
-                 if(user.usertype==4){ //student
-
-                res.render("Users/show" ,{USER:user});
-                 }else {
-                    res.render("Users/showteacher" ,{USER:user});
+                if(user.usertype==4)
+                {
+                     //student
+                    res.render("Users/show" ,{USER:user});
                  }
-
+                 else{
+                    res.render("Users/showteacher" ,{USER:user});
+                  }
             }else{
-                res.redirect("/Users");
+                res.redirect("/");
             }
         }
     })
@@ -212,7 +212,7 @@ UserController.edit_user=function (req,res,next) {  //done
          } 
         else if(user1 && (req.user.username != req.body.username)){
             console.log("here");
-             console.log(user1);
+           //  console.log(user1);
            const error= new Error ("this user name already exits");
             next(error);
 
@@ -227,7 +227,7 @@ UserController.edit_user=function (req,res,next) {  //done
                 else{
                     delete_file(user.image);
                     req.flash("success","profile is edited successfully")
-                    res.redirect("/Users");
+                    res.redirect("/");
                 }
             });/*
           req.flash("success","what ??????????????");
@@ -515,26 +515,69 @@ UserController.upload_user_image = function(req,res,next){
 
 UserController.subscriptions = function(req,res,next){
         
-        Course.find({student_registrated:{$in:[req.params.UserId]}},function(err,courses){
-            if(err){console.log(err);
+
+    User.findById(req.user._id).populate("groups").exec(function(err,founduser){
+                           
+        if(err){console.log(err);}
+
+            if(founduser.usertype==0||founduser.usertype==3 ){res.redirect("/Users");} //admins or staff
+            else  if(founduser.usertype==1){ //instructor
+             
+                Course.find({main_professor:req.user._id},function(err,courses){
+                    if(err){console.log(err);}  
+                    else{
+                        res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
+                        }         
+                   });
+
             }
-            else{
-            User.findById({_id:req.params.UserId},function (err,user) {
-                if (err) {
-                    console.log(err);
-                }
-                else {         // console.log(mycoures);
-            if(err){console.log(err);
+            else  if(founduser.usertype==2){ //TA
+                  
+                Course.find({helper_professor:{$in:[req.user._id]}},function(err,courses){
+                    if(err){console.log(err);}  
+                    else{
+                        res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
+                        }         
+                               });
+
             }
-            else if(courses.length>=1){
-                console.log(user);
-                res.render("Users/subscriptions",{courses:courses,user:user});
-            }
-        }
-        });
-    }
-    });
+           
+            else  if(founduser.usertype==4){  //student 
+
+                 Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
+                      if(err){console.log(err);}  
+                      else{
+                      res.render("Users/mysubs2",{Mycourses:courses,Mygroups:founduser.groups});
+                      }         
+                             });
+
+            }     
+            
+
+     })  
+
+
  }
+ UserController.mycourses = function(req,res,next){
+        
+    Course.find({student_registrated:{$in:[req.user._id]}},function(err,courses){
+        if(err){console.log(err);
+        }        
+            else {    
+            User.findById(req.user._id).populate("groups").exec(function(err,founduser){
+                       
+                if(err){console.log(err);
+                }
+                    if(founduser.usertype==0){res.redirect("/Users");}
+                    else{
+                         res.render("Users/subscriptions",{courses:courses,user:founduser});
+
+                    }
+             })  
+    }
+    
+});
+}
 module.exports = UserController;
 
 delete_file = function (file) {

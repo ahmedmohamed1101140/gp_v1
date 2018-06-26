@@ -11,19 +11,10 @@
             <label>To</label>
             <div class="form-group">
                     <select class="selectpicker" name="recivers" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
-                    <optgroup label="Departments">                
-                        <% departments.forEach(function (department) { %>
-                            <option><%= department.name %></option>
-                        <% }); %>
-                    </optgroup>
+    
                     <optgroup label="Users">
                         <% users.forEach(function (user) { %>                                                       
-                            <option ><%= user.username %></option>
-                        <% }); %>
-                    </optgroup>
-                    <optgroup label="Groups">
-                        <% groups.forEach(function (group) { %>                                                       
-                            <option><%= group.name %></option>
+                            <option value="<%= user._id %>" > <%= user.username %> (<%= user.department_name %><%= user.year%>) </option>
                         <% }); %>
                     </optgroup>
                     </select>

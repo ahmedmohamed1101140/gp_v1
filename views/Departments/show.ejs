@@ -1,75 +1,73 @@
 <% include ../partials/header %>
 
-<div class="content">
-        <header class="jumbotron">
-            <div class="container">
-                <h1><img width="100px" class="img-responsive" style="display: inline;" src="/uploads/<%= department.logo%>"><%= department.name %></h1>
-                <p>here all you need to know about <strong><%= department.name %> </strong> Department </p>
-                <a href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
-                <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-        </header>
-        
+<style>
+                hr{
+                    border-top: 1px solid #8c8b8b;
+                }
+                #img{
+                  position: relative;
+                      width:  200px;
+                      height: 10px;
+                      background-position: 50% 50%;
+                      background-repeat:   no-repeat;
+                      background-size:cover;
+                }
+                </style>
+
+<div class="content">     
         <div class="container">
-            <h2>Department Info</h2>
-            <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link in active" id="pills-home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#dep_desc" role="tab" aria-controls="pills-profile" aria-selected="false">Department Description </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#course_desc" role="tab" aria-controls="pills-contact" aria-selected="false">Courses Description</a>
-                </li>
-            </ul>
-            
-            <div class="tab-content">
-                <div id="dep_desc" class="tab-pane fade">
-                <h3>Department Full Description</h3>
-                    <div class='embed-responsive' style='padding-bottom:150%'>
-                        <% if(department.desc_file.indexOf(".pdf") > -1) {%>
-                            <p>Your web browser doesn't have a PDF Plugin. Instead you can <a href="http://partners.adobe.com/public/developer/en/acrobat/PDFOpenParameters.pdf"> Click here to download the PDF</a></p>
-                            <iframe src="/uploads/<%= department.desc_file%>"></iframe>
-                        <%} else if(department.desc_file.indexOf(".do") > -1) {%>
-                            <p>Click to download the file:<p>
-                            <a href="/uploads/<%= department.desc_file%>" download>
-                                <img border="0" src="https://cdn0.iconfinder.com/data/icons/document-file-types/512/doc-512.png" alt="W3Schools" width="142" height="142">
-                            </a>
-                        <%}%>       
-                    </div>
+            <h2><%= department.name %> Department</h2>
+            <p style="margin-top:-10px">
+                    Since :<a> <%=department.since%></a>
+                </p>
+            <hr> 
+            <div class="container">             
+<div class="col-lg-9">
+            <div class="panel panel-info ">
+                    <div class="panel-heading">
+                            <h3 class="panel-title"> Description</h3>
+                          </div>
+                <div  class="panel-body" style="margin-left:10px">
+                        <input type="hidden" value="<%=department.description%>"id="course description">
+                        <script>
+                                document.write(document.getElementById("course description").value); 
+                            </script>
+                  </div> 
                 </div>
-                <div id="course_desc" class="tab-pane fade">
-                <h3>Courses Description</h3>
-                    <div class='embed-responsive' style='padding-bottom:150%'>
-                        <% if(department.courses_file.indexOf(".pdf") > -1) {%>
-                            <p>Your web browser doesn't have a PDF Plugin. Instead you can <a href="http://partners.adobe.com/public/developer/en/acrobat/PDFOpenParameters.pdf"> Click here to download the PDF</a></p>
-                            <iframe src="/uploads/<%= department.courses_file%>"></iframe>
-                        <%} else if(department.courses_file.indexOf(".do") > -1) {%>
-                            <p>Click to download the file:<p>
-                            <a href="/uploads/<%= department.courses_file%>" download>
-                                <img border="0" src="https://cdn3.iconfinder.com/data/icons/brands-applications/512/File-512.png" alt="W3Schools" width="142" height="142">
-                            </a>
-                        <%}%>
-                    </div>
-                </div>
-                <div id="home" class="tab-pane fade in active">
-                    <div class="container-fluid" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-4">
-                                    <img src="/uploads/<%= department.logo%>" class="img-thumbnail" alt="Cinque Terre" width="304" height="236"> 
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-8">
-                                <h3><%= department.name %></h3>
-                                <p><%= department.description%></p> 
-                            </div>
-                        </div>    
-                    </div>
+                <div class='embed-responsive' style='padding-bottom:25%'>
+                            
+                        <p>Department Courses Description<p>
+                                <a href="/uploads/<%= department.courses_file%>"  class="btn btn-success  "style="display : inline-block;float:left;" download >download</a>
                 </div>
             </div>
-        </div>
+            <div class="col-lg-3">
+                   
+            </div>
+            </div>
+
+            <h3>All Department Courses</h3>
+<hr>
+<%if(Courses.length>=1){ %>
+<% Courses.forEach(function(course){ %>
+       <div style="display:inline-block; width:20%; margin:2.5%;" >
+        <div class="thumbnail" >
+           <img src="/uploads/<%=course.logo%>" style=" height: 150px;" alt="descrption ">
+           <div class="caption">
+
+                <h3><%=course.name%></h3>
+                        <a href="/courses/info/<%= course._id%>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
+                      </div>
+                     </div>
+                   </div>
+                <%})%>
+
+                <%}else{ %>
+                  <h4 style="text-align:center "> NO Courses are added yet </h4>
+                 <% }%>
+
+            
 </div>
+</div>
+
 
 <% include ../partials/footer %>

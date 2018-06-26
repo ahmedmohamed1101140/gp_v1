@@ -1,0 +1,32 @@
+<%include ../partials/header%>
+<div class="container">
+      
+    <div class="container">
+            <div class="row">
+                    <div class="col-md-5">
+                            <div class="form-group">
+                                    <input class="form-control" type="text" name="search" id="search" placeholder="search...">
+                                </div>
+                                <h3>Group Requests</h3>
+                                <ul class="list-group">
+                                    <%Request.forEach(function(Request) {%>
+                                    <%if(Request.userstatus === 0){%>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <%=Request.username%>
+                                        <a class="btn btn-primary" style="margin-left: 250px" href="/groups/<%= group._id %>/accept/<%=Request._id%>">Accept</a>
+                            
+                                    </li>
+                                    <%}%>
+                                    <%});%>
+                                </ul>
+                    
+                            </div>
+                
+                
+                </div>
+
+    </div>
+        
+               
+</div>
+<%include ../partials/footer%>

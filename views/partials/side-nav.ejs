@@ -1,16 +1,44 @@
 <nav id="sidebar">
     <div class="sidebar-header">
-        <h3>Learning Managment System</h3>
+        <h3> <a href="/AboutUs">Learning Managment System</a></h3>
         <strong>LMS </strong>
     </div>
 
     <ul class="list-unstyled components">
-        <li class="active">
+   <!--     <li>
             <a href="/">
                 <i class="glyphicon glyphicon-home"></i>
                 Home
             </a>
-        </li>
+         </li> -->
+
+         <%if(!CurrentUSer) { %>
+            <% }else {%>
+                <% if(CurrentUSer.usertype!=0){ %>
+                <li >
+                    <a href="/users/<%=CurrentUSer._id%>/subscriptions">
+                        <i class="glyphicon glyphicon-book"></i>
+                        subscription
+                    </a>
+                    </li>
+
+                    <%}%> 
+                    <%}%>
+
+                    <%if(!CurrentUSer) { %>
+                        <% }else {%>
+                            <% if(CurrentUSer.usertype==4){ %>
+                    <li>
+                    <a href="/users/<%=CurrentUSer._id%>/mycourses">
+                        <i class="glyphicon glyphicon-th"></i>
+                        My Courses
+                    </a>
+                </li>
+                <%}%> 
+                <%}%>
+
+
+
         <li>
             <a href="/departments">
                 <i class="glyphicon glyphicon-briefcase"></i>
@@ -55,16 +83,40 @@
         </li>
         <%}%>
         <%}%>
-
-        <%if(!CurrentUSer) { %>
-        <% }else {%>
+        <!--
             <li>
-                <a href="/users/<%=CurrentUSer._id%>/subscriptions">
-                    <i class="glyphicon glyphicon-user"></i>
-                    My subscriptions
+                <a href="/AboutUs">
+                    <i class="glyphicon glyphicon-home"></i>
+                    AboutUs
                 </a>
             </li>
-            <%}%>
+    -->
+            <%if(!CurrentUSer) { %>
+                <% }else {%>
+            <li>
+                 <a href="/Users/staff">
+                        <i class="glyphicon glyphicon-user"></i>     
+                        University Staff
+                 </a>
+             </li>
+
+             <%}%>
+             
+
+        <%if(!CurrentUSer) { %>
+            <% }else {%>
+
+            <% if(CurrentUSer.usertype==4){ %>
+             <li>
+                 <a href="/Users/<%=CurrentUSer._id%>/GPA">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                             MY GPA
+                </a>
+              </li>
+              <%}%>
+              <%}%>
+        
+
     </ul>
 
 </nav>
