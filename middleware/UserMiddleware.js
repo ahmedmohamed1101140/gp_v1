@@ -5,16 +5,15 @@ const joi = require('joi');
 const jwt          =require("jsonwebtoken");
 
 
-
 middlewareObj.Pasport_auth= passport.authenticate("local", {
     failureRedirect: "/Users/login",
     failureFlash: 'Invalid username or password.' ,
-})
+});
     
-middlewareObj.Pasport_auth_statelss= passport.authenticate("local", {session:false})
+middlewareObj.Pasport_auth_statelss = passport.authenticate("local", {session:false});
 
 
- middlewareObj.check_jwt_auth=function(req, res, next) {
+middlewareObj.check_jwt_auth=function(req, res, next) {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_KEY);
@@ -27,28 +26,31 @@ middlewareObj.Pasport_auth_statelss= passport.authenticate("local", {session:fal
     }
 };
 
-
+//check if registered user
 middlewareObj.isLoggedIn =function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    //res.redirect("/Users/login");
-    res.redirect("/login");
+    req.flash("error","you should loggin first");
+    res.redirect("/Users/login");
 }
 
+//check if the request is comming from user
 middlewareObj.isAdmin =function (req,res,next) {
-
     if(req.isAuthenticated()){
         if(req.user.usertype === 0){
             return next();
+        }else{
+            req.flash("error","only admins are allowed");
+            res.redirect('back');
         }
     }
-   // res.redirect("/Users/login");
-    res.status(200).send("only admins can do this ");
+    else{
+        req.flash("error","you should loggin first");
+        res.redirect("/Users/login");
+    }
+  
 }
-
-
-
 
 //validation for register-and- log in
 middlewareObj.user_acc_validation=function(req,res,next) {
@@ -63,8 +65,8 @@ middlewareObj.user_acc_validation=function(req,res,next) {
     };
     joi.validate(data , schema , function(err,result){
         if(err){
-            console.log(err.message);
-            next(err);
+            req.flash("error",err.message);
+            res.redirect('/Users/login');
         }
         else{
            // console.log(result);
@@ -75,17 +77,15 @@ middlewareObj.user_acc_validation=function(req,res,next) {
 }
 //validation for creating students
 middlewareObj.student_info_validation= function (req,res,next) {
-
-
     const schema = joi.object().keys({
-        departemnt_name :joi.string().max(20).required(),
+       // departemnt_name :joi.string().max(2000).required(),
         studentscount: joi.number().min(1).max(1000).required(),
         collage_serial :joi.number().min(1).required(),
         year:joi.string().max(4).required()
     });
 
     const data = {
-        departemnt_name: req.body.departemnt_name,
+       // departemnt_name: req.body.department_data,
         studentscount: req.body.studentscount,
         collage_serial : req.body.collage_serial,
         year: req.body.year
@@ -104,7 +104,6 @@ middlewareObj.student_info_validation= function (req,res,next) {
     });
 
 }
-
 
 
 middlewareObj.profile_data_valation=function (req,res, next) {
@@ -139,4 +138,4 @@ middlewareObj.profile_data_valation=function (req,res, next) {
     });
 }
 
-    module.exports = middlewareObj;
+module.exports = middlewareObj;

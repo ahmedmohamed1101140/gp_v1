@@ -253,17 +253,9 @@ CourseController.put_course_grades=function(req,res,next){
                                 "gradescore":req.body[student_found._id]
                                 
                             }
-                            console.log( "++++++++++++++++++++++++");
-                            console.log( student_course.grade.total);
-                            console.log( "++++++++++++++++++++++++");
-                            console.log(req.body[student_found._id] );
-                            console.log( "++++++++++++++++++++++++");
-                            console.log(req.body.grade_precentage);
-                            console.log( "++++++++++++++++++++++++");
+                         
                             student_course.total=student_course.total+(req.body[student_found._id]*req.body.grade_precentage/req.body.grade_totalgradescore)
-                            console.log( "***********************");
-                            console.log( student_course.grade.total);
-                            console.log( "***********************");
+                            
                             student_course.grade.push(Grade);
                             student_found.save();
 
@@ -1070,7 +1062,7 @@ CourseController.add_student=function(req,res,next){
                                     res.redirect("/mails");
                                 }
                                 else{
-                                    Groups.find().select("name").exec(function(err,groups){
+                                    Groups.find(function(err,groups){
                                         if(err){
                                             console.log(err.message);
                                             req.flash("error" , "Sorry Server Error!");
@@ -1100,7 +1092,9 @@ CourseController.put_student=function(req,res,next){
     else
     {
      if(found_course)
-        { var arr=[]
+        {
+           //set course registration year and season 
+            var arr=[]
             var month=new Date().getMonth().toString();
          switch (true) {
              case (month==11||month==0||month==1):
@@ -1133,8 +1127,7 @@ CourseController.put_student=function(req,res,next){
                  break;
 
         }
-        console.log( req.body.recivers)
-
+ //add users
           if( req.body.recivers!=null){
             if( req.body.recivers.constructor === Array) {
 
@@ -1154,15 +1147,11 @@ CourseController.put_student=function(req,res,next){
                                        person.courses.push(course_info) 
                                      
                                        found_course.student_registrated.push(person._id)
-
-                                       console.log("mesh mwgood")
-
                                         person.save();
                                            }   
                                            else 
                                            {
-
-                                            console.log("mwgood")
+                                            console.log(err);
 
                                            } 
                                        }
@@ -1171,8 +1160,90 @@ CourseController.put_student=function(req,res,next){
                                 }
                           })
                       });  
+                }
+                else {
+                    User.findById(req.body.recivers,function(err,person)
+                {
+
+                    if(!found_course.student_registrated.toString().includes(person._id))
+                    {
+                person.courses.push(course_info) 
+              
+                found_course.student_registrated.push(person._id)
+                 person.save();
+                    }   
+                    else 
+                    {
+                     console.log(err);
+
+                    } 
+
+
+
+                })
+                }
+            }
+            // add groups 
+            if( req.body.Group_recivers!=null){
+                if( req.body.Group_recivers.constructor === Array) {
+                            req.body.Group_recivers.forEach(element => {
+                                Groups.findById(element,function(err,group){
+                                    if(err){
+                                        console.log(err);
+                                    }
+                                    else{
+                                        console.log(group)
+
+                                        group.users.forEach(function(Person)
+                                        {   
+                                            console.log(Person)
+                                            User.findById(Person.id,function(err,person){
+                                                if(!found_course.student_registrated.toString().includes(person._id))
+                                                {
+                                                     person.courses.push(course_info) 
+                                                     found_course.student_registrated.push(person._id)
+                                                         person.save();
+                                                }   
+                                                else 
+                                                {
+                                                 console.log(err);
+     
+                                                } 
+                                            })
+                                        })
+    
+                                    }
+                              })
+                          });  
+                    }
+                    else{
+                        Groups.findById( req.body.Group_recivers,function(err,group){
+                            if(err){
+                                console.log(err);
+                            }
+                            else{
+                                group.users.forEach(function(Person)
+                                {   
+                                    User.findById(Person.id,function(err,person){
+                                        if(!found_course.student_registrated.toString().includes(person._id))
+                                        {
+                                             person.courses.push(course_info) 
+                                             found_course.student_registrated.push(person._id)
+                                                 person.save();
+                                        }   
+                                        else 
+                                        {
+                                         console.log(err);
+
+                                        } 
+                                    })
+                                })
+
+                            }
+                      })
                     }
                 }
+            //add department
                     if( req.body.Dep_recivers!=null){
                         if( req.body.Dep_recivers.constructor === Array) {
                             // do foreach
@@ -1208,6 +1279,37 @@ CourseController.put_student=function(req,res,next){
                       })
                   });  
                 }
+                else
+                 {
+                    User.find(function(err,users){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+        
+                            users.forEach(function(person)
+                            {   
+
+                               if(person.department_Id== req.body.Dep_recivers)
+                               {
+                                   if(!found_course.student_registrated.toString().includes(person._id))
+                                   {
+                               person.courses.push(course_info) 
+                               found_course.student_registrated.push(person._id)
+                                person.save();
+                                   }   
+                                   else 
+                                   {
+
+                                    console.log("mwgood")
+
+                                   } 
+                               }
+                            })
+
+                        }
+                  })
+                }
             }
 
                   setTimeout(function(){ 
@@ -1226,5 +1328,5 @@ CourseController.put_student=function(req,res,next){
                             res.redirect("/courses/"+req.params.course_id); 
                         }
                     }
-                })
+           })
 }

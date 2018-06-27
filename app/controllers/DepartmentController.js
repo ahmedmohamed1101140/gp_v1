@@ -3,6 +3,7 @@ const fs = require('fs');
 var upload_file = require("../../config/file-multer");
 var Department = require("../../models/department");
 var User       = require("../../models/user");
+var Course     =require("../../models/course");
 
 var DepartmentController = {};
 
@@ -31,8 +32,16 @@ DepartmentController.get_department = function (req ,res ,next) {
         else {
             if(found_department){
                 console.log(found_department);
-                // rednder the 
-                res.render("Departments/show",{department:found_department});
+
+                Course.find({department:{$in:[req.params.department_id]}},function(err,courses){
+              
+                    if(err){console.log(err);}
+                    else{
+                        res.render("Departments/show",{department:found_department ,Courses:courses});
+                    }
+                });
+               
+                //res.render("Departments/show",{department:found_department});
             }
             else {
                 console.log("invalid department _id input "+ req.params.department_id);
@@ -63,12 +72,14 @@ DepartmentController.create_new_department = function(req,res,next){
 
     //2- create new department
         var department = new Department({
-        name: req.body.dep_name,
-        key: req.body.dep_key,
-        description: req.body.dep_description,
-        since: req.body.dep_date,
-        courses_file:req.files[0].filename ,                
-        logo: req.files[1].filename 
+        name            : req.body.dep_name,
+        key             : req.body.dep_key,
+        description     : req.body.dep_description,
+        since           : req.body.dep_date,
+        description_file:req.files[0].filename ,                
+        logo            : req.files[1].filename,
+        courses_file    : req.files[2].filename,
+        courses_tree    : req.files[3].filename 
     });
 
     //3- save the department
@@ -77,6 +88,9 @@ DepartmentController.create_new_department = function(req,res,next){
             console.log(err.message);
             delete_file(req.files[0].filename);
             delete_file(req.files[1].filename);
+            delete_file(req.files[2].filename);
+            delete_file(req.files[3].filename);
+            
             req.flash("error" , "Faild to Create Invalid Input or Duplicate Key Values please check your inputs");
             res.redirect('/departments/new');
         }
@@ -110,21 +124,24 @@ DepartmentController.update_department = function (req ,res, next) {
             console.log(err.message);
             delete_file(req.files[0].filename);
             delete_file(req.files[1].filename);
+            delete_file(req.files[2].filename);
+            delete_file(req.files[3].filename);
             req.flash("error" , "Invalid Input for department id");
             res.redirect("/departments/edit/"+req.patams.department_id);
         }
         else{
             if(found_department){
-                var files = [ found_department.courses_file , found_department.logo];
-                var uploaded_files = [req.files[0].filename , req.files[1].filename ];
+                var files = [ found_department.description_file , found_department.logo , found_department.courses_file , found_department.courses_tree];
+                var uploaded_files = [req.files[0].filename , req.files[1].filename , req.files[2].filename , req.files[3].filename  ];
                 
                 found_department.name = req.body.dep_name;
                 found_department.key = req.body.dep_key;
                 found_department.description = req.body.dep_description;
                 found_department.since = req.body.dep_date;
-                found_department.courses_file = req.files[0].filename;
+                found_department.description_file = req.files[0].filename;
                 found_department.logo = req.files[1].filename;
-                
+                found_department.courses_file = req.files[2].filename;
+                found_department.courses_tree = req.files[3].filename;
                 
 
                 found_department.save(function(err){

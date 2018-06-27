@@ -32,8 +32,8 @@ middlewareObj.validate_data = function(req,res,next){
             bool = false;
             error_message = err.message;
         }
-        else if(req.files.length !== 2){
-            error_message = (2 - req.files.length) +" File Missing";        
+        else if(req.files.length !== 4){
+            error_message = (4 - req.files.length) +" File Missing";        
             console.log(error_message);
             bool = false;        
         }
@@ -53,6 +53,8 @@ middlewareObj.validate_data = function(req,res,next){
         next(error); 
     }
 };
+
+
     
 module.exports = middlewareObj;
 

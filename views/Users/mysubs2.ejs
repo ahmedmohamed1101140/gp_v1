@@ -16,7 +16,7 @@ hr{
 <header class="jumbotron">
     <div class="container">
         <h1>FCIS Learning Managment System</h1>
-        <p>platform that conect all univercity members and provide online services </p>
+        <p>platform that conect all university members and provide online services </p>
     </div>
 </header>
 
@@ -25,14 +25,13 @@ hr{
 <hr>
 <%if(Mycourses.length>=1){ %>
 <% Mycourses.forEach(function(course){ %>
-       <div style="display:inline-block; width:20%; margin:2.5%;" >
+       <div style="display:inline-block; width:20%; margin:2.5%;" id="posts" >
         <div class="thumbnail" >
            <img src="/uploads/<%=course.logo%>" style=" height: 150px;" alt="descrption ">
            <div class="caption">
 
                 <h3><%=course.name%></h3>
-                        <p style="overflow:auto; height:100px; " ><%=course.description%></p>
-                        <a href="/courses/<%= course._id %>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
+                        <a href="/courses/info/<%= course._id%>" class="btn btn-primary" role="button" style="margin:auto;">view Course</a> 
                       </div>
                      </div>
                    </div>
@@ -46,7 +45,7 @@ hr{
 
  <%if(Mygroups.length>=1){ %> 
   <% Mygroups.forEach(function(group){ %>
-         <div style="display:inline-block; width:20%; margin:2.5%;" >
+         <div style="display:inline-block; width:20%; margin:2.5%;"id="posts" >
           <div class="thumbnail" >
              <img src="/uploads/<%=group.image%>" style=" height: 150px;" alt="descrption ">
              <div class="caption">
@@ -62,5 +61,6 @@ hr{
                   <%}else{ %>
                     <h4 style="text-align:center "> You don`t have any groups yet </h4>
                    <% }%>
+
 
 <%include ../partials/footer%>

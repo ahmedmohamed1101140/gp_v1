@@ -21,7 +21,7 @@ const upload = multer({
 //chech file type
 function chech_file_type(file, cb){
     // Allowd Extentions
-    const FileType = /xml|txt|csv|pdf|rar|docx|jpeg|jpg|png|gif/;
+    const FileType = /xml|txt|csv|pdf|rar|docx|jpeg|jpg|png|zip|pptx|xlsx|gif/;
     //check the extentions
     const extname = FileType.test(path.extname(file.originalname).toLowerCase());
     //check the mime type

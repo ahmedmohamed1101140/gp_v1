@@ -46,7 +46,7 @@ var UserSchema = new mongoose.Schema({
         default: Date.now()
     },
     department_name :{
-        type: String,
+        type: String
         //default:null
     },
     department_Id:{

@@ -9,7 +9,7 @@ var Post       = require("../../models/post");
 //var middleware = require("../middleware");
 
 // Get All Group
-router.get("/", groupController.get_all_groups);
+router.get("/",groupMiddleware.isLoggedIn, groupController.get_all_groups);
 // create New Group
 router.get("/new",groupMiddleware.isAdmin,groupController.new_group);
 // Get Specific Group

@@ -3,55 +3,36 @@
 <div class="container">
         <header class="jumbotron">
             <div class="container">
-            <h1>Departments</h1>
-            <% if(CurrentUSer.usertype===0){ %>
-
-            <p>here you can find all the system departments and create new department</p>
-            <p>
-                <a class="btn btn-primary btn-large" href="departments/new"> Add New Department </a>
-            </p>
-            <%}%>
-                </div>
-        </header>
-<!--
-        <div class="row">
-          <% departments.forEach(function (department) { %>
-          <div class="col-sm-6"id="posts">
-            <div class="thumbnail">
-              <div class="card-body">
-                <h5 class="card-title"><%= department.name %> Department  </h5>
-                <a href="/departments/<%= department._id%>" class="btn btn-primary">View</a>
+                <h1>Departments</h1>
+                <p>here you can find all the system departments and create new department</p>
                 <% if(CurrentUSer.usertype===0){ %>
-                <a href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
-                  <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
-                      <button class="btn btn-danger">Delete</button>
-                  </form>
-                  <%}%>
-              </div>
+                    <a style="float:right;margin-left:5px;margin-right:5px"href="/departments/new" class="btn btn-primary">Add New Department</a> 
+                <%}%>
             </div>
-          </div>
-          <% }); %>
-        </div>
-    -->
+        </header>
+
 <div class="col-lg-9">
         <table class="table table-striped">
-                    <tbody>
-                            <% departments.forEach(function (department) { %>
-                                <tr>
-                           <td><h3><%= department.name %> Department    
-                             <% if(CurrentUSer.usertype===0){ %>
-                            <a style="float:right;margin-left:5px;margin-right:5px" href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
-                              <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
-                                  <button style="float:right;margin-left:5px;margin-right:5px"class="btn btn-danger">Delete</button>
-                              </form>
-                              <%}%><a style="float:right;margin-left:5px;margin-right:5px"href="/departments/<%= department._id%>" class="btn btn-primary">View</a>
-                            </h3> 
-                           </td>
-                           </tr>
-                           <%})%>
-                        </tbody>
-                    </table>
-                </div>
+            <tbody>
+                <% departments.forEach(function (department) { %>
+                <tr>
+                    <td>
+                        <h3><%= department.name %> Department</h3>
+                        <% if(CurrentUSer){%>    
+                            <% if(CurrentUSer.usertype===0){ %>
+                                <a style="float:right;margin-left:5px;margin-right:5px" href="/departments/edit/<%= department._id %>" class="btn btn-success">Edit</a>
+                                <form style="display:inline;" action="/departments/<%= department._id %>?_method=DELETE" method="POST">
+                                    <button style="float:right;margin-left:5px;margin-right:5px"class="btn btn-danger">Delete</button>
+                                </form>
+                            <%}%>
+                            <a style="float:right;margin-left:5px;margin-right:5px"href="/departments/<%= department._id%>" class="btn btn-primary">View</a> 
+                        <%}%>                    
+                    </td>
+                </tr>
+                <%})%>
+            </tbody>
+        </table>
+</div>
 
 </div>
 

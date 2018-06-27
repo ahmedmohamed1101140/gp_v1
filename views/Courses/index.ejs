@@ -43,6 +43,8 @@
                     <% })%>
                     <% if(CurrentUSer.usertype===0){ %>
                     <a href="/courses/info/<%= course._id%>" class="btn btn-info ">control</a>
+                    <%}%>
+                    <% if(CurrentUSer.usertype===0){ %>
                     <a href="/courses/edit/<%= course._id %>" class="btn btn-success">Edit</a>
                         <form  onsubmit="return ConfirmDelete()"  style="display:inline;" action="/courses/<%= course._id %>?_method=DELETE"  method="POST">
                             <button class="btn btn-danger">Delete</button>

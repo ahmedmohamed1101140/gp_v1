@@ -1,8 +1,9 @@
 var mongoose = require("mongoose");
- var  url = process.env.DATABASEURL || "mongodb://localhost/lms_app";
-//var  url = "mongodb://localhost/lms_app";
 
-//var  url = "mongodb://localhost/lms_app1";
+//var  url = process.env.DATABASEURL || "mongodb://localhost/lms_app";
+var  url = "mongodb://localhost/lms_app";
+
+//var  url = "mongodb://localhost/lms_app1"
 
 mongoose.connect(url); 
 mongoose.Promise = global.Promise;
