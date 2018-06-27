@@ -5,7 +5,7 @@
             <div class="container">
                 <h1>Departments</h1>
                 <p>here you can find all the system departments and create new department</p>
-                <% if(CurrentUSer){ %>
+                <% if(CurrentUSer.usertype===0){ %>
                     <a style="float:right;margin-left:5px;margin-right:5px"href="/departments/new" class="btn btn-primary">Add New Department</a> 
                 <%}%>
             </div>

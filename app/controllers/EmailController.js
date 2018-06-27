@@ -47,11 +47,10 @@ MailController.send_new_mail = function(req,res,next){
    
     console.log("the req body recivers =");
     console.log(req.body.recivers);
-   var faild_users=[];
+    var faild_users=[];
     var maillist = [
         //'ahmedmohamed1101140@outlook.com',
-       // 'esammohamed17121996@gmail.com',
-      ];
+        ];
     /*
       var emails = req.body.more_mails.split(",");
       emails = emails.map(function(val){
@@ -66,23 +65,22 @@ MailController.send_new_mail = function(req,res,next){
                 console.log(err);
             }
             else if(user){
-             
                 if(user.email!=null){
-                maillist.push(user.email);
-               }else{
+                    maillist.push(user.email);
+                }
+                else{
                 faild_users.push(user._id);
                }
-
             }else if(!user){
-   
                 console.log("the user id doesn`t exits");
             }
             done();
         })
     },function(err){
-
-        if(err){console.log(err);}
-
+        if(err)
+        {
+            console.log(err);
+        }
         var mailOptions = {
             from: 'ahmedmohamed1101140@gmail.com',
             subject: req.body.subject,
@@ -102,10 +100,10 @@ MailController.send_new_mail = function(req,res,next){
             }
         });
                 
-            console.log("the email in the maillist=");
-            console.log(maillist);
-            console.log("el faedy=");
-            console.log(faild_users);
+        console.log("the email in the maillist=");
+        console.log(maillist);
+        console.log("el faedy=");
+        console.log(faild_users);
 
     
         transport.sendMail(mailOptions , function(err , info){
@@ -119,8 +117,7 @@ MailController.send_new_mail = function(req,res,next){
                 req.flash("success" , "Mail Send Successfully only "+faild_users.length +" didn`t have emails");
                 res.redirect("/mails");
             }
-        });
-        
+        }); 
  });   
 }
 

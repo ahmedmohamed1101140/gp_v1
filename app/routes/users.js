@@ -21,7 +21,8 @@ router.get("/login"
 //LOGIN
 router.post("/login"
     , userware.user_acc_validation //validate user inputs
-    , userware.Pasport_auth,usercontroller.subscriptions
+    , userware.Pasport_auth
+    , usercontroller.subscriptions
 );
 
 //LOGOUT
@@ -31,10 +32,10 @@ router.get("/logout"
 
 //ADD Staff members
 router.get("/staff"
-    , userware.isAdmin //check if the request is comming from the admin
+    , userware.isLoggedIn //check if the request is comming from the admin
     , usercontroller.show_staff
 );
-
+ 
 //ADD students
 router.get("/createstudents"
     , userware.isAdmin
@@ -65,8 +66,8 @@ router.post("/createteachers"
 ); 
  
  router.delete("/:UserId"
-      , userware.isAdmin
-      , usercontroller.delete_user
+    , userware.isAdmin
+    , usercontroller.delete_user
 );
 
 //Show Profile
@@ -77,25 +78,29 @@ router.get("/profile"
 
 // show GPA
 router.get("/:UserId/GPA" 
+    , userware.isLoggedIn
     , usercontroller.GPA_view
 );
 
 router.get("/:CourseId/:UserId/mygrade"
+    , userware.isLoggedIn    
     , usercontroller.My_grade
 );
 
 router.get("/:CourseId/:UserId/myattendance"
+    , userware.isLoggedIn    
     , usercontroller.My_Attendance
 );
  
 //Edit User info
 router.put("/:UserId"   
+    , userware.isLoggedIn    
     , usercontroller.upload_user_image
     , usercontroller.edit_user
 );
 
 //change passowrd
-router.put("/changepassword"
+router.put("/changepassword"       
     , userware.isLoggedIn
     , usercontroller.change_old_password
 );
@@ -108,10 +113,12 @@ router.put("/:UserId/password"
 
 //subscriptions 
 router.get("/:UserId/subscriptions"
+    , userware.isLoggedIn    
     , usercontroller.subscriptions
 );
 
 router.get("/:UserId/mycourses"
+    , userware.isLoggedIn       
     , usercontroller.mycourses
 );
 

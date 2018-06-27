@@ -12,6 +12,9 @@ middlewareObj.isAllowed = function (req, res, next) {
     // is user logged in
     var x = 1;
     if (req.isAuthenticated()) {
+        if(req.user.usertype === 0){
+            return next();
+        }
         Group.findById(req.params.id ,function(err,foundGroup){
             if(err){
                 req.flash("error","Error Happen please Try Again.");
@@ -88,7 +91,6 @@ middlewareObj.checkStatus = function (req, res, next) {
         res.redirect("back");
      }
 }
-
 
 // middleware to check the Data
 middlewareObj.validate_data = function(req,res,next){
