@@ -26,7 +26,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="dep_key">Department serial</label>
-                                        <input placeholder="Department serial"  id="collage_serial" type="text" name="collage_serial"
+                                        <input placeholder="Department serial"  id="collage_serial" type="number" name="collage_serial"
                                                class="form-control"
                                                required="required">
                                     </div>
@@ -57,7 +57,7 @@
                                         <div class="">
                                             <select  name="year" id="basic" class="selectpicker show-tick form-control" data-live-search="true">
 
-                                                <% var d = new Date();  var i = d.getFullYear()-4;  var n = i+10; %>
+                                                <% var d = new Date();  var i = d.getFullYear()-4;  var n = i+6; %>
                                                 <% for( i;i<n;i++){%>
 
                                                 <option value="<%=i%>"> <%=i%> </option>
