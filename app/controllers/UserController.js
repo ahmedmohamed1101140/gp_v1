@@ -321,7 +321,9 @@ UserController.Seed_all_users=function (req ,res,next) {
     var departemnt_id=departemnt_data[1] //id:5ca46dada
     
 
-
+   /* console.log(collage_serial);
+    console.log(typeof(collage_serial));
+*/
     var Users_to_be_add =[];  
    
     for(var i=1;i<=studentsCount;i++) {
