@@ -29,14 +29,10 @@ middlewareObj.validate_data = function(req,res,next){
             console.log(err.message); 
             bool = false;
             error_message = err.message;
-
         }
-        
         else if(req.files.length !== 1){
-
             error_message=(1-req.files.length)+" File Missing";
             console.log(error_message);
-
             bool = false;       
         }
         else{ 

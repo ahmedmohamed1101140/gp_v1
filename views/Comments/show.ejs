@@ -21,18 +21,21 @@
              <%  post.comments.forEach(function(comment){ %>
                   <div class="row">
                       <div class="col-md-1">
-                            <img src="<%=comment.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
+                            <img src="/uploads/<%=comment.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
                       </div>
                       <div class="col-md-11">
         
                            <p><%= comment.content %></p> 
-                           <p> <a href="/groups/<%=group_id%>/<%= post._id%>/comments/<%=comment._id%>/edit" class="btn  btn-warning">    Edit   </a></p>
-    
-                           <form  id = "delete_form"  action ="/groups/<%= group_id%>/<%= post._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger">Delete</button> 
-
-                     </form>
+                           <br> <br>
+                           <% if(comment.author.id == CurrentUSer.id){ %> 
+                            <a href="/groups/<%=group_id%>/<%= post._id%>/comments/<%=comment._id%>/edit" class="btn  btn-warning " style="margin-left:80%">    Edit   </a>
+                            <form  style="display: inline;"  action ="/groups/<%= group_id%>/<%= post._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                                <button class="btn btn-danger btn-flat">Delete</button> 
+                            </form>
+                            <br><br>
+                     <% } %>
                      <br>
+
                        </div>
                   </div>
         
@@ -41,7 +44,7 @@
            <div class="container">
                <div class="row">
                    <div class="col-md-1">
-                        <img src="<%=CurrentUSer.image%>" width="80px">
+                        <img src="/uploads/<%=CurrentUSer.image%>" width="80px">
 
                    </div>
                    <div class="col-md-11">

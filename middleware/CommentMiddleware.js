@@ -2,7 +2,8 @@ const joi = require('joi');
 const fs = require('fs');
 var Comment     = require("../models/comment");
 var middlewareObj = {};
-    middlewareObj.validate_data = function(req,res,next){
+   
+middlewareObj.validate_data = function(req,res,next){
     
         var bool = true;
         var error_message;
@@ -37,6 +38,7 @@ var middlewareObj = {};
     
 
 }
+
 // Check The user owner this comment 
 middlewareObj.validate_user=function(req,res,next){
     Comment.findById(req.params.id,function(err,commentFind){
@@ -46,18 +48,17 @@ middlewareObj.validate_user=function(req,res,next){
         }
         else
         {
-                if(req.user.id==commentFind.author.id)
-                {
-                     next();
-                }
-                else
-                {
-                    req.flash("error" , "Can not Edit/Delete This Comment .");
-                    res.redirect("back");
-                }
+            if(req.user.id == commentFind.author.id)
+            {
+                next();
+            }
+            else
+            {
+                req.flash("error" , "Can not Edit/Delete This Comment .");
+                res.redirect("back");
+            }
         }
     });
-
 }
 
 module.exports = middlewareObj;
