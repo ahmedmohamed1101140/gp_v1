@@ -55,6 +55,13 @@
                                     <div class="col-md-3">
                                         <a href="/groups/<%=group._id%>/<%= post._id%>/comments/show" class="btn btn-primary btn-flat"><i class="fa fa-comments fa-fw"></i> Read More..</a>
                                         <br><br>
+                                        <% if(post.author.id == CurrentUSer.id){ %>
+                                        <a href="/groups/<%= group._id %>/<%= post._id %>/edit" class="btn btn-warning btn-flat">Edit Post</a>
+                                        <br><br>
+                                        <form id="delete-form" action="/groups/<%= group._id %>/<%= post._id %>?_method=DELETE" method="POST">
+                                            <button class="btn  btn-danger">Delete</button>
+                                        </form>
+                                        <% } %>
                                     </div>
                                 </div>
                             </div>

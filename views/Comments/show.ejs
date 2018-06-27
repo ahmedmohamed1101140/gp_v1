@@ -26,13 +26,16 @@
                       <div class="col-md-11">
         
                            <p><%= comment.content %></p> 
-                           <p> <a href="/groups/<%=group_id%>/<%= post._id%>/comments/<%=comment._id%>/edit" class="btn  btn-warning">    Edit   </a></p>
-    
+                           <br> <br>
+                           <% if(comment.author.id == CurrentUSer.id){ %>
+                           <p> <a href="/groups/<%=group_id%>/<%= post._id%>/comments/<%=comment._id%>/edit" class="btn  btn-warning " style="margin-left:80%">    Edit   </a></p>
                            <form  id = "delete_form"  action ="/groups/<%= group_id%>/<%= post._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger">Delete</button> 
+                            <button class="btn btn-danger btn-flat" style="margin-left:80%">Delete</button> 
 
-                     </form>
+                            </form>
+                     <% } %>
                      <br>
+
                        </div>
                   </div>
         
