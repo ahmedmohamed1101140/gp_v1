@@ -82,7 +82,6 @@ GroupController.group_edit =function(req,res){
 GroupController.group_edit_post = function(req,res){
     var newGroup = { 
         name:req.body.name,
-        image:req.body.image ,
         description:req.body.description    
     };
     
