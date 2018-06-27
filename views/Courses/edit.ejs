@@ -105,11 +105,11 @@
                 <optgroup label="courses">
                     
                         <% courses.forEach(function (Course) { %>   
-                            <% var arr=course.dependencies.toString() %>
+                            <% var arr=Course.dependencies.toString() %>
                                  <% if(arr.includes(Course._id)){ %>
-                                    <option selected value="<%=course._id%>"><%= course.name %></option>
+                                    <option selected value="<%=Course._id%>"><%= Course.name %></option>
                                      <% } else { %>
-                                       <option value="<%=course._id%>">><%= Course.name %></option>
+                                       <option value="<%=Course._id%>"><%= Course.name %></option>
 
                                          <%}%>
 

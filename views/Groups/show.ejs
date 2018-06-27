@@ -30,9 +30,8 @@
                                           <a class="btn btn-primary " href="/groups/<%= group._id%>/posts/new">Add New Post</a>
                                           <% if(group.admin.id == CurrentUSer.id){ %>
                                             <a href="/groups/<%= group._id %>/edit" class="btn btn-warning">Edit Group</a>
-                                            <a href="/groups/request/<%= group._id %>/Requests" type="submit" class="btn  btn-primary">All Requests</a>
-                                          <br><br>
-                                            <form id="delete-form" action="/groups/<%= group._id %>?_method=DELETE" method="POST">
+                                            <a href="/groups/request/<%= group._id %>/Requests" type="submit" class="btn  btn-success">All Requests</a>
+                                            <form style="display:inline;" id="delete-form" action="/groups/<%= group._id %>?_method=DELETE" method="POST">
                                                 <button class="btn  btn-danger">Delete</button>
                                             </form>
                                           
@@ -52,7 +51,7 @@
              <%group.posts.forEach(function (post) {%>
                 <div class="row posts">
                     <div class="col-md-1">
-                        <img src="<%= post.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
+                        <img src="/uploads/<%= post.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
                     </div>
                     <div class="col-md-11">
                         <div class="thumbnail">
@@ -80,8 +79,7 @@
                                         <br><br>
                                         <% if(post.author.id == CurrentUSer.id){ %>
                                         <a href="/groups/<%= group._id %>/<%= post._id %>/edit" class="btn btn-warning btn-flat">Edit Post</a>
-                                        <br><br>
-                                        <form id="delete-form" action="/groups/<%= group._id %>/<%= post._id %>?_method=DELETE" method="POST">
+                                        <form style="display:inline;" id="delete-form" action="/groups/<%= group._id %>/<%= post._id %>?_method=DELETE" method="POST">
                                             <button class="btn  btn-danger">Delete</button>
                                         </form>
                                         <% } %>
