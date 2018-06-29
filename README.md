@@ -46,5 +46,15 @@ https://docs.google.com/presentation/d/1OKIqp46--9vGlhe2ECJEpBlppW2FD2e3_tqglzDF
 And here is a video demo about how the system works:<br>
 https://drive.google.com/file/d/1KhX6Bh2hUAtF5ANZZKo97JSTMtLUW3gz/view
 <p>
+ <br><br> 
+  
+<h1>Prepared by:</h1>
+<ul>
+<li>Mariam Abouzeid</li>
+<li>Ahmed Mohamed Mabrouk</li>
+<li>George Nabil</li>
+<li>Essam Mohamed</li>
+<li>Ramy Emad</li>
+</ul>
 
 
