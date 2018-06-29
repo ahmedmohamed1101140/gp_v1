@@ -50,12 +50,12 @@ router.post("/createstudents"
 
 // ADD teachers
  router.get("/createteachers"
-    , userware.isAdmin
+   // , userware.isAdmin
     , usercontroller.addteacher_view
 );
 
 router.post("/createteachers"
-    , userware.isAdmin
+   // , userware.isAdmin
     , usercontroller.createteachers
 );
 
