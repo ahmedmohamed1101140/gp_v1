@@ -390,12 +390,12 @@ UserController.createteachers=function(req,res,next){
                     }else{
                         //send the mail
                         var maillist = [
-                            'ahmedmohamed1101140@outlook.com',
+                            'fcis.ch.lms@gmail.com',
                         ];
                         maillist.push(req.body.email);
 
                         var mailOptions = {
-                            from: 'ahmedmohamed1101140@gmail.com',
+                            from: 'fcis.ch.lms@gmail.com',
                             subject: 'Invitation to FCIS LMS',
                             text: `FCIS LMS Admin invite you to be part of the LMS team you need to login with your mail and
                             your Password is "password" don't forget to update your profile and change your password `,
