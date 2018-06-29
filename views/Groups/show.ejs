@@ -1,6 +1,11 @@
 <%include ../partials/header%>
 
 <div class="container">
+      
+           <script>
+               
+                var x =0;
+            </script>
         <header class="jumbotron">
                   
                             <div class="row">
@@ -12,7 +17,16 @@
                                     
                                     <div class="col md 8">
                                         <h1><%=group.name%></h1>
-                                        <p>Forget About FaceBook and let's Talk here with your Instructors</p>
+                                       
+                                      <p>
+                                        <input type="hidden" value="<%=group.description%>"id="group description">
+                                        <script>
+                                                document.write(document.getElementById("group description").value); 
+                                            </script>
+                                        
+                                      </p>
+                                       
+                                      
                                           <a class="btn btn-primary " href="/groups/<%= group._id%>/posts/new">Add New Post</a>
                                           <% if(group.admin.id == CurrentUSer.id){ %>
                                             <a href="/groups/<%= group._id %>/edit" class="btn btn-warning">Edit Group</a>
@@ -33,7 +47,8 @@
     <div class="row">
         <div class="col-md-9">
             <div class="card-group">
-            <%group.posts.forEach(function (post) {%>
+           <% var counter = 0 %> </p>
+             <%group.posts.forEach(function (post) {%>
                 <div class="row posts">
                     <div class="col-md-1">
                         <img src="/uploads/<%= post.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
@@ -42,7 +57,15 @@
                         <div class="thumbnail">
                             <div class="thumbnail-body" style="margin-left: 20px">
                                 <h4 class="thumbnail-title"><%=post.author.username%></h4>
-                                <p  class="thumbnail-text"><%- post.content.substring(0,50)%>...</p>
+                
+                                <p>
+                                        <input type="hidden" value="<%=post.content%>"id="post content<%=counter%>">
+                                        <script>
+                                                document.write(document.getElementById("post content"+x).value); 
+                                            x++;
+                                        </script>
+                                        
+                                      </p>
                             </div>
 
                             <div class="thumbnail-footer" style="margin-left: 20px">
@@ -66,6 +89,7 @@
                         </div>
                     </div>
                 </div>
+                <% counter++%>
              
                 <% }); %>
             </div>

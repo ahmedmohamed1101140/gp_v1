@@ -10,7 +10,14 @@
            <div class="thumbnail">
                    <img class="img-responsive" src="/uploads/<%=post.image%>" alt="">
                    <div class="caption-full">
-                       <h4> <a><%= post.content %></a></h4>
+                       <h4>  <p>
+                            <input type="hidden" value="<%= post.content %>" id="post description">
+                            <script>
+                                    document.write(document.getElementById("post description").value); 
+                             </script>
+                           
+                    </p>
+</h4>
                        <p> <em> Created By <strong><%=post.author.username%>  </strong> </em> </p>
                        <span> Number Of Comments : <%= post.comments_num %> </span>
                    </div>
@@ -24,8 +31,13 @@
                             <img src="/uploads/<%=comment.author.userimage%>" class="img-thumbnail" alt="Image" width="80" height="80" alt="Card image cap">
                       </div>
                       <div class="col-md-11">
-        
-                           <p><%= comment.content %></p> 
+       
+                            <p>
+                                    <%=comment.content%>    
+                                   
+                            </p>
+
+                        
                            <br> <br>
                            <% if(comment.author.id == CurrentUSer.id){ %> 
                             <a href="/groups/<%=group_id%>/<%= post._id%>/comments/<%=comment._id%>/edit" class="btn  btn-warning " style="margin-left:80%">    Edit   </a>
